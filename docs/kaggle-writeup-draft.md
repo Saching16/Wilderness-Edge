@@ -4,8 +4,12 @@
 
 **Track:** On-Device Private Health (primary) · Voice for Care (secondary framing)
 
-**Team:** Pablo Beaus Iranzo, Sachin Ganpule, Daniel David, Vaibhav Chaudhari  
+**Team:** Pablo Beaus Iranzo, Sachin Ganpule, Daniel David, Vaibhav Chaudhari
+
+  
 **Repo:** [https://github.com/Saching16/Wilderness-Edge](https://github.com/Saching16/Wilderness-Edge)
+
+Demo video: [https://youtu.be/r5BoZbtaVkk](https://youtu.be/r5BoZbtaVkk)
 
 ---
 
@@ -46,17 +50,17 @@ When retrieval has **no confident match**, we do not invent a protocol: the mode
 
 All runtime knowledge and models travel inside the app binary — nothing is fetched after install.
 
-**Bundled assets (`WildernessEdge/Resources/`):**
+**Bundled assets (**`WildernessEdge/Resources/`**):**
 
 - `protocols.db` (~8.6 MB) — SQLite index of **2,192** protocol chunks with 384-d embeddings, section/page provenance, and citation strings  
 - `query-embedder.mlpackage` (+ WordPiece vocab/tokenizer JSON) — on-device CoreML embedder matching the DB’s `all-MiniLM-L6-v2` space  
 - `gemma-4-E4B-it.litertlm` — multimodal Gemma 4 E4B for local generation (large; kept out of git, loaded on device)
 
-**Licensed corpus inside `protocols.db` (3 sources):**
+**Licensed corpus inside** `protocols.db` **(3 sources):**
 
-1. **US Army ATP 4-02.11** — Casualty Response, TCCC, and First Aid (US federal public domain)  
-2. **US Army TCCC Handbook v5** (CALL 17-13) — hemorrhage control / MARCH-oriented field care (US federal public domain)  
-3. **NASEMSO National Model EMS Clinical Guidelines v3.0** — publisher invites harvest and adoption in whole or in part  
+1. **US Army ATP 4-02.11** — Casualty Response, TCCC, and First Aid (US federal public domain)
+2. **US Army TCCC Handbook v5** (CALL 17-13) — hemorrhage control / MARCH-oriented field care (US federal public domain)
+3. **NASEMSO National Model EMS Clinical Guidelines v3.0** — publisher invites harvest and adoption in whole or in part
 
 Provenance and license text are recorded in `OffLineTools/sources.manifest.json` and explained in `OffLineTools/SOURCES.md`. NOLS wilderness course materials are intentionally excluded — they are copyrighted and not licensed for app redistribution. The offline build pipeline (`fetch_sources.py` → `build_vector_db.py` → `export_embedder_coreml.py`) runs on a laptop before the hackathon; the phone only reads the prebuilt bundles.
 
@@ -94,6 +98,8 @@ Provenance and license text are recorded in `OffLineTools/sources.manifest.json`
 - **Corpus licensing** — only the three manifested sources above (public-domain Army manuals + NASEMSO guidelines with explicit harvest language). See `sources.manifest.json`.
 - **Synthetic / public protocol text only** — no real patient data.
 
+
+
 ## Sprint challenges & technical choices
 
 
@@ -122,7 +128,8 @@ Wilderness Edge targets **care teams in austere environments**: wilderness first
 
 ## Attachments (Kaggle UI)
 
-- **Public code repository:** [https://github.com/Saching16/Wilderness-Edge](https://github.com/Saching16/Wilderness-Edge)  
+- **Public code repository:** [https://github.com/Saching16/Wilderness-Edge](https://github.com/Saching16/Wilderness-Edge)
+- Demo video link: [https://youtu.be/r5BoZbtaVkk](https://youtu.be/r5BoZbtaVkk)
 
 ---
 
