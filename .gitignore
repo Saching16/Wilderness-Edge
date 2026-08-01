@@ -19,3 +19,7 @@ __pycache__/
 
 # Large model bundles — keep out of git until intentionally vendored
 *.litertlm
+
+
+resumes/*
+plan/*
