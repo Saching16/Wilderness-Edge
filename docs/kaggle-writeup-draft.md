@@ -5,14 +5,13 @@
 **Track:** On-Device Private Health (primary) · Voice for Care (secondary framing)
 
 **Team:** Pablo Beaus Iranzo, Sachin Ganpule, Daniel David, Vaibhav Chaudhari  
-**Repo:** https://github.com/Saching16/Wilderness-Edge  
-**Live demo:** _[attach screen recording or device demo link before submit]_
+**Repo:** [https://github.com/Saching16/Wilderness-Edge](https://github.com/Saching16/Wilderness-Edge)
 
 ---
 
 ## Problem
 
-Wilderness and disaster responders often need protocol guidance with **zero connectivity** — no cloud APIs, no EHR lookup, no model hosted elsewhere. Phones may be the only computer on scene, and the information that matters (injury description, scene audio, a quick visual of the limb or wound) is sensitive.
+Wilderness and disaster responders need protocol guidance with **zero connectivity** — no cloud APIs, no EHR lookup, no model hosted elsewhere. Phones may be the only computer on scene, and the information that matters (injury description, scene audio, a quick visual of the limb or wound) is sensitive. Offline, fast and seamless is the key.
 
 Existing apps either require the network or turn the model into an unsupervised “doctor.” Neither is acceptable. Responders need **decision support**: fast, cited checklists from accredited field manuals — not a diagnosis, not a drug order.
 
@@ -34,7 +33,7 @@ Demo condition: **Airplane Mode** — Wi‑Fi, cellular, and Bluetooth off.
 Gemma 4 is the **core inference engine**, not a thin wrapper around search results.
 
 - **Runtime:** LiteRT-LM Swift API on device (GPU-accelerated where available).
-- **Model:** Prebuilt multimodal `gemma-4-E4B-it` LiteRT-LM bundle (hackathon sprint choice; see tradeoffs below).
+- **Model:** Prebuilt multimodal `gemma-4-E4B-it` LiteRT-LM bundle.
 - **Inputs per query:**
   - User transcript (from on-device `SFSpeechRecognizer`)
   - Top retrieved protocol excerpts + citation metadata (RAG)
@@ -67,25 +66,27 @@ When retrieval has **no confident match**, we do not invent a protocol: the mode
         UI citation card + AVSpeechSynthesizer
 ```
 
-**Team split (4-hour sprint):** offline corpus/assets (Pablo) · on-device RAG (Vaibhav) · LiteRT-LM / Gemma wiring (Sachin) · native I/O, SwiftUI state machine, SafetyFilter enforcement, writeup (Daniel).
+**Team split (5-hour sprint):** offline corpus/assets (Pablo) · on-device RAG (Vaibhav) · LiteRT-LM / Gemma wiring (Sachin) · native I/O, SwiftUI state machine, SafetyFilter enforcement, writeup (Daniel).
 
 ## Privacy & safety
 
 - **100% on-device at runtime** — no network calls for speech, embedding, retrieval, or generation. If on-device speech is unavailable, we fail closed (visible + spoken error); we never fall back to server recognition.
 - **Decision-support only** — outputs are cited checklists from licensed public protocol sources. The app does not diagnose conditions or recommend drug doses.
 - **SafetyFilter** — mandatory gate before display and TTS; intercepts diagnostic / prescriptive phrasing.
-- **Corpus licensing** — only sources with recorded redistribution rights in `sources.manifest.json` (NOLS course materials explicitly excluded).
+- **Corpus licensing** — only sources with recorded redistribution rights in `sources.manifest.json` .
 - **Synthetic / public protocol text only** — no real patient data.
 
 ## Sprint challenges & technical choices
 
-| Challenge | Choice | Why |
-| --- | --- | --- |
-| ~4-hour build window | Parallel tracks + stubbed `runInferencePipeline` until Gemma wiring landed | Unblocked UI and RAG from waiting on model I/O |
-| Custom LoRA fine-tune | **Dropped for this sprint** | Training + clinical review do not fit the clock; grounding comes from RAG + prompting |
-| Model size / access | Ship **prebuilt Gemma 4 E4B** LiteRT-LM bundle | Avoid gated fine-tune export friction; keep multimodal path |
-| Memory gates | Soft check on iPhone 16 Plus | Entitlement kept; no multi-hour profiling in a one-day sprint |
-| Stress testing | Two reliable Airplane Mode demo runs | Replaces a 20-loop matrix for submission day |
+
+| Challenge             | Choice                                                                     | Why                                                                                   |
+| --------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| ~5-hour build window  | Parallel tracks + stubbed `runInferencePipeline` until Gemma wiring landed | Unblocked UI and RAG from waiting on model I/O                                        |
+| Custom LoRA fine-tune | **Dropped for this sprint**                                                | Training + clinical review do not fit the clock; grounding comes from RAG + prompting |
+| Model size / access   | Ship **prebuilt Gemma 4 E4B** LiteRT-LM bundle                             | Avoid gated fine-tune export friction; keep multimodal path                           |
+| Memory gates          | Soft check on iPhone 16 Plus                                               | Entitlement kept; no multi-hour profiling in a one-day sprint                         |
+| Stress testing        | Two reliable Airplane Mode demo runs                                       | Replaces a 20-loop matrix for submission day                                          |
+
 
 These are deliberate scope cuts so Gemma stays central and the offline story stays honest — not a pivot away from on-device inference.
 
@@ -97,13 +98,13 @@ Wilderness Edge targets **care teams in austere environments**: wilderness first
 
 - Reintroduce a small decision-tree LoRA once training data is clinically reviewed  
 - Formal memory footprint measurement on base iPhones  
-- Broader licensed protocol corpus and threshold calibration  
+- Broader licensed protocol corpus and threshold calibration
+
+
 
 ## Attachments (Kaggle UI)
 
-- **Public code repository:** https://github.com/Saching16/Wilderness-Edge  
-- **Live demo:** _TODO — screen recording of Airplane Mode run_  
+- **Public code repository:** [https://github.com/Saching16/Wilderness-Edge](https://github.com/Saching16/Wilderness-Edge)  
 
 ---
 
-_Word count target: keep final Kaggle paste under 1,500 words. Trim the “What’s next” section first if over limit._
