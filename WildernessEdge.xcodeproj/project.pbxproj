@@ -1,0 +1,484 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		08120F051D87AD8A31B9BC86 /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = C92B1D036E104A46578684A0 /* Resources */; };
+		114A61FB780A99A74E4FC4D2 /* SpeechManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CFA512E2F6489AF427BB27 /* SpeechManager.swift */; };
+		164184717B56532499BDB3FC /* SafetyFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26C10E58AC659E95D018EE7 /* SafetyFilter.swift */; };
+		18E773D9DECA57881F470839 /* SafetyFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26C10E58AC659E95D018EE7 /* SafetyFilter.swift */; };
+		5967CFE1ACF08ECEA5FCBDC4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F88E9D59016ABDA96777434 /* Assets.xcassets */; };
+		B567893C712A34D599A44C7F /* SpeechManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CFA512E2F6489AF427BB27 /* SpeechManager.swift */; };
+		B60A4E7CF89C5A34F48D2F67 /* SafetyFilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4872CE5554CF3BAF79C707E /* SafetyFilterTests.swift */; };
+		C23BC272976B6B7D2DE28D6D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6305700F5E7A7BC840C61DC9 /* ContentView.swift */; };
+		D8E5EB516E3292977A2E976C /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D238DBC8AAFC85B94C19DDD /* CameraManager.swift */; };
+		ECC037E04513D49D145FE7F8 /* WildernessEdgeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA694C321CBD5CCD13A57F19 /* WildernessEdgeApp.swift */; };
+		F32640B21976EF5DF3B43A8A /* TTSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D19E2B6B3EA139F6318C50 /* TTSManager.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1FEB8D517299E83323CB8AC3 /* WildernessEdge.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = WildernessEdge.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		295F808866EC7D267E537094 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		3D238DBC8AAFC85B94C19DDD /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
+		6305700F5E7A7BC840C61DC9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		71CFA512E2F6489AF427BB27 /* SpeechManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechManager.swift; sourceTree = "<group>"; };
+		9F88E9D59016ABDA96777434 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A26C10E58AC659E95D018EE7 /* SafetyFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafetyFilter.swift; sourceTree = "<group>"; };
+		B0D19E2B6B3EA139F6318C50 /* TTSManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTSManager.swift; sourceTree = "<group>"; };
+		B18781C3EF3E3FF93ED9342B /* WildernessEdgeTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = WildernessEdgeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4872CE5554CF3BAF79C707E /* SafetyFilterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafetyFilterTests.swift; sourceTree = "<group>"; };
+		C92B1D036E104A46578684A0 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Resources; path = WildernessEdge/Resources; sourceTree = SOURCE_ROOT; };
+		DA694C321CBD5CCD13A57F19 /* WildernessEdgeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WildernessEdgeApp.swift; sourceTree = "<group>"; };
+		E836C4B111EE33C2C06E5956 /* WildernessEdge.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WildernessEdge.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		3E3B20B48EAB5F09D5D31AEF /* App */ = {
+			isa = PBXGroup;
+			children = (
+				295F808866EC7D267E537094 /* Info.plist */,
+				E836C4B111EE33C2C06E5956 /* WildernessEdge.entitlements */,
+				DA694C321CBD5CCD13A57F19 /* WildernessEdgeApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		55406FF110C94E1DC6FC77FF /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				3D238DBC8AAFC85B94C19DDD /* CameraManager.swift */,
+				A26C10E58AC659E95D018EE7 /* SafetyFilter.swift */,
+				71CFA512E2F6489AF427BB27 /* SpeechManager.swift */,
+				B0D19E2B6B3EA139F6318C50 /* TTSManager.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		6E5A2A4B04BE2BB8436603AE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6305700F5E7A7BC840C61DC9 /* ContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		7E4A8454A64833A8F4562661 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1FEB8D517299E83323CB8AC3 /* WildernessEdge.app */,
+				B18781C3EF3E3FF93ED9342B /* WildernessEdgeTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8D0A683019BCDA35E264F3F0 /* WildernessEdge */ = {
+			isa = PBXGroup;
+			children = (
+				3E3B20B48EAB5F09D5D31AEF /* App */,
+				55406FF110C94E1DC6FC77FF /* Core */,
+				6E5A2A4B04BE2BB8436603AE /* Views */,
+				9F88E9D59016ABDA96777434 /* Assets.xcassets */,
+				C92B1D036E104A46578684A0 /* Resources */,
+			);
+			path = WildernessEdge;
+			sourceTree = "<group>";
+		};
+		E12E015356BBFEC23D1113F3 /* WildernessEdgeTests */ = {
+			isa = PBXGroup;
+			children = (
+				C4872CE5554CF3BAF79C707E /* SafetyFilterTests.swift */,
+			);
+			path = WildernessEdgeTests;
+			sourceTree = "<group>";
+		};
+		E34784AA0181FEB52F97A199 = {
+			isa = PBXGroup;
+			children = (
+				8D0A683019BCDA35E264F3F0 /* WildernessEdge */,
+				E12E015356BBFEC23D1113F3 /* WildernessEdgeTests */,
+				7E4A8454A64833A8F4562661 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2BD7C50C3828B812B6C0C424 /* WildernessEdge */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B34B4BD9D7BBAD33AF318E1F /* Build configuration list for PBXNativeTarget "WildernessEdge" */;
+			buildPhases = (
+				2CEB7043052F49342732C02C /* Sources */,
+				5CDDE18C709BE8DEE859E1C3 /* Resources */,
+				683AFF55F666D86F6CADCE48 /* Strip Provenance Xattrs From App Bundle */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WildernessEdge;
+			packageProductDependencies = (
+			);
+			productName = WildernessEdge;
+			productReference = 1FEB8D517299E83323CB8AC3 /* WildernessEdge.app */;
+			productType = "com.apple.product-type.application";
+		};
+		397CFD856BEBB1C3224BD941 /* WildernessEdgeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E32487F70D046F5F2DD62AF6 /* Build configuration list for PBXNativeTarget "WildernessEdgeTests" */;
+			buildPhases = (
+				661D90EB10E80B91917D581B /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WildernessEdgeTests;
+			packageProductDependencies = (
+			);
+			productName = WildernessEdgeTests;
+			productReference = B18781C3EF3E3FF93ED9342B /* WildernessEdgeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		700C6B01A6C6E877CEF7C701 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					2BD7C50C3828B812B6C0C424 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					397CFD856BEBB1C3224BD941 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 5B7A43A1F345B816686713A2 /* Build configuration list for PBXProject "WildernessEdge" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = E34784AA0181FEB52F97A199;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 7E4A8454A64833A8F4562661 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2BD7C50C3828B812B6C0C424 /* WildernessEdge */,
+				397CFD856BEBB1C3224BD941 /* WildernessEdgeTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5CDDE18C709BE8DEE859E1C3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5967CFE1ACF08ECEA5FCBDC4 /* Assets.xcassets in Resources */,
+				08120F051D87AD8A31B9BC86 /* Resources in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		683AFF55F666D86F6CADCE48 /* Strip Provenance Xattrs From App Bundle */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Strip Provenance Xattrs From App Bundle";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -euo pipefail\nAPP_DIR=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\nif [ ! -d \"$APP_DIR\" ]; then\n  exit 0\nfi\nfind \"$APP_DIR\" -type f ! -path '*/_CodeSignature/*' -print0 | while IFS= read -r -d '' f; do\n  tmp=\"${f}.noxattr\"\n  ditto --norsrc --noextattr \"$f\" \"$tmp\"\n  # Preserve executable bit for binaries/dylibs\n  if [ -x \"$f\" ]; then chmod +x \"$tmp\"; fi\n  mv -f \"$tmp\" \"$f\"\ndone\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2CEB7043052F49342732C02C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8E5EB516E3292977A2E976C /* CameraManager.swift in Sources */,
+				C23BC272976B6B7D2DE28D6D /* ContentView.swift in Sources */,
+				18E773D9DECA57881F470839 /* SafetyFilter.swift in Sources */,
+				B567893C712A34D599A44C7F /* SpeechManager.swift in Sources */,
+				F32640B21976EF5DF3B43A8A /* TTSManager.swift in Sources */,
+				ECC037E04513D49D145FE7F8 /* WildernessEdgeApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		661D90EB10E80B91917D581B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				164184717B56532499BDB3FC /* SafetyFilter.swift in Sources */,
+				B60A4E7CF89C5A34F48D2F67 /* SafetyFilterTests.swift in Sources */,
+				114A61FB780A99A74E4FC4D2 /* SpeechManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		2B62600F5C752E3B7F1578B5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.wildernessedge.app.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		2F3EDFA39AD33CD9425B3028 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.wildernessedge.app.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		669999B9F34EC84403C667C2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = WildernessEdge/App/WildernessEdge.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = WildernessEdge/App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.wildernessedge.app;
+				PRODUCT_NAME = WildernessEdge;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9EA6B292432598449D785599 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		A92FAEC3792DBDA89C700425 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		CE9152710EB00EF7617C2D13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = WildernessEdge/App/WildernessEdge.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = WildernessEdge/App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.wildernessedge.app;
+				PRODUCT_NAME = WildernessEdge;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5B7A43A1F345B816686713A2 /* Build configuration list for PBXProject "WildernessEdge" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9EA6B292432598449D785599 /* Debug */,
+				A92FAEC3792DBDA89C700425 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B34B4BD9D7BBAD33AF318E1F /* Build configuration list for PBXNativeTarget "WildernessEdge" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				669999B9F34EC84403C667C2 /* Debug */,
+				CE9152710EB00EF7617C2D13 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E32487F70D046F5F2DD62AF6 /* Build configuration list for PBXNativeTarget "WildernessEdgeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2F3EDFA39AD33CD9425B3028 /* Debug */,
+				2B62600F5C752E3B7F1578B5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 700C6B01A6C6E877CEF7C701 /* Project object */;
+}

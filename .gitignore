@@ -1,0 +1,21 @@
+# Xcode / macOS
+DerivedData/
+*.xcuserdata/
+xcuserdata/
+*.xcworkspace/xcuserdata/
+.DS_Store
+
+# SwiftPM
+.swiftpm/
+SourcePackages/
+Package.resolved
+
+# Offline tooling local artifacts (regenerable)
+OffLineTools/.venv/
+OffLineTools/build/
+OffLineTools/sources/
+__pycache__/
+*.pyc
+
+# Large model bundles — keep out of git until intentionally vendored
+*.litertlm
