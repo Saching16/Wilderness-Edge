@@ -13,6 +13,9 @@
 		114A61FB780A99A74E4FC4D2 /* SpeechManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CFA512E2F6489AF427BB27 /* SpeechManager.swift */; };
 		164184717B56532499BDB3FC /* SafetyFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26C10E58AC659E95D018EE7 /* SafetyFilter.swift */; };
 		18E773D9DECA57881F470839 /* SafetyFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26C10E58AC659E95D018EE7 /* SafetyFilter.swift */; };
+		97D26AF9529B2BAD3AF12E66 /* LiteRTLM in Frameworks */ = {isa = PBXBuildFile; productRef = 5BFF960F428FB8F81F01DBED /* LiteRTLM */; };
+		A0D64210698E9502FEADFDE3 /* embedding_parity_fixtures.json in Resources */ = {isa = PBXBuildFile; fileRef = D5D48F91942911D274450891 /* embedding_parity_fixtures.json */; };
+		A641346C7336C28689133E7F /* LLMInferenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3B681E5ADC90158A61F376 /* LLMInferenceManager.swift */; };
 		B567893C712A34D599A44C7F /* SpeechManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CFA512E2F6489AF427BB27 /* SpeechManager.swift */; };
 		B60A4E7CF89C5A34F48D2F67 /* SafetyFilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4872CE5554CF3BAF79C707E /* SafetyFilterTests.swift */; };
 		C23BC272976B6B7D2DE28D6D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6305700F5E7A7BC840C61DC9 /* ContentView.swift */; };
@@ -24,6 +27,7 @@
 
 /* Begin PBXFileReference section */
 		16ED0F35B444E863DCF8F97A /* EmergencyButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyButtonView.swift; sourceTree = "<group>"; };
+		1F3B681E5ADC90158A61F376 /* LLMInferenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMInferenceManager.swift; sourceTree = "<group>"; };
 		1FEB8D517299E83323CB8AC3 /* WildernessEdge.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = WildernessEdge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		295F808866EC7D267E537094 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3D238DBC8AAFC85B94C19DDD /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
@@ -35,10 +39,22 @@
 		BDC9E4BD84BD94A60724C9B7 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		C4872CE5554CF3BAF79C707E /* SafetyFilterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafetyFilterTests.swift; sourceTree = "<group>"; };
 		C92B1D036E104A46578684A0 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Resources; path = WildernessEdge/Resources; sourceTree = SOURCE_ROOT; };
+		D5D48F91942911D274450891 /* embedding_parity_fixtures.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = embedding_parity_fixtures.json; sourceTree = "<group>"; };
 		DA694C321CBD5CCD13A57F19 /* WildernessEdgeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WildernessEdgeApp.swift; sourceTree = "<group>"; };
 		E836C4B111EE33C2C06E5956 /* WildernessEdge.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WildernessEdge.entitlements; sourceTree = "<group>"; };
 		FC7CDDF6D026894D24322D41 /* SubtitleCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitleCardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1AA1BD7FD90A7321F6FC8D72 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				97D26AF9529B2BAD3AF12E66 /* LiteRTLM in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		3E3B20B48EAB5F09D5D31AEF /* App */ = {
@@ -55,6 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				3D238DBC8AAFC85B94C19DDD /* CameraManager.swift */,
+				1F3B681E5ADC90158A61F376 /* LLMInferenceManager.swift */,
 				A26C10E58AC659E95D018EE7 /* SafetyFilter.swift */,
 				71CFA512E2F6489AF427BB27 /* SpeechManager.swift */,
 				B0D19E2B6B3EA139F6318C50 /* TTSManager.swift */,
@@ -96,6 +113,7 @@
 		E12E015356BBFEC23D1113F3 /* WildernessEdgeTests */ = {
 			isa = PBXGroup;
 			children = (
+				D5D48F91942911D274450891 /* embedding_parity_fixtures.json */,
 				C4872CE5554CF3BAF79C707E /* SafetyFilterTests.swift */,
 			);
 			path = WildernessEdgeTests;
@@ -119,6 +137,7 @@
 			buildPhases = (
 				2CEB7043052F49342732C02C /* Sources */,
 				5CDDE18C709BE8DEE859E1C3 /* Resources */,
+				1AA1BD7FD90A7321F6FC8D72 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -126,6 +145,7 @@
 			);
 			name = WildernessEdge;
 			packageProductDependencies = (
+				5BFF960F428FB8F81F01DBED /* LiteRTLM */,
 			);
 			productName = WildernessEdge;
 			productReference = 1FEB8D517299E83323CB8AC3 /* WildernessEdge.app */;
@@ -136,6 +156,7 @@
 			buildConfigurationList = E32487F70D046F5F2DD62AF6 /* Build configuration list for PBXNativeTarget "WildernessEdgeTests" */;
 			buildPhases = (
 				661D90EB10E80B91917D581B /* Sources */,
+				1DD936CE90C6C3DF9F8313FC /* Resources */,
 			);
 			buildRules = (
 			);
@@ -176,6 +197,9 @@
 			);
 			mainGroup = E34784AA0181FEB52F97A199;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				D930F732FA84A2D8941D75CE /* XCRemoteSwiftPackageReference "LiteRT-LM" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7E4A8454A64833A8F4562661 /* Products */;
 			projectDirPath = "";
@@ -188,6 +212,14 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1DD936CE90C6C3DF9F8313FC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A0D64210698E9502FEADFDE3 /* embedding_parity_fixtures.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5CDDE18C709BE8DEE859E1C3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -207,6 +239,7 @@
 				D8E5EB516E3292977A2E976C /* CameraManager.swift in Sources */,
 				C23BC272976B6B7D2DE28D6D /* ContentView.swift in Sources */,
 				08402B38BFD6EB0AF63C6C07 /* EmergencyButtonView.swift in Sources */,
+				A641346C7336C28689133E7F /* LLMInferenceManager.swift in Sources */,
 				18E773D9DECA57881F470839 /* SafetyFilter.swift in Sources */,
 				B567893C712A34D599A44C7F /* SpeechManager.swift in Sources */,
 				09A5C59A279D39A82AF1E41A /* SubtitleCardView.swift in Sources */,
@@ -466,6 +499,25 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D930F732FA84A2D8941D75CE /* XCRemoteSwiftPackageReference "LiteRT-LM" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google-ai-edge/LiteRT-LM";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.12.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5BFF960F428FB8F81F01DBED /* LiteRTLM */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D930F732FA84A2D8941D75CE /* XCRemoteSwiftPackageReference "LiteRT-LM" */;
+			productName = LiteRTLM;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 700C6B01A6C6E877CEF7C701 /* Project object */;
 }
