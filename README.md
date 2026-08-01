@@ -68,6 +68,33 @@ If retrieval has **no confident match**, the model is instructed to say so plain
 
 Camera frames go straight into LiteRT-LM as multimodal image input. RAG runs only on the transcribed text.
 
+## Offline resources (shipped on-device)
+
+Everything needed at query time is bundled in the app — no downloads after install.
+
+### Bundled in `WildernessEdge/Resources/`
+
+| Asset | Role |
+| --- | --- |
+| `protocols.db` (~8.6 MB) | SQLite corpus: **2,192** embedded protocol chunks from **3** licensed sources (384-d float32 vectors + text + citations) |
+| `query-embedder.mlpackage` | On-device CoreML sentence embedder (`all-MiniLM-L6-v2` space, mean-pool + L2 in-graph) |
+| `query-embedder-vocab.txt` + `query-embedder-tokenizer.json` | WordPiece tokenizer assets for the Swift embedder path |
+| `gemma-4-E4B-it.litertlm` | Multimodal Gemma 4 E4B LiteRT-LM bundle (**gitignored** — place locally before device runs) |
+
+### Protocol corpus (what’s inside `protocols.db`)
+
+Built offline from PDFs listed in [`OffLineTools/sources.manifest.json`](OffLineTools/sources.manifest.json). Vetting notes: [`OffLineTools/SOURCES.md`](OffLineTools/SOURCES.md).
+
+| Source | License posture | Citation prefix |
+| --- | --- | --- |
+| US Army **ATP 4-02.11** — Casualty Response, TCCC, and First Aid | US federal public domain | `US Army ATP 4-02.11 First Aid & TCCC` |
+| US Army **TCCC Handbook v5** (CALL 17-13) | US federal public domain | `US Army TCCC Handbook v5` |
+| **NASEMSO** National Model EMS Clinical Guidelines v3.0 | Publisher invites harvest / adopt in whole or in part | `NASEMSO National Model EMS Clinical Guidelines v3.0` |
+
+**Not included:** NOLS WFR/WFA course materials (copyrighted; not licensed for redistribution) and other Tier 3/4 sources in `SOURCES.md`.
+
+Embedding model used to build the DB: `sentence-transformers/all-MiniLM-L6-v2` (must stay in lockstep with the CoreML query embedder).
+
 ## Privacy & safety
 
 - **100% on-device at runtime** — no network for speech, embedding, retrieval, or generation. On-device STT unavailable → fail closed; never fall back to server recognition.
@@ -120,14 +147,17 @@ xcodebuild test \
 
 ## Offline asset pipeline
 
-Corpus build and embedder export live in [`OffLineTools/`](OffLineTools/README.md):
+Rebuild or extend the corpus with [`OffLineTools/`](OffLineTools/README.md) (laptop/Colab — not at app runtime):
 
 ```bash
 cd OffLineTools
-python fetch_sources.py
-python build_vector_db.py          # → protocols.db
-python export_embedder_coreml.py   # → query-embedder.mlpackage + tokenizer assets
+python fetch_sources.py              # download manifested PDFs
+python build_vector_db.py            # → protocols.db (+ embedding parity fixtures)
+python export_embedder_coreml.py     # → query-embedder.mlpackage + tokenizer assets
+python query_protocols.py            # offline retrieval harness / threshold checks
 ```
+
+Copy outputs into `WildernessEdge/Resources/` (and fixtures into the test target) before shipping.
 
 ## Hackathon notes
 
