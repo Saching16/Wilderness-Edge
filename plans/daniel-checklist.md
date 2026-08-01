@@ -19,16 +19,16 @@ Venue clock: lunch 1:00 · mentor check-ins 3:00 · submit 3:45 · pitch 4:00
 
 ## Now → 1:00 — State machine + stubs
 
-- [ ] Agree shared contracts with Vaibhav + Sachin (5–10 min):
-  - [ ] RAG: hit vs no-match (+ citation fields)
-  - [ ] LLM: transcript + context (+ optional image later) → text
-  - [ ] Errors: empty transcript / STT unavailable / LLM init fail
-- [ ] Replace Phase 1 scaffold with push-to-talk state machine in `ContentView`
-  - [ ] States: Idle → Listening → Processing → Speaking → Error
-  - [ ] Button down: start STT (camera stretch — skip unless free)
-  - [ ] Button up: stop STT → stub RAG → stub LLM → `SafetyFilter` → TTS
-- [ ] SafetyFilter on **every** spoken path (fail closed)
-- [ ] Error transitions show + speak a clear message (no crash / silent fail)
+- [x] Agree shared contracts with Vaibhav + Sachin (5–10 min):
+  - [x] RAG: hit vs no-match (+ citation fields) — inside `runInferencePipeline` (Sachin swaps later)
+  - [x] LLM: `(String, UIImage?) async -> (citation: String?, checklistText: String)` locked
+  - [x] Errors: empty transcript / STT unavailable / LLM fail (empty checklistText)
+- [x] Replace Phase 1 scaffold with push-to-talk state machine in `ContentView`
+  - [x] States: Idle → Listening → Processing → Speaking → Error
+  - [x] Tap to start STT + camera snapshot; tap again to send
+  - [x] Stop STT → stub RAG/LLM → `SafetyFilter` → TTS
+- [x] SafetyFilter on **every** spoken path (fail closed)
+- [x] Error transitions show + speak fixed lines (no crash / silent fail)
 - [ ] Smoke in Simulator: full stub loop works end-to-end
 
 ---
