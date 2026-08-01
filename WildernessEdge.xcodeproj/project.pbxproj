@@ -13,6 +13,7 @@
 		114A61FB780A99A74E4FC4D2 /* SpeechManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CFA512E2F6489AF427BB27 /* SpeechManager.swift */; };
 		164184717B56532499BDB3FC /* SafetyFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26C10E58AC659E95D018EE7 /* SafetyFilter.swift */; };
 		18E773D9DECA57881F470839 /* SafetyFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26C10E58AC659E95D018EE7 /* SafetyFilter.swift */; };
+		54F3E5BFE113712991CB67FF /* VectorRAGManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE1D90B29F1F474CA4004E8 /* VectorRAGManager.swift */; };
 		97D26AF9529B2BAD3AF12E66 /* LiteRTLM in Frameworks */ = {isa = PBXBuildFile; productRef = 5BFF960F428FB8F81F01DBED /* LiteRTLM */; };
 		A0D64210698E9502FEADFDE3 /* embedding_parity_fixtures.json in Resources */ = {isa = PBXBuildFile; fileRef = D5D48F91942911D274450891 /* embedding_parity_fixtures.json */; };
 		A641346C7336C28689133E7F /* LLMInferenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3B681E5ADC90158A61F376 /* LLMInferenceManager.swift */; };
@@ -33,6 +34,7 @@
 		3D238DBC8AAFC85B94C19DDD /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
 		6305700F5E7A7BC840C61DC9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		71CFA512E2F6489AF427BB27 /* SpeechManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechManager.swift; sourceTree = "<group>"; };
+		9FE1D90B29F1F474CA4004E8 /* VectorRAGManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorRAGManager.swift; sourceTree = "<group>"; };
 		A26C10E58AC659E95D018EE7 /* SafetyFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafetyFilter.swift; sourceTree = "<group>"; };
 		B0D19E2B6B3EA139F6318C50 /* TTSManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTSManager.swift; sourceTree = "<group>"; };
 		B18781C3EF3E3FF93ED9342B /* WildernessEdgeTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = WildernessEdgeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,6 +77,7 @@
 				A26C10E58AC659E95D018EE7 /* SafetyFilter.swift */,
 				71CFA512E2F6489AF427BB27 /* SpeechManager.swift */,
 				B0D19E2B6B3EA139F6318C50 /* TTSManager.swift */,
+				9FE1D90B29F1F474CA4004E8 /* VectorRAGManager.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -244,6 +247,7 @@
 				B567893C712A34D599A44C7F /* SpeechManager.swift in Sources */,
 				09A5C59A279D39A82AF1E41A /* SubtitleCardView.swift in Sources */,
 				F32640B21976EF5DF3B43A8A /* TTSManager.swift in Sources */,
+				54F3E5BFE113712991CB67FF /* VectorRAGManager.swift in Sources */,
 				ECC037E04513D49D145FE7F8 /* WildernessEdgeApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

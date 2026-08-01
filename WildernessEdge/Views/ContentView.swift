@@ -77,6 +77,14 @@ struct ContentView: View {
         .padding()
         .task {
             await cameraManager.prewarm()
+            #if DEBUG
+            // Task D2 Step 2: confirm fail-closed path before the real .litertlm lands.
+            let llm = LLMInferenceManager()
+            await llm.initialize()
+            print(
+                "LLMInferenceManager.initialize() → isReady=\(llm.isReady) error=\(String(describing: llm.initializationError))"
+            )
+            #endif
         }
         .onDisappear {
             cameraManager.shutdown()
