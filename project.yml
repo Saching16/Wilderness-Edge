@@ -54,10 +54,18 @@ targets:
   WildernessEdgeTests:
     type: bundle.unit-test
     platform: iOS
+    # The test target compiles individual Core sources rather than importing the app
+    # module (the app target is not a test host), so every type under test must be
+    # listed here explicitly. Fixtures under WildernessEdgeTests/ are picked up by the
+    # directory source above and copied flat into the test bundle's resources, which is
+    # what Bundle(for:).url(forResource:withExtension:) expects.
     sources:
       - path: WildernessEdgeTests
       - path: WildernessEdge/Core/SafetyFilter.swift
       - path: WildernessEdge/Core/SpeechManager.swift
+      - path: WildernessEdge/Core/WordPieceTokenizer.swift
+      - path: WildernessEdge/Core/TextEmbeddingManager.swift
+      - path: WildernessEdge/Core/VectorRAGManager.swift
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.wildernessedge.app.tests
