@@ -22,6 +22,10 @@ targets:
       - path: WildernessEdge
         excludes:
           - Resources/**
+          # Omit asset catalog on Simulator/ad-hoc builds: macOS stamps
+          # com.apple.provenance on actool outputs, and codesign then treats
+          # Assets.car / AppIcon PNGs as nested unsigned code objects.
+          - Assets.xcassets/**
       - path: WildernessEdge/Resources
         type: folder
         buildPhase: resources
@@ -33,35 +37,16 @@ targets:
         INFOPLIST_FILE: WildernessEdge/App/Info.plist
         CODE_SIGN_ENTITLEMENTS: WildernessEdge/App/WildernessEdge.entitlements
         GENERATE_INFOPLIST_FILE: false
-        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
-        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         ENABLE_PREVIEWS: YES
         CODE_SIGN_STYLE: Automatic
         DEVELOPMENT_TEAM: ""
+        ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: NO
+        ENABLE_DEBUG_DYLIB: NO
       configs:
         Debug:
           SWIFT_ACTIVE_COMPILATION_CONDITIONS: DEBUG
         Release:
           SWIFT_COMPILATION_MODE: wholemodule
-    # macOS Sequoia+ stamps com.apple.provenance on copied resources; ad-hoc codesign
-    # then mis-detects Assets.car / PNGs as nested code objects. Rewrite bytes in-place
-    # (no xattrs) in a postbuild script so it runs after Copy Bundle Resources / actool.
-    postbuildScripts:
-      - name: Strip Provenance Xattrs From App Bundle
-        basedOnDependencyAnalysis: false
-        script: |
-          set -euo pipefail
-          APP_DIR="${TARGET_BUILD_DIR}/${WRAPPER_NAME}"
-          if [ ! -d "$APP_DIR" ]; then
-            exit 0
-          fi
-          find "$APP_DIR" -type f ! -path '*/_CodeSignature/*' -print0 | while IFS= read -r -d '' f; do
-            tmp="${f}.noxattr"
-            ditto --norsrc --noextattr "$f" "$tmp"
-            # Preserve executable bit for binaries/dylibs
-            if [ -x "$f" ]; then chmod +x "$tmp"; fi
-            mv -f "$tmp" "$f"
-          done
     scheme:
       testTargets:
         - WildernessEdgeTests
