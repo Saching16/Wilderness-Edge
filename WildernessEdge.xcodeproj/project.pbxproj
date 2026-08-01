@@ -32,6 +32,7 @@
 		1FEB8D517299E83323CB8AC3 /* WildernessEdge.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = WildernessEdge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		295F808866EC7D267E537094 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3D238DBC8AAFC85B94C19DDD /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
+		5404EACE6D9227549379E108 /* LiteRTLM */ = {isa = PBXFileReference; lastKnownFileType = folder; name = LiteRTLM; path = Vendor/LiteRTLM; sourceTree = SOURCE_ROOT; };
 		6305700F5E7A7BC840C61DC9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		71CFA512E2F6489AF427BB27 /* SpeechManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechManager.swift; sourceTree = "<group>"; };
 		9FE1D90B29F1F474CA4004E8 /* VectorRAGManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorRAGManager.swift; sourceTree = "<group>"; };
@@ -59,6 +60,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		02FB0CA248CF896BC6FC99AA /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				5404EACE6D9227549379E108 /* LiteRTLM */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
 		3E3B20B48EAB5F09D5D31AEF /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -125,6 +134,7 @@
 		E34784AA0181FEB52F97A199 = {
 			isa = PBXGroup;
 			children = (
+				02FB0CA248CF896BC6FC99AA /* Packages */,
 				8D0A683019BCDA35E264F3F0 /* WildernessEdge */,
 				E12E015356BBFEC23D1113F3 /* WildernessEdgeTests */,
 				7E4A8454A64833A8F4562661 /* Products */,
@@ -201,7 +211,7 @@
 			mainGroup = E34784AA0181FEB52F97A199;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				D930F732FA84A2D8941D75CE /* XCRemoteSwiftPackageReference "LiteRT-LM" */,
+				D46CCC2240462AAFC8ACE2A1 /* XCLocalSwiftPackageReference "Vendor/LiteRTLM" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7E4A8454A64833A8F4562661 /* Products */;
@@ -504,21 +514,16 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		D930F732FA84A2D8941D75CE /* XCRemoteSwiftPackageReference "LiteRT-LM" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/google-ai-edge/LiteRT-LM";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.12.0;
-			};
+/* Begin XCLocalSwiftPackageReference section */
+		D46CCC2240462AAFC8ACE2A1 /* XCLocalSwiftPackageReference "Vendor/LiteRTLM" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Vendor/LiteRTLM;
 		};
-/* End XCRemoteSwiftPackageReference section */
+/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		5BFF960F428FB8F81F01DBED /* LiteRTLM */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = D930F732FA84A2D8941D75CE /* XCRemoteSwiftPackageReference "LiteRT-LM" */;
 			productName = LiteRTLM;
 		};
 /* End XCSwiftPackageProductDependency section */

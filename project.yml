@@ -12,9 +12,12 @@ settings:
     TARGETED_DEVICE_FAMILY: "1"
     IPHONEOS_DEPLOYMENT_TARGET: "17.0"
 packages:
+  # Local vendor of LiteRT-LM Swift wrappers from tag v0.14.0, with Package.swift
+  # checksums patched to match the live GitHub release XCFrameworks. Upstream tag
+  # checksums are stale, and main's Swift API already requires C symbols not in
+  # the published v0.14.0 binary — see Vendor/LiteRTLM/README.md.
   LiteRTLM:
-    url: https://github.com/google-ai-edge/LiteRT-LM
-    from: 0.12.0
+    path: Vendor/LiteRTLM
 targets:
   WildernessEdge:
     type: application
