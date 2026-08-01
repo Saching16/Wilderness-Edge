@@ -42,6 +42,8 @@ final class SpeechManager: ObservableObject {
     private var recognizer: SFSpeechRecognizer?
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
+    private var finalContinuation: CheckedContinuation<Void, Never>?
+    private var didReceiveFinalResult = false
 
     func startListening() {
         error = nil
@@ -56,16 +58,47 @@ final class SpeechManager: ObservableObject {
         }
     }
 
+    /// Graceful stop used when the user taps Send. Ends audio and waits briefly for a
+    /// final result so partial transcripts are not discarded by `cancel()`.
+    @discardableResult
+    func finishListening() async -> String {
+        guard isListening || recognitionRequest != nil else {
+            return transcript
+        }
+
+        recognitionRequest?.endAudio()
+        recognitionRequest = nil
+        teardownAudioEngine()
+
+        if !didReceiveFinalResult, recognitionTask != nil {
+            await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+                self.finalContinuation = continuation
+                self.scheduleFinalWaitTimeout()
+            }
+        }
+
+        recognitionTask = nil
+        isListening = false
+        return transcript
+    }
+
+    /// Timeout companion for `finishListening()` — kept as a separate task so the
+    /// continuation is only resumed once (final result or timeout wins).
+    private func scheduleFinalWaitTimeout() {
+        Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 1_500_000_000)
+            resumeFinalWait()
+        }
+    }
+
+    /// Hard cancel for errors / restart. Prefer `finishListening()` for user-initiated stop.
     func stopListening() {
+        resumeFinalWait()
         recognitionTask?.cancel()
         recognitionTask = nil
         recognitionRequest?.endAudio()
         recognitionRequest = nil
-
-        if audioEngine.isRunning {
-            audioEngine.stop()
-            audioEngine.inputNode.removeTap(onBus: 0)
-        }
+        teardownAudioEngine()
         isListening = false
     }
 
@@ -79,6 +112,7 @@ final class SpeechManager: ObservableObject {
         stopListening()
         error = nil
         transcript = ""
+        didReceiveFinalResult = false
 
         let speechRecognizer = SFSpeechRecognizer()
         recognizer = speechRecognizer
@@ -100,8 +134,15 @@ final class SpeechManager: ObservableObject {
         recognitionRequest = request
 
         do {
+            try activateAudioSession()
+
             let inputNode = audioEngine.inputNode
-            let format = inputNode.outputFormat(forBus: 0)
+            guard let format = usableInputFormat(for: inputNode) else {
+                error = .audioEngineFailure("Microphone format is unavailable (sample rate 0).")
+                stopListening()
+                return
+            }
+
             inputNode.removeTap(onBus: 0)
             inputNode.installTap(onBus: 0, bufferSize: 1024, format: format) { [weak self] buffer, _ in
                 self?.recognitionRequest?.append(buffer)
@@ -121,7 +162,10 @@ final class SpeechManager: ObservableObject {
                 guard let self else { return }
                 if let taskError {
                     // Cancellation after stopListening is expected.
-                    if (taskError as NSError).code == 216 || (taskError as NSError).code == 301 {
+                    let nsError = taskError as NSError
+                    if nsError.domain == "kAFAssistantErrorDomain",
+                       nsError.code == 216 || nsError.code == 301 {
+                        self.resumeFinalWait()
                         return
                     }
                     self.error = .recognitionFailure(taskError.localizedDescription)
@@ -132,11 +176,52 @@ final class SpeechManager: ObservableObject {
                 if let result {
                     self.transcript = result.bestTranscription.formattedString
                     if result.isFinal {
-                        self.stopListening()
+                        self.didReceiveFinalResult = true
+                        self.isListening = false
+                        self.resumeFinalWait()
                     }
                 }
             }
         }
+    }
+
+    private func resumeFinalWait() {
+        finalContinuation?.resume()
+        finalContinuation = nil
+    }
+
+    private func teardownAudioEngine() {
+        if audioEngine.isRunning {
+            audioEngine.stop()
+        }
+        audioEngine.inputNode.removeTap(onBus: 0)
+    }
+
+    private func activateAudioSession() throws {
+        let session = AVAudioSession.sharedInstance()
+        try session.setCategory(
+            .playAndRecord,
+            mode: .spokenAudio,
+            options: [.defaultToSpeaker, .allowBluetooth, .duckOthers]
+        )
+        try session.setActive(true, options: [])
+    }
+
+    /// Simulator / cold-start mic nodes can report a 0 Hz format; fall back to the session rate.
+    private func usableInputFormat(for inputNode: AVAudioInputNode) -> AVAudioFormat? {
+        let hardwareFormat = inputNode.outputFormat(forBus: 0)
+        if hardwareFormat.sampleRate > 0, hardwareFormat.channelCount > 0 {
+            return hardwareFormat
+        }
+
+        let sampleRate = AVAudioSession.sharedInstance().sampleRate
+        guard sampleRate > 0 else { return nil }
+        return AVAudioFormat(
+            commonFormat: .pcmFormatFloat32,
+            sampleRate: sampleRate,
+            channels: 1,
+            interleaved: false
+        )
     }
 
     private func requestPermissions() async -> Bool {

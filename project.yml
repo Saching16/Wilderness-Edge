@@ -33,10 +33,26 @@ targets:
           # com.apple.provenance on actool outputs, and codesign then treats
           # Assets.car / AppIcon PNGs as nested unsigned code objects.
           - Assets.xcassets/**
-      - path: WildernessEdge/Resources
-        type: folder
-        buildPhase: resources
+      # Copy assets flat into the .app root (not as a nested Resources/ folder
+      # reference). A literal Resources/ directory inside an iOS .app confuses
+      # codesign ("Info.plist=not bound") and simctl install then fails with
+      # "Missing bundle ID". Individual entries also let Xcode compile
+      # .mlpackage → .mlmodelc via the CoreML build rule.
+      - path: WildernessEdge/Resources/protocols.db
         optional: true
+        buildPhase: resources
+      - path: WildernessEdge/Resources/query-embedder.mlpackage
+        optional: true
+        buildPhase: resources
+      - path: WildernessEdge/Resources/query-embedder-vocab.txt
+        optional: true
+        buildPhase: resources
+      - path: WildernessEdge/Resources/query-embedder-tokenizer.json
+        optional: true
+        buildPhase: resources
+      # gemma-4-E4B-it.litertlm is optional until Pablo's Checkpoint 2 lands.
+      # Add it back (same shape as protocols.db above) once the file exists under
+      # WildernessEdge/Resources/; LLMInferenceManager already fail-closes if absent.
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.wildernessedge.app
@@ -46,6 +62,7 @@ targets:
         GENERATE_INFOPLIST_FILE: false
         ENABLE_PREVIEWS: YES
         CODE_SIGN_STYLE: Automatic
+        # Local Personal Team — required for device/simulator signing after xcodegen.
         DEVELOPMENT_TEAM: ""
         ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: NO
         ENABLE_DEBUG_DYLIB: NO
