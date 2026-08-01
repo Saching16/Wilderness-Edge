@@ -2,16 +2,24 @@ import SwiftUI
 import UIKit
 
 /// Full push-to-talk pipeline: tap to listen (snapshot + STT) → tap to send
-/// (stub RAG/LLM → SafetyFilter → TTS). Real LiteRT-LM + VectorRAG swap in at Checkpoint 4
-/// via `runInferencePipeline` — keep that signature stable for Sachin.
+/// (Embed → RAG → Gemma via LiteRT-LM → SafetyFilter → TTS).
 struct ContentView: View {
     @StateObject private var speechManager = SpeechManager()
     @StateObject private var ttsManager = TTSManager()
     @StateObject private var cameraManager = CameraManager()
+    @StateObject private var llmManager = LLMInferenceManager()
 
     @State private var appState: AppState = .idle
     @State private var citation: String?
     @State private var checklistText: String = ""
+    /// Simulator / DEBUG escape hatch — on-device STT is unreliable in Simulator.
+    @State private var typedQuery: String = ""
+
+    private let embedder = try? TextEmbeddingManager()
+    private let ragManager: VectorRAGManager? = {
+        guard let path = Bundle.main.path(forResource: "protocols", ofType: "db") else { return nil }
+        return try? VectorRAGManager(databasePath: path)
+    }()
 
     /// Spoken / displayed copy for the three hard-fail paths.
     private enum SpokenError {
@@ -20,29 +28,19 @@ struct ContentView: View {
         static let modelFailure = "I couldn't run the local model. Try again."
     }
 
-    /// Checkpoint 4 replaces this stub with LLMInferenceManager + VectorRAGManager.
-    /// Signature must not change without updating both call sites.
-    /// Return an empty `checklistText` to signal model/pipeline failure.
-    var runInferencePipeline: (String, UIImage?) async -> (citation: String?, checklistText: String) = { transcript, _ in
-        let lowered = transcript.lowercased()
-        if lowered.contains("force model failure") {
-            return (nil, "")
-        }
-        if lowered.contains("weather") || lowered.contains("score of the game") {
-            return (
-                nil,
-                "I don't have a protocol covering that in my offline library. I can't answer it from the field manuals I carry."
-            )
-        }
-        return (
-            "[Source: STUB — swap for retrieved protocol citation]",
-            """
-            Displaying retrieved protocol checklist for \"\(transcript)\".
-            1. Scene safety and standard precautions.
-            2. Primary assessment (airway, breathing, circulation).
-            3. Follow the cited field-manual steps within your training and scope.
-            """
-        )
+    private var allowsTypedQuery: Bool {
+        #if DEBUG || targetEnvironment(simulator)
+        return true
+        #else
+        return false
+        #endif
+    }
+
+    /// Real RAG + LiteRT-LM pipeline. Signature matches Daniel's Checkpoint 4 contract:
+    /// `(String, UIImage?) async -> (citation: String?, checklistText: String)`.
+    /// Empty `checklistText` signals model/pipeline failure to the state machine.
+    @State private var runInferencePipeline: (String, UIImage?) async -> (citation: String?, checklistText: String) = { _, _ in
+        (nil, "")
     }
 
     var body: some View {
@@ -72,11 +70,73 @@ struct ContentView: View {
                 onPressUp: handleStopAndProcess
             )
 
+            if allowsTypedQuery {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Simulator typed query")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.secondary)
+                    HStack {
+                        TextField("e.g. severe bleeding from the thigh", text: $typedQuery)
+                            .textFieldStyle(.roundedBorder)
+                            .submitLabel(.go)
+                            .onSubmit(handleTypedQuery)
+                        Button("Send", action: handleTypedQuery)
+                            .buttonStyle(.borderedProminent)
+                            .disabled(
+                                typedQuery.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                                    || !(appState == .idle || isErrorState)
+                            )
+                    }
+                }
+                .padding(.top, 8)
+            }
+
             Spacer()
         }
         .padding()
         .task {
             await cameraManager.prewarm()
+            await llmManager.initialize()
+
+            if let initError = llmManager.initializationError {
+                await presentError(initError.localizedDescription)
+                return
+            }
+
+            let embedder = self.embedder
+            let ragManager = self.ragManager
+            let llmManager = self.llmManager
+
+            runInferencePipeline = { transcript, image in
+                guard let embedder, let ragManager else {
+                    return (nil, "Retrieval system unavailable.")
+                }
+                guard llmManager.isReady else {
+                    return (nil, "")
+                }
+                do {
+                    let queryEmbedding = try embedder.embed(transcript)
+                    let ragResult = ragManager.search(
+                        embedding: queryEmbedding,
+                        topK: 3,
+                        threshold: 0.35
+                    )
+                    let responseText = try await llmManager.generate(
+                        transcript: transcript,
+                        ragResult: ragResult,
+                        image: image
+                    )
+                    let citation: String? = {
+                        if case .match(let chunks) = ragResult {
+                            return chunks.first?.citation
+                        }
+                        return nil
+                    }()
+                    return (citation, responseText)
+                } catch {
+                    return (nil, "")
+                }
+            }
         }
         .onDisappear {
             cameraManager.shutdown()
@@ -116,48 +176,67 @@ struct ContentView: View {
 
     private func handleStopAndProcess() {
         guard appState == .listening else { return }
-        speechManager.stopListening()
 
         Task {
             appState = .processing
 
-            // Brief pause so partial results can settle after stop.
-            try? await Task.sleep(nanoseconds: 300_000_000)
+            // End audio and wait for a final (or last partial) transcript — do not cancel.
+            let transcript = await speechManager.finishListening()
+                .trimmingCharacters(in: .whitespacesAndNewlines)
 
             if let speechError = speechManager.error {
                 await presentError(spokenMessage(for: speechError))
                 return
             }
 
-            let transcript = speechManager.transcript.trimmingCharacters(in: .whitespacesAndNewlines)
             guard !transcript.isEmpty else {
                 await presentError(SpokenError.emptyTranscript)
                 return
             }
 
-            let (resultCitation, resultText) = await runInferencePipeline(
-                transcript,
-                cameraManager.latestSnapshot
-            )
+            await runPipeline(with: transcript)
+        }
+    }
 
-            let trimmedResult = resultText.trimmingCharacters(in: .whitespacesAndNewlines)
-            guard !trimmedResult.isEmpty else {
-                await presentError(SpokenError.modelFailure)
-                return
-            }
+    private func handleTypedQuery() {
+        guard allowsTypedQuery, appState == .idle || isErrorState else { return }
+        let transcript = typedQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !transcript.isEmpty else { return }
 
-            let filtered = SafetyFilter.sanitize(trimmedResult)
-            citation = resultCitation
-            checklistText = filtered.text
-            appState = .speaking
-            ttsManager.speak(filtered.text)
+        ttsManager.stop()
+        citation = nil
+        checklistText = ""
+        speechManager.stopListening()
 
-            while ttsManager.isSpeaking {
-                try? await Task.sleep(nanoseconds: 100_000_000)
-            }
-            if case .speaking = appState {
-                appState = .idle
-            }
+        Task {
+            appState = .processing
+            await runPipeline(with: transcript)
+        }
+    }
+
+    private func runPipeline(with transcript: String) async {
+        let (resultCitation, resultText) = await runInferencePipeline(
+            transcript,
+            cameraManager.latestSnapshot
+        )
+
+        let trimmedResult = resultText.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedResult.isEmpty else {
+            await presentError(SpokenError.modelFailure)
+            return
+        }
+
+        let filtered = SafetyFilter.sanitize(trimmedResult)
+        citation = resultCitation
+        checklistText = filtered.text
+        appState = .speaking
+        ttsManager.speak(filtered.text)
+
+        while ttsManager.isSpeaking {
+            try? await Task.sleep(nanoseconds: 100_000_000)
+        }
+        if case .speaking = appState {
+            appState = .idle
         }
     }
 
