@@ -1,0 +1,14 @@
+{
+  "model_id": "sentence-transformers/all-MiniLM-L6-v2",
+  "tokenizer": "wordpiece",
+  "max_sequence_length": 128,
+  "do_lower_case": true,
+  "strip_accents": true,
+  "continuing_subword_prefix": "##",
+  "unk_token": "[UNK]",
+  "cls_token_id": 101,
+  "sep_token_id": 102,
+  "pad_token_id": 0,
+  "unk_token_id": 100,
+  "vocab_size": 30522
+}
