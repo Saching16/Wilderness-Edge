@@ -85,6 +85,9 @@ def convert_to_coreml(traced, seq_len: int, output_path: Path, deployment_target
         convert_to="mlprogram",
         minimum_deployment_target=target,
         compute_units=ct.ComputeUnit.ALL,
+        # mlprogram defaults to FLOAT16, which overflows on the large negative attention-mask
+        # bias (~-3.4e38) and silently corrupts the pooled embedding. Force FP32.
+        compute_precision=ct.precision.FLOAT32,
     )
     try:
         mlmodel = ct.convert(
