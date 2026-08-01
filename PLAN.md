@@ -6,6 +6,8 @@ This document outlines the exact sequential roadmap for building Wilderness Edge
 
 To maintain high code quality and prevent system integration failures, AI coding agents must execute this plan phase by phase. **Agents must not proceed to a subsequent phase until all verification criteria for the current phase are fully met.**
 
+> **Hackathon sprint note (2026-08-01):** For the Build with Gemma NYC hackathon (~18-hour window), this plan is trimmed and parallelized across a 4-person team. See `docs/superpowers/specs/2026-08-01-hackathon-scope-design.md` for what's cut and why, and `docs/superpowers/plans/2026-08-01-hackathon-sprint.md` for the actual task-by-task sprint plan (or the per-person files in the same directory: `2026-08-01-pablo.md`, `2026-08-01-vaibhav.md`, `2026-08-01-daniel.md`, `2026-08-01-sachin.md`). The phase-by-phase roadmap below remains the project's long-term reference, but the sprint plan is authoritative for what to build *this cycle*. Key sprint deltas from the phases below: Gemma 4 **E4B** (prebuilt, not E2B), **no LoRA fine-tune** (Phase 0 §6 and its dependents are out of scope), and memory-footprint verification criteria are a soft target rather than a hard gate.
+
 ## Part 1: Prerequisites & Human Tasks (Outside Cursor)
 
 Before AI agents begin writing application code inside Xcode, the human developer must complete the following manual setup steps:
@@ -21,8 +23,8 @@ Before AI agents begin writing application code inside Xcode, the human develope
 - [ ] **Assemble the Source Corpus:** Review `OffLineTools/SOURCES.md`, confirm each source's redistribution license, and run `python fetch_sources.py` to download the vetted public-domain corpus. Note that NOLS materials are **not** licensed for ingestion — see Tier 4 in `SOURCES.md`.
 - [ ] **Generate Vector Database:** Run `python build_vector_db.py` to produce `protocols.db` plus `embedding_parity_fixtures.json`. Inspect output first with `--dry-run`.
 - [ ] **Export the On-Device Query Embedder:** Run `python export_embedder_coreml.py` to produce `query-embedder.mlpackage` and the WordPiece tokenizer assets. The script's parity check must pass — it verifies that on-device embeddings reproduce the database's embedding space (cosine similarity ≈ 1.0).
-- [ ] **Train & Export Gemma Model:** Run the Google Colab script (`OffLineTools/train_lora_colab.py`) to fine-tune the decision-tree LoRA adapter on Gemma 4 E2B using Unsloth, merge the weights, and export the quantized multimodal model asset in LiteRT-LM's `.litertlm` format (`gemma-4-e2b-wfr.litertlm`).
-- [ ] **Bundle Assets into Xcode:** Drag `protocols.db`, `query-embedder.mlpackage`, `query-embedder-vocab.txt`, `query-embedder-tokenizer.json`, and `gemma-4-e2b-wfr.litertlm` into `WildernessEdge/Resources/`, and `embedding_parity_fixtures.json` into the test target. Xcode compiles the `.mlpackage` into `.mlmodelc` at build time — do not commit a prebuilt `.mlmodelc`.
+- [ ] **Fetch the Gemma Model (hackathon sprint):** Download the prebuilt `litert-community/gemma-4-E4B-it-litert-lm` bundle directly (`gemma-4-E4B-it.litertlm`). No custom fine-tune this sprint — `OffLineTools/train_lora_colab.py` (LoRA adapter on Gemma 4 E2B via Unsloth) is deferred past the hackathon; see the sprint plan.
+- [ ] **Bundle Assets into Xcode:** Drag `protocols.db`, `query-embedder.mlpackage`, `query-embedder-vocab.txt`, `query-embedder-tokenizer.json`, and `gemma-4-E4B-it.litertlm` into `WildernessEdge/Resources/`, and `embedding_parity_fixtures.json` into the test target. Xcode compiles the `.mlpackage` into `.mlmodelc` at build time — do not commit a prebuilt `.mlmodelc`.
 
 ### 3. Xcode Project Creation & Entitlements
 
@@ -47,7 +49,7 @@ Before AI agents begin writing application code inside Xcode, the human develope
 3. ~~Create `OffLineTools/sources.manifest.json`, `fetch_sources.py`, and `SOURCES.md`~~ — vetted corpus with recorded licenses. **Done.**
 4. ~~Create `OffLineTools/query_protocols.py`~~ — offline retrieval harness mirroring `VectorRAGManager`, used to calibrate the similarity threshold. **Done.**
 5. ~~Create `OffLineTools/build_training_data.py`~~ — derives grounded / refusal / diagnosis-deflection training examples from `protocols.db`. **Done (seed quality; needs clinical review).**
-6. ~~Create `OffLineTools/train_lora_colab.py`~~ — Unsloth LoRA fine-tune on Gemma 4 E2B with the vision tower frozen, 16-bit merge, and int4 `.litertlm` export including the vision encoder. **Written; unrun — requires a Colab GPU and gated Gemma weights.**
+6. ~~Create `OffLineTools/train_lora_colab.py`~~ — Unsloth LoRA fine-tune on Gemma 4 E2B with the vision tower frozen, 16-bit merge, and int4 `.litertlm` export including the vision encoder. **Written; unrun — requires a Colab GPU and gated Gemma weights. Out of scope for the 2026-08-01 hackathon sprint: use the prebuilt `litert-community/gemma-4-E4B-it-litert-lm` bundle instead (see sprint plan Task A3).**
 
 #### Verification Criteria (Phase 0)
 
@@ -56,9 +58,9 @@ Before AI agents begin writing application code inside Xcode, the human develope
 - [x] `python export_embedder_coreml.py` passes its parity check against the fixtures emitted by the database build. *(All 6 fixtures at cosine ≈ 1.000.)*
 - [x] Every source in the corpus has a recorded, verified redistribution license in `sources.manifest.json`.
 - [x] `python query_protocols.py` separates on-topic from off-topic queries by a clear margin. *(0.53–0.67 vs 0.17.)*
-- [ ] `python build_training_data.py` output has been audited by a WFR/EMS-qualified reviewer.
-- [ ] `train_lora_colab.py` completes on a Colab GPU and exports a `.litertlm` bundle that `litert-lm run` can load.
-- [ ] The exported bundle's on-device resident memory is measured and fits under the Phase 3 ceiling. If int4 export proves too large, fall back to the prebuilt `litert-community/gemma-4-E2B-it-litert-lm`.
+- [ ] `python build_training_data.py` output has been audited by a WFR/EMS-qualified reviewer. **Deferred past the hackathon sprint — no LoRA fine-tune this cycle.**
+- [ ] `train_lora_colab.py` completes on a Colab GPU and exports a `.litertlm` bundle that `litert-lm run` can load. **Deferred past the hackathon sprint.**
+- [x] ~~The exported bundle's on-device resident memory is measured and fits under the Phase 3 ceiling.~~ **Superseded for the hackathon sprint:** ship the prebuilt `litert-community/gemma-4-E4B-it-litert-lm` bundle directly (no custom fine-tune to measure); formal resident-memory measurement against a strict ceiling is a soft target this cycle, not a blocking gate (see AGENTS.md "Device Memory Safety").
 
 ### Phase 1: Native Audio, Speech & Safety Infrastructure
 
@@ -105,12 +107,12 @@ Before AI agents begin writing application code inside Xcode, the human develope
 
 ### Phase 3: LiteRT-LM Multimodal Integration & Orchestration
 
-**Objective:** Integrate the local, natively multimodal Gemma 4 E2B model via the Google AI Edge **LiteRT-LM Swift API** and construct the central orchestration pipeline, including direct image input.
+**Objective:** Integrate the local, natively multimodal Gemma 4 **E4B** model (prebuilt `litert-community/gemma-4-E4B-it-litert-lm`, no custom fine-tune this sprint) via the Google AI Edge **LiteRT-LM Swift API** and construct the central orchestration pipeline, including direct image input.
 
 #### Action Items
 
 1. Create `Core/LLMInferenceManager.swift` wrapping LiteRT-LM's `Engine`/`Conversation` Swift API.
-2. Configure `EngineConfig` pointing to `gemma-4-e2b-wfr.litertlm` inside the app bundle, enabling the GPU backend plus the vision backend (`visionBackend: .cpu()` or `.gpu()` as benchmarking dictates) so image input is supported.
+2. Configure `EngineConfig` pointing to `gemma-4-E4B-it.litertlm` inside the app bundle, enabling the GPU backend plus the vision backend (`visionBackend: .cpu()` or `.gpu()` as benchmarking dictates) so image input is supported.
 3. Construct a multimodal `Message` per query combining: `Content.imageFile(...)` (or in-memory image data) from the camera snapshot, `Content.text(...)` carrying retrieved RAG context chunks, system instructions, and the user transcript. If `VectorRAGManager` returned "no confident match," omit fabricated context and explicitly instruct the model to state that no matching protocol was found rather than improvising.
 4. Implement async token generation streaming via `conversation.sendMessage(...)`.
 5. Handle model initialization failure (e.g. asset missing/corrupt, insufficient memory) by surfacing a blocking startup error state rather than allowing the app to proceed into a broken push-to-talk loop.
@@ -120,7 +122,7 @@ Before AI agents begin writing application code inside Xcode, the human develope
 - [ ] `LLMInferenceManager` initializes the model without memory crashes or low-memory warnings.
 - [ ] Model processes a prompt combining a camera snapshot and RAG context and generates structured protocol text locally in Airplane Mode.
 - [ ] A query engineered to have no RAG match produces an honest "no matching protocol found" response rather than a fabricated one.
-- [ ] Total active memory usage during model inference stays safely below 2.8 GB on the target device.
+- [ ] Total active memory usage during model inference is reasonable on the iPhone 16 Plus. **Soft target this sprint, not a hard gate** (was a strict 2.8 GB ceiling for the original 6GB-device design target — see AGENTS.md "Device Memory Safety").
 - [ ] Corrupting or removing the bundled model asset in a debug build surfaces the startup error state instead of crashing or hanging.
 
 ### Phase 4: SwiftUI User Interface & State Machine
@@ -159,7 +161,7 @@ Before AI agents begin writing application code inside Xcode, the human develope
 #### Verification Criteria (Phase 5)
 
 - [ ] Application operates seamlessly with zero active network interfaces.
-- [ ] App completes 20 consecutive query loops without crashing or exceeding memory caps.
+- [ ] App completes 20 consecutive query loops without crashing or exceeding memory caps. **Reduced for the hackathon sprint:** demo script runs reliably twice in a row in Airplane Mode (see sprint plan Task E1); the full 20-loop stress pass is deferred past the hackathon.
 - [ ] All responses cite accredited field manuals and strictly present action checklists without issuing medical diagnoses.
 - [ ] `SafetyFilterTests` and `VectorRAGManagerTests` pass in CI/Simulator.
 - [ ] All Error-state triggers are confirmed to fail closed (never silently succeed or fall back to network) on the physical device.

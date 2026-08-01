@@ -6,6 +6,16 @@ Wilderness Edge is a 100% air-gapped, voice-first, and vision-assisted emergency
 
 This document serves as the primary context, system rulebook, and architectural guide for AI coding agents working on this codebase.
 
+## Hackathon Sprint Scope (Build with Gemma NYC, 2026-08-01)
+
+This build is being executed as an ~18-hour hackathon sprint. The scope trims below are deliberate engineering tradeoffs for the sprint, not a change to the project's long-term ambitions — see `docs/superpowers/specs/2026-08-01-hackathon-scope-design.md` for the full rationale and `docs/superpowers/plans/2026-08-01-hackathon-sprint.md` (or the per-person plan files in the same directory) for the task breakdown.
+
+- **Model:** Gemma 4 **E4B** (not E2B), using the prebuilt `litert-community/gemma-4-E4B-it-litert-lm` bundle. No custom weights.
+- **No LoRA fine-tune this sprint.** `train_lora_colab.py` and the clinical-review gate on `build_training_data.py` output are out of scope. Grounding comes from RAG context + prompting only; the LoRA adapter remains a documented future direction, not a component of this build.
+- **Memory guardrails are a soft target, not a hard gate.** The team is sideloading to a physical iPhone 16 Plus, which has ample headroom. Keep the "Increased Memory Limit" entitlement, but do not block progress on formally measuring or optimizing resident memory footprint this sprint.
+- **Corpus scope:** wilderness + general first aid, restricted to sources already verified in `OffLineTools/sources.manifest.json` (skip NOLS — confirmed unlicensed for ingestion, see `SOURCES.md`).
+- **Demo condition:** a live Airplane Mode run on the sideloaded device is the actual proof of the air-gap claim, not just a written assertion.
+
 ## Non-Negotiable System Guardrails
 
 All coding agents working on this project must strictly respect and enforce three core operational constraints:
@@ -22,11 +32,11 @@ All coding agents working on this project must strictly respect and enforce thre
 - Speech recognition, vector retrieval, language model inference, and text-to-speech synthesis must run locally on the device.
 - Speech recognition must explicitly enforce on-device processing flags.
 
-### 3. Base Device RAM Safety (6GB Unified Memory Target)
+### 3. Device Memory Safety (soft target this sprint)
 
-- The app is designed to run on a physical base-model iPhone with 6GB of unified memory.
-- Language model footprint must be constrained to quantized Gemma 4 E2B (~1.1–1.6 GB).
-- High-memory system entitlements must be enabled in the project build settings to prevent low-memory operating system terminations.
+- The app's long-term design target is a physical base-model iPhone with 6GB of unified memory; the hackathon sprint sideloads to a physical iPhone 16 Plus instead, which has substantially more headroom.
+- Language model footprint is the prebuilt, quantized Gemma 4 **E4B** (`litert-community/gemma-4-E4B-it-litert-lm`) for this sprint — no custom fine-tune.
+- High-memory system entitlements (`com.apple.developer.kernel.increased-memory-limit`) must remain enabled in the project build settings to prevent low-memory operating system terminations, but formal resident-memory measurement against a strict ceiling is deferred past this sprint.
 
 ## Technical Stack Overview
 
@@ -34,7 +44,7 @@ All coding agents working on this project must strictly respect and enforce thre
 | --- | --- |
 | **Target Platform** | Native iOS 17.0+ (Swift 5.9 / SwiftUI) |
 | **LLM Runtime Engine** | Google AI Edge **LiteRT-LM Swift API** (native multimodal image + text inference, GPU/Metal accelerated) |
-| **Base Language Model** | Quantized Gemma 4 E2B (~1.1–1.6 GB, natively multimodal: text + image + audio) with a merged LoRA decision-tree adapter, packaged as a `.litertlm` bundle |
+| **Base Language Model** | Quantized Gemma 4 **E4B** (natively multimodal: text + image + audio), prebuilt `litert-community/gemma-4-E4B-it-litert-lm` bundle, packaged as a `.litertlm` file. No custom LoRA fine-tune this sprint. |
 | **Speech-to-Text (STT)** | Native Apple Framework (`SFSpeechRecognizer`) forced to on-device recognition |
 | **Text-to-Speech (TTS)** | Native Apple Framework (`AVSpeechSynthesizer`) |
 | **Camera Capture** | Native Apple Framework (`AVFoundation`) for single-frame snapshot capture |
@@ -69,7 +79,7 @@ All coding agents working on this project must strictly respect and enforce thre
                                       │
                                       ▼
                        [ LiteRT-LM Multimodal Engine ]
-                 Gemma 4 E2B + Decision LoRA Adapter
+                          Gemma 4 E4B (prebuilt)
         (native image input + retrieved protocol text context)
                                       │
                                       ▼
@@ -97,8 +107,8 @@ WildernessEdge/
 │   ├── build_vector_db.py              # Offline PDF parser & vector DB generator
 │   ├── export_embedder_coreml.py       # CoreML query-embedder export & parity check
 │   ├── query_protocols.py              # Offline retrieval harness for threshold calibration
-│   ├── build_training_data.py          # Grounded/refusal/deflection LoRA dataset generator
-│   └── train_lora_colab.py             # Unsloth LoRA fine-tune & .litertlm export (Colab GPU)
+│   ├── build_training_data.py          # Grounded/refusal/deflection LoRA dataset generator (not used this sprint)
+│   └── train_lora_colab.py             # Unsloth LoRA fine-tune & .litertlm export (Colab GPU; out of scope this sprint)
 └── WildernessEdge/
     ├── App/
     │   ├── WildernessEdgeApp.swift     # Application Entry Point & Audio Session setup
@@ -108,7 +118,7 @@ WildernessEdge/
     │   ├── query-embedder.mlpackage    # CoreML sentence-embedding model (matches protocols.db embedding space)
     │   ├── query-embedder-vocab.txt    # WordPiece vocabulary for the Swift tokenizer
     │   ├── query-embedder-tokenizer.json # Tokenizer settings (casing, special ids, seq length)
-    │   └── gemma-4-e2b-wfr.litertlm    # LiteRT-LM Gemma model bundle (~1.1-1.6 GB, multimodal)
+    │   └── gemma-4-E4B-it.litertlm     # Prebuilt LiteRT-LM Gemma 4 E4B bundle (multimodal, no custom fine-tune)
     ├── Core/
     │   ├── SpeechManager.swift         # On-device SFSpeechRecognizer wrapper
     │   ├── TTSManager.swift            # Native AVSpeechSynthesizer wrapper
@@ -135,4 +145,5 @@ When generating, modifying, or refactoring code in this project, adhere to the f
 5. **No Network Dependencies** — Do not introduce third-party Swift packages that rely on remote APIs or network requests.
 6. **Keep Embedding Spaces in Sync** — `TextEmbeddingManager`'s bundled CoreML model must always match the embedding model used by `OffLineTools/build_vector_db.py` to generate `protocols.db`. Cosine similarity is meaningless if these diverge; never swap one without regenerating/re-validating the other.
 7. **Fail Closed, Never Fall Back to Network** — If on-device speech recognition, embedding, or LLM inference is unavailable (e.g. `SFSpeechRecognizer.supportsOnDeviceRecognition == false`), surface a clear in-app error state. Never silently fall back to a server-based/networked alternative.
-8. **Only Cite What We Are Licensed to Ship** — Every chunk in `protocols.db` must come from a source with a verified redistribution license recorded in `OffLineTools/sources.manifest.json`. See `OffLineTools/SOURCES.md`; note that NOLS course materials are copyrighted and are **not** currently licensed for ingestion despite being named in the mission statement above.
+8. **Only Cite What We Are Licensed to Ship** — Every chunk in `protocols.db` must come from a source with a verified redistribution license recorded in `OffLineTools/sources.manifest.json`. See `OffLineTools/SOURCES.md`; note that NOLS course materials are copyrighted and are **not** currently licensed for ingestion despite being named in the mission statement above. For this sprint, the corpus is restricted to the sources already verified in the manifest (ATP 4-02.11, TCCC Handbook v5, NASEMSO Guidelines v3.0) — do not add new sources without recording their license first.
+9. **Sprint Task Ownership** — See `docs/superpowers/plans/2026-08-01-hackathon-sprint.md` for the full task breakdown, or the per-person files in the same directory (`2026-08-01-pablo.md`, `2026-08-01-vaibhav.md`, `2026-08-01-daniel.md`, `2026-08-01-sachin.md`) for an individual's assigned tasks only.
