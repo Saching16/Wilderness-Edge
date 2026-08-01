@@ -4,6 +4,10 @@
 
 pypdf>=6.0,<7
 numpy>=2.0
+
+# Reference-image transcode for build_species_pack.py (resize + strip EXIF before the
+# JPEG blobs go into protocols.db).
+pillow>=10.0
 sentence-transformers>=5.0,<6
 torch>=2.4
 

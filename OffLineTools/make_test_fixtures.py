@@ -76,6 +76,94 @@ def build(path: Path, *, meta: dict[str, str] | None) -> None:
     print(f"wrote {path.relative_to(Path.cwd())} ({path.stat().st_size} bytes)")
 
 
+# Mirrors the tables build_species_pack.py adds to protocols.db for the flora & fauna pack.
+SPECIES_SCHEMA = """
+CREATE TABLE species (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, chunk_id INTEGER NOT NULL, slug TEXT NOT NULL UNIQUE,
+    common_name TEXT NOT NULL, scientific_name TEXT NOT NULL, hazard_class TEXT NOT NULL,
+    region TEXT NOT NULL DEFAULT '', identification TEXT NOT NULL,
+    lookalikes TEXT NOT NULL DEFAULT '', field_response TEXT NOT NULL,
+    do_not TEXT NOT NULL DEFAULT ''
+);
+CREATE TABLE chunk_images (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, chunk_id INTEGER NOT NULL, species_slug TEXT NOT NULL,
+    ordinal INTEGER NOT NULL, license TEXT NOT NULL, attribution TEXT NOT NULL,
+    source_url TEXT NOT NULL, mime TEXT NOT NULL DEFAULT 'image/jpeg',
+    width INTEGER NOT NULL, height INTEGER NOT NULL, bytes BLOB NOT NULL
+);
+CREATE INDEX idx_chunk_images_chunk ON chunk_images(chunk_id);
+"""
+
+SPECIES_ROWS = [
+    (1, 1, "Contact dermatitis - Fixture Ivy", 0, 0,
+     "[Source: Fixture Hazard Card - Fixture Ivy (Toxicodendron fixtura)]",
+     "Fixture Ivy. Three leaflets. Rinse with soap and water.", 9, (1.0, 0.0, 0.0, 0.0)),
+    (2, 1, "Envenomation - Fixture Viper", 0, 0,
+     "[Source: Fixture Hazard Card - Fixture Viper (Crotalus fixtura)]",
+     "Fixture Viper. Immobilise the limb and evacuate.", 8, (0.0, 1.0, 0.0, 0.0)),
+]
+
+# Solid-colour 64x48 JPEGs. Small enough to commit, real enough that the test can assert
+# JPEG magic bytes survived the round trip through the SQLite C API.
+FIXTURE_IMAGES = [
+    (0, (30, 120, 40), "Public domain", "US Fish and Wildlife Service"),
+    (1, (90, 160, 60), "CC BY-SA 4.0", "Fixture Photographer"),
+]
+
+
+def build_species_fixture(path: Path) -> None:
+    try:
+        from PIL import Image
+    except ImportError:
+        raise SystemExit("Pillow is required to regenerate fixture-species.db: pip install pillow")
+
+    import io
+
+    path.unlink(missing_ok=True)
+    connection = sqlite3.connect(path)
+    try:
+        connection.execute("PRAGMA journal_mode=DELETE")
+        connection.executescript(SCHEMA)
+        connection.executescript(SPECIES_SCHEMA)
+        connection.execute(
+            "INSERT INTO sources VALUES (1, 'species.manifest.json', 'Fixture Hazard Cards',"
+            " 'Test', 'PD', '', 'Fixture Hazard Card')"
+        )
+        connection.executemany(
+            "INSERT INTO chunks VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            [row[:-1] + (encode(row[-1]),) for row in SPECIES_ROWS],
+        )
+        # Chunk 1 carries imagery; chunk 2 deliberately carries none, so the tests cover both.
+        connection.execute(
+            "INSERT INTO species (chunk_id, slug, common_name, scientific_name, hazard_class,"
+            " region, identification, lookalikes, field_response, do_not) VALUES"
+            " (1, 'fixture-ivy', 'Fixture Ivy', 'Toxicodendron fixtura', 'Contact dermatitis',"
+            " 'Test range', 'Three leaflets.', 'Fixture creeper has five.',"
+            " 'Rinse with soap and water.', 'Do not burn it.')"
+        )
+        for ordinal, rgb, license_name, attribution in FIXTURE_IMAGES:
+            buffer = io.BytesIO()
+            Image.new("RGB", (64, 48), rgb).save(buffer, format="JPEG", quality=70)
+            connection.execute(
+                "INSERT INTO chunk_images (chunk_id, species_slug, ordinal, license, attribution,"
+                " source_url, mime, width, height, bytes)"
+                " VALUES (1, 'fixture-ivy', ?, ?, ?, ?, 'image/jpeg', 64, 48, ?)",
+                (
+                    ordinal,
+                    license_name,
+                    attribution,
+                    "https://commons.wikimedia.org/wiki/File:Fixture.jpg",
+                    sqlite3.Binary(buffer.getvalue()),
+                ),
+            )
+        connection.commit()
+        connection.execute("VACUUM")
+        connection.commit()
+    finally:
+        connection.close()
+    print(f"wrote {path.relative_to(Path.cwd())} ({path.stat().st_size} bytes)")
+
+
 def main() -> None:
     FIXTURES.mkdir(parents=True, exist_ok=True)
 
@@ -89,6 +177,11 @@ def main() -> None:
         FIXTURES / "fixture-unnormalized.db",
         meta={"schema_version": "1", "embedding_dim": "4", "embeddings_normalized": "0"},
     )
+
+    # Carries the `species` / `chunk_images` tables that build_species_pack.py adds, so the
+    # reference-imagery tests do not have to perturb fixture-protocols.db (adding a fourth
+    # chunk there would change the expected ranking in the existing similarity tests).
+    build_species_fixture(FIXTURES / "fixture-species.db")
 
 
 if __name__ == "__main__":
