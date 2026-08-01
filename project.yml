@@ -66,6 +66,20 @@ targets:
       - path: WildernessEdge/Core/WordPieceTokenizer.swift
       - path: WildernessEdge/Core/TextEmbeddingManager.swift
       - path: WildernessEdge/Core/VectorRAGManager.swift
+      # Embedder assets arrive with Pablo's Checkpoint 1 delivery. They are optional so the
+      # project generates before they exist; once they land, re-running `xcodegen generate`
+      # is all TextEmbeddingManagerTests needs to stop skipping. Listed individually rather
+      # than as a folder so they land flat in the test bundle and the .mlpackage gets
+      # compiled to .mlmodelc by Xcode's CoreML build rule.
+      - path: WildernessEdge/Resources/query-embedder.mlpackage
+        optional: true
+        buildPhase: resources
+      - path: WildernessEdge/Resources/query-embedder-vocab.txt
+        optional: true
+        buildPhase: resources
+      - path: WildernessEdge/Resources/query-embedder-tokenizer.json
+        optional: true
+        buildPhase: resources
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.wildernessedge.app.tests
