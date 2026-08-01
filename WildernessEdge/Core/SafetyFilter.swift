@@ -27,6 +27,34 @@ enum SafetyFilter {
             ("i_diagnose", #"\bi\s+(diagnose|diagnosed)\b"#),
             ("my_diagnosis", #"\bmy\s+diagnosis\b"#),
 
+            // --- Dosage guardrails --------------------------------------------------------
+            // `named_drug_dose` above only fires when a listed drug is IMMEDIATELY followed by
+            // a number, which let real corpus text straight through. Measured against the live
+            // pipeline, all three of these reached the output unblocked:
+            //   "Morphine sulfate at 0.1 mg/kg IM, IV or IO"  -- words between drug and dose
+            //   "Ketamine 0.3 mg/kg slow IV push"             -- drug absent from the list
+            //   "Naloxone 0.4 to 2 mg IV/IM"                  -- dose expressed as a range
+            // The patterns below are dose-shaped rather than name-shaped, so an unlisted drug
+            // or an unusual phrasing no longer walks through.
+            //
+            // They are deliberately NOT a blanket "number + unit" rule. That would also catch
+            // assessment text such as "radial pulse >100 (with 4,000cc - 1,000cc loss)", which
+            // is a blood-volume estimate, not a prescription, and blanking a shock checklist
+            // over it would be its own safety failure.
+
+            // A per-kilogram quantity is essentially never anything but a drug dose.
+            ("dose_per_kg", #"\b\d+(?:\.\d+)?\s*(?:mg|mcg|ug|µg|g|ml)\s*/\s*kg\b"#),
+            // A named drug and a dose in the same clause, however many words apart.
+            ("drug_with_dose",
+             #"\b(?:ibuprofen|acetaminophen|paracetamol|aspirin|morphine|fentanyl|ketamine"#
+             + #"|midazolam|diazepam|lorazepam|naloxone|narcan|epinephrine|adrenaline"#
+             + #"|diphenhydramine|ondansetron|tranexamic|txa|ketorolac|antibiotics?|analgesics?)"#
+             + #"\b[^.]{0,40}?\b\d+(?:\.\d+)?\s*(?:mg|mcg|ug|µg|g|ml)\b"#),
+            // A dose qualified by an administration route, which catches drugs not listed above.
+            ("dose_with_route",
+             #"\b\d+(?:\.\d+)?\s*(?:mg|mcg|ug|µg|g|ml)\b[^.]{0,24}?"#
+             + #"\b(?:IV|IM|IO|PO|SL|SC|SQ|buccal|intranasal|sublingual)\b"#),
+
             // --- Flora & fauna guardrails -------------------------------------------------
             // A confident species identification from a single camera frame is the same class
             // of risk as a diagnosis, and a small multimodal model is not reliable at it. The
