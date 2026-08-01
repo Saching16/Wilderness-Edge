@@ -18,9 +18,26 @@ import SQLite3
 /// See plans/vaibhav.md Task B3.
 final class VectorRAGManager: Sendable {
     struct RetrievedChunk: Sendable, Equatable {
+        /// `chunks.id`, used to look up reference imagery via `referenceImages(forChunkID:)`.
+        let id: Int64
         let citation: String
         let text: String
         let similarity: Float
+    }
+
+    /// A licensed reference photograph bundled alongside a flora/fauna hazard card.
+    ///
+    /// These exist so a *human* confirms an identification. The model is never asked to name
+    /// a species — see `SafetyFilter`'s `species_id` patterns and the hazard-card text built
+    /// by `OffLineTools/build_species_pack.py`.
+    struct ReferenceImage: Sendable, Equatable {
+        let speciesSlug: String
+        let ordinal: Int
+        /// JPEG bytes. `license` and `attribution` must be displayed wherever this is shown.
+        let data: Data
+        let license: String
+        let attribution: String
+        let sourceURL: String
     }
 
     enum RAGResult: Sendable, Equatable {
@@ -51,15 +68,22 @@ final class VectorRAGManager: Sendable {
         }
     }
 
+    private let ids: [Int64]
     private let citations: [String]
     private let texts: [String]
     /// Row-major, `chunkCount * dimension` floats.
     private let matrix: [Float]
+    /// Retained only so `referenceImages(forChunkID:)` can open a short-lived connection.
+    /// Image blobs are deliberately *not* held resident: they dwarf the vectors, and only
+    /// the handful attached to a top-K hit are ever needed.
+    private let databasePath: String
 
     let chunkCount: Int
     let dimension: Int
 
     init(databasePath: String) throws {
+        self.databasePath = databasePath
+
         var handle: OpaquePointer?
         let status = sqlite3_open_v2(databasePath, &handle, SQLITE_OPEN_READONLY, nil)
         guard status == SQLITE_OK, let database = handle else {
@@ -69,7 +93,9 @@ final class VectorRAGManager: Sendable {
             if let handle { sqlite3_close(handle) }
             throw RAGError.openFailed(message)
         }
-        // Everything is resident once init returns, so nothing needs the handle afterwards.
+        // Vectors and text are resident once init returns, so nothing needs *this* handle
+        // afterwards. `referenceImages(forChunkID:)` opens its own short-lived connection
+        // rather than keeping this one alive for blobs that are rarely read.
         defer { sqlite3_close(database) }
 
         // `dot == cosine` only holds for unit vectors. build_vector_db.py records whether it
@@ -79,12 +105,13 @@ final class VectorRAGManager: Sendable {
         }
 
         var statement: OpaquePointer?
-        let sql = "SELECT citation, text, embedding FROM chunks ORDER BY id"
+        let sql = "SELECT id, citation, text, embedding FROM chunks ORDER BY id"
         guard sqlite3_prepare_v2(database, sql, -1, &statement, nil) == SQLITE_OK, let statement else {
             throw RAGError.queryFailed(String(cString: sqlite3_errmsg(database)))
         }
         defer { sqlite3_finalize(statement) }
 
+        var ids: [Int64] = []
         var citations: [String] = []
         var texts: [String] = []
         var matrix: [Float] = []
@@ -92,15 +119,15 @@ final class VectorRAGManager: Sendable {
 
         while sqlite3_step(statement) == SQLITE_ROW {
             guard
-                let citationBytes = sqlite3_column_text(statement, 0),
-                let textBytes = sqlite3_column_text(statement, 1)
+                let citationBytes = sqlite3_column_text(statement, 1),
+                let textBytes = sqlite3_column_text(statement, 2)
             else { continue }
 
-            let byteCount = Int(sqlite3_column_bytes(statement, 2))
+            let byteCount = Int(sqlite3_column_bytes(statement, 3))
             guard
                 byteCount > 0,
                 byteCount % MemoryLayout<Float>.size == 0,
-                let blob = sqlite3_column_blob(statement, 2)
+                let blob = sqlite3_column_blob(statement, 3)
             else { continue }
 
             let floatCount = byteCount / MemoryLayout<Float>.size
@@ -110,6 +137,7 @@ final class VectorRAGManager: Sendable {
                 throw RAGError.inconsistentVectorLength(expected: dimension, found: floatCount)
             }
 
+            ids.append(sqlite3_column_int64(statement, 0))
             citations.append(String(cString: citationBytes))
             texts.append(String(cString: textBytes))
 
@@ -127,6 +155,7 @@ final class VectorRAGManager: Sendable {
             throw RAGError.emptyCorpus
         }
 
+        self.ids = ids
         self.citations = citations
         self.texts = texts
         self.matrix = matrix
@@ -159,8 +188,63 @@ final class VectorRAGManager: Sendable {
         }
 
         return .match(ranked.map { index in
-            RetrievedChunk(citation: citations[index], text: texts[index], similarity: scores[index])
+            RetrievedChunk(
+                id: ids[index],
+                citation: citations[index],
+                text: texts[index],
+                similarity: scores[index]
+            )
         })
+    }
+
+    /// Licensed reference photographs attached to a retrieved chunk, in display order.
+    ///
+    /// Returns `[]` for chunks with no imagery and for corpora built before the hazard pack
+    /// existed — a database without a `chunk_images` table is a legitimate older build, not
+    /// an error, so this degrades quietly rather than throwing into the query path.
+    ///
+    /// Opens its own short-lived read-only connection: `init` closes the database once the
+    /// vectors are resident, and image blobs are far too large to keep in memory for every
+    /// chunk when only a top-K hit ever needs them.
+    func referenceImages(forChunkID chunkID: Int64) -> [ReferenceImage] {
+        var handle: OpaquePointer?
+        guard sqlite3_open_v2(databasePath, &handle, SQLITE_OPEN_READONLY, nil) == SQLITE_OK,
+              let database = handle
+        else {
+            if let handle { sqlite3_close(handle) }
+            return []
+        }
+        defer { sqlite3_close(database) }
+
+        var statement: OpaquePointer?
+        let sql = """
+            SELECT species_slug, ordinal, license, attribution, source_url, bytes
+            FROM chunk_images WHERE chunk_id = ? ORDER BY ordinal
+            """
+        guard sqlite3_prepare_v2(database, sql, -1, &statement, nil) == SQLITE_OK, let statement else {
+            return []  // no chunk_images table: prepare fails rather than returning zero rows
+        }
+        defer { sqlite3_finalize(statement) }
+
+        sqlite3_bind_int64(statement, 1, chunkID)
+
+        var images: [ReferenceImage] = []
+        while sqlite3_step(statement) == SQLITE_ROW {
+            let byteCount = Int(sqlite3_column_bytes(statement, 5))
+            guard byteCount > 0, let blob = sqlite3_column_blob(statement, 5) else { continue }
+
+            images.append(
+                ReferenceImage(
+                    speciesSlug: sqlite3_column_text(statement, 0).map { String(cString: $0) } ?? "",
+                    ordinal: Int(sqlite3_column_int(statement, 1)),
+                    data: Data(bytes: blob, count: byteCount),
+                    license: sqlite3_column_text(statement, 2).map { String(cString: $0) } ?? "",
+                    attribution: sqlite3_column_text(statement, 3).map { String(cString: $0) } ?? "",
+                    sourceURL: sqlite3_column_text(statement, 4).map { String(cString: $0) } ?? ""
+                )
+            )
+        }
+        return images
     }
 
     /// Bounded insertion beats sorting all `chunkCount` scores when `count` is a handful,

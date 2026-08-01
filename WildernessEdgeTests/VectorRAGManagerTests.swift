@@ -137,4 +137,59 @@ final class VectorRAGManagerTests: XCTestCase {
             }
         }
     }
+
+    // MARK: - Flora & fauna reference imagery
+    //
+    // Runs against `fixture-species.db`, which mirrors what
+    // `OffLineTools/build_species_pack.py` writes: hazard cards in `chunks`, structured
+    // detail in `species`, and licensed JPEG blobs in `chunk_images`. Chunk 1 carries
+    // imagery, chunk 2 deliberately carries none.
+
+    func testRetrievedChunkCarriesItsRowID() throws {
+        let manager = try makeManager(fixture: "fixture-species")
+        let chunks = try matchedChunks(manager.search(embedding: [1, 0, 0, 0], topK: 1, threshold: 0.35))
+
+        XCTAssertEqual(chunks.first?.id, 1, "The row id is what referenceImages(forChunkID:) keys on.")
+    }
+
+    func testReferenceImagesReturnedInOrdinalOrderWithLicenceMetadata() throws {
+        let manager = try makeManager(fixture: "fixture-species")
+        let images = manager.referenceImages(forChunkID: 1)
+
+        XCTAssertEqual(images.count, 2)
+        XCTAssertEqual(images.map(\.ordinal), [0, 1])
+        XCTAssertEqual(images.map(\.speciesSlug), ["fixture-ivy", "fixture-ivy"])
+
+        // Attribution and licence are a redistribution condition for the CC BY-SA images in
+        // the real pack, so they must survive the round trip out of SQLite.
+        XCTAssertEqual(images.first?.license, "Public domain")
+        XCTAssertEqual(images.first?.attribution, "US Fish and Wildlife Service")
+        XCTAssertEqual(images.last?.license, "CC BY-SA 4.0")
+        XCTAssertFalse(images.contains { $0.attribution.isEmpty }, "Every image must carry attribution.")
+        XCTAssertFalse(images.contains { $0.sourceURL.isEmpty }, "Every image must carry its source URL.")
+    }
+
+    /// JPEG magic bytes — proves the blob survived as image data rather than being
+    /// truncated or re-encoded as text on the way through the C API.
+    func testReferenceImageBlobIsIntactJPEG() throws {
+        let manager = try makeManager(fixture: "fixture-species")
+        let image = try XCTUnwrap(manager.referenceImages(forChunkID: 1).first)
+
+        XCTAssertGreaterThan(image.data.count, 100)
+        XCTAssertEqual(Array(image.data.prefix(3)), [0xFF, 0xD8, 0xFF])
+    }
+
+    func testChunkWithoutImageryReturnsEmpty() throws {
+        let manager = try makeManager(fixture: "fixture-species")
+        XCTAssertTrue(manager.referenceImages(forChunkID: 2).isEmpty)
+        XCTAssertTrue(manager.referenceImages(forChunkID: 9999).isEmpty)
+    }
+
+    /// A corpus built before the hazard pack existed has no `chunk_images` table at all.
+    /// That is an older build, not a corrupt one, so it must degrade quietly rather than
+    /// throwing into the query path.
+    func testCorpusWithoutImageTableDegradesQuietly() throws {
+        let manager = try makeManager()  // fixture-protocols.db predates the hazard pack
+        XCTAssertTrue(manager.referenceImages(forChunkID: 1).isEmpty)
+    }
 }
