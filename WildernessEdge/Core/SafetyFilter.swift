@@ -9,9 +9,10 @@ enum SafetyFilter {
         let matchedPatterns: [String]
     }
 
-    /// Standard framing used when diagnostic or drug-prescriptive language is detected.
+    /// Standard framing used when diagnostic, drug-prescriptive, species-identifying, or
+    /// edibility-advising language is detected.
     static let replacementCitation =
-        "Displaying retrieved protocol checklist. This assistant does not diagnose conditions or prescribe treatments. Follow only the cited field-manual steps within your training and scope."
+        "Displaying retrieved protocol checklist. This assistant does not diagnose conditions, prescribe treatments, identify species, or advise on what is safe to eat. Compare against the reference images yourself, and follow only the cited field-manual steps within your training and scope."
 
     /// Patterns that indicate independent diagnosis or drug prescription language.
     private static let bannedPatterns: [(name: String, regex: NSRegularExpression)] = {
@@ -25,6 +26,23 @@ enum SafetyFilter {
             ("you_should_take", #"\byou\s+should\s+(take|be\s+given)\s+\w+"#),
             ("i_diagnose", #"\bi\s+(diagnose|diagnosed)\b"#),
             ("my_diagnosis", #"\bmy\s+diagnosis\b"#),
+
+            // --- Flora & fauna guardrails -------------------------------------------------
+            // A confident species identification from a single camera frame is the same class
+            // of risk as a diagnosis, and a small multimodal model is not reliable at it. The
+            // hazard cards are written to describe field marks and let the *responder* decide,
+            // so the model asserting an identity is always a failure. Conditional framing
+            // ("if this is a copperhead, the protocol says...") is deliberately still allowed,
+            // which is what the `if`/`whether` lookbehinds protect.
+            ("species_id", #"(?<!if )(?<!whether )\b(this|that|it)(?:\s+(?:is|was|must\s+be)|'s)\s+(an?\s+)?(?:[a-z]+[-\s]){0,2}(rattlesnake|copperhead|cottonmouth|water\s+moccasin|coral\s+snake|black\s+widow|brown\s+recluse|poison\s+(ivy|oak|sumac)|hogweed|hemlock|death\s+cap|nettle|grizzly|black\s+bear|brown\s+bear|mountain\s+lion|cougar|puma|moose|tick|spider|snake|mushroom|berry)\b"#),
+            // The catastrophic output: telling a responder the animal that bit their patient
+            // was harmless. Phrased to require an assertion about the subject, so a hazard
+            // card's own look-alike text ("Harmless water snakes share this habitat") passes.
+            ("harmless_reassurance", #"\b(is|are|it'?s|that'?s)\s+(an?\s+)?(probably\s+|likely\s+|definitely\s+|most\s+likely\s+)?(harmless|non-?venomous|non-?poisonous|not\s+(venomous|poisonous|dangerous))\b"#),
+            // Foraging and edibility advice must never be spoken. This is also the mitigation
+            // for FM 3-05.70 Appendix B (the discredited "Universal Edibility Test") if that
+            // manual is ingested wholesale — see OffLineTools/SOURCES.md.
+            ("edibility_advice", #"\b(safe|ok|okay|fine)\s+to\s+eat\b|\b(is|are)\s+edible\b|\byou\s+can\s+eat\b|\buniversal\s+edibility\s+test\b"#),
         ]
 
         return patternStrings.compactMap { name, pattern in

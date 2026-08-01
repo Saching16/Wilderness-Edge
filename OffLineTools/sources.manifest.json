@@ -25,6 +25,34 @@
       "url": "https://nasemso.org/wp-content/uploads/National-Model-EMS-Clinical-Guidelines_2022.pdf",
       "mirror_url": "https://ems.utah.gov/wp-content/uploads/sites/34/2024/05/National-Model-EMS-Clinical-Guidelines_2022.pdf",
       "citation_prefix": "NASEMSO National Model EMS Clinical Guidelines v3.0"
+    },
+    {
+      "filename": "fm3-05-70-survival.pdf",
+      "title": "FM 3-05.70 (FM 21-76) Survival",
+      "publisher": "Headquarters, Department of the Army",
+      "license": "Public domain (US federal government work); approved for public release, distribution unlimited",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/7/70/FM_3-05.70_(FM_21-76)_Survival_-_May_2002.pdf",
+      "mirror_url": "https://archive.org/download/Fm21-76SurvivalManual/FM21-76_SurvivalManual.pdf",
+      "citation_prefix": "US Army FM 3-05.70 Survival",
+      "ingest_caution": "SAFETY REVIEW REQUIRED BEFORE SHIPPING. Appendix B (Edible and Medicinal Plants) contains the 'Universal Edibility Test', which modern wilderness medicine considers unreliable and unsafe, and the medicinal-plant material is prescriptive in a way this app must never be. Appendices C/D/E/F (poisonous plants, dangerous insects and arachnids, venomous snakes and lizards, dangerous fish) are the valuable part and are already distilled into species.manifest.json hazard cards. If you ingest this PDF wholesale, pair it with the SafetyFilter foraging/edibility guard and re-read sampled chunks from Appendix B with --dry-run first. See SOURCES.md."
+    },
+    {
+      "filename": "nwcg-irpg-pms461.pdf",
+      "title": "NWCG Incident Response Pocket Guide (IRPG), PMS 461",
+      "publisher": "National Wildfire Coordinating Group",
+      "license": "Public domain (US federal interagency work); published for unrestricted operational use",
+      "url": "https://dnr.wa.gov/publications/rp_cb_incident_response_pocket_guide.pdf",
+      "citation_prefix": "NWCG Incident Response Pocket Guide (IRPG)",
+      "notes": "Already written as field checklists, which matches this app's output format better than any other source in the corpus. Contains medical incident reporting, evacuation decision aids, LCES, and the Risk Management Process. Fetched from a Washington DNR mirror because nwcg.gov serves an HTML landing page rather than a direct PDF."
+    },
+    {
+      "filename": "fda-bad-bug-book.pdf",
+      "title": "Bad Bug Book: Foodborne Pathogenic Microorganisms and Natural Toxins, 2nd Edition",
+      "publisher": "US Food and Drug Administration",
+      "license": "Public domain (US federal government work)",
+      "url": "https://www.fda.gov/media/83271/download",
+      "citation_prefix": "FDA Bad Bug Book 2nd Ed.",
+      "notes": "Included for its natural-toxin chapters, which cover the wilderness ingestion hazards no first-aid manual in this corpus addresses: mushroom toxins, ciguatera, scombroid, shellfish poisoning."
     }
   ]
 }
