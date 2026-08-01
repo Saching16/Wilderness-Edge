@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 >
-> This is your individual track from the full team plan at `docs/superpowers/plans/2026-08-01-hackathon-sprint.md`. Read that file if you want the other 3 tracks' context — Pablo (offline assets), Daniel (native I/O/UI/safety), and Sachin (LiteRT-LM integration) are each working their own file in parallel from hour zero.
+> This is your individual track from the full team plan at `plans/hackathon-sprint.md`. Read that file if you want the other 3 tracks' context — Pablo (offline assets), Daniel (native I/O/UI/safety), and Sachin (LiteRT-LM integration) are each working their own file in parallel from hour zero.
 
 **Goal:** Build the on-device vector search engine — WordPiece tokenizer, CoreML embedder wrapper, and SQLite+Accelerate cosine search — that turns a transcribed query into ranked, cited protocol chunks. Start immediately against fixture data; swap in Pablo's real corpus assets at Checkpoint 1.
 
@@ -17,8 +17,8 @@
 
 ## Dependencies and who's waiting on you
 
-- **Pablo** delivers `protocols.db` + CoreML embedder assets into `WildernessEdge/Resources/` (his Task A2) — this is **Checkpoint 1**, target hour 3–4. Until then, work against the fixture vocab/DB you build yourself in Tasks B1/B3.
-- **Sachin** needs your `VectorRAGManager.search(embedding:topK:threshold:) -> RAGResult` to be functionally complete before he wires real RAG output into his `LLMInferenceManager.generate(...)` — this is **Checkpoint 3**, target hour 7–8. Message him the moment `VectorRAGManagerTests` passes.
+- **Pablo** delivers `protocols.db` + CoreML embedder assets into `WildernessEdge/Resources/` (his Task A2) — this is **Checkpoint 1**, target hour 0.5–1. Until then, work against the fixture vocab/DB you build yourself in Tasks B1/B3.
+- **Sachin** needs your `VectorRAGManager.search(embedding:topK:threshold:) -> RAGResult` to be functionally complete before he wires real RAG output into his `LLMInferenceManager.generate(...)` — this is **Checkpoint 3**, target hour 1.5–2. Message him the moment `VectorRAGManagerTests` passes.
 
 ---
 
@@ -698,4 +698,4 @@ git commit -m "Validate RAG pipeline against real corpus assets"
 
 ## Final Validation (all 4 team members)
 
-See `docs/superpowers/plans/2026-08-01-hackathon-sprint.md` Task E1 (Airplane Mode demo run-through, includes running the full `WildernessEdgeTests` suite one final time) and Task E2 (Kaggle Writeup submission).
+See `plans/hackathon-sprint.md` Task E1 (Airplane Mode demo run-through, includes running the full `WildernessEdgeTests` suite one final time) and Task E2 (Kaggle Writeup submission).

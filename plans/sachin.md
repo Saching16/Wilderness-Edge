@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 >
-> This is your individual track from the full team plan at `docs/superpowers/plans/2026-08-01-hackathon-sprint.md`. Read that file if you want the other 3 tracks' context — Pablo (offline assets), Vaibhav (RAG engine), and Daniel (native I/O/UI/safety) are each working their own file in parallel from hour zero.
+> This is your individual track from the full team plan at `plans/hackathon-sprint.md`. Read that file if you want the other 3 tracks' context — Pablo (offline assets), Vaibhav (RAG engine), and Daniel (native I/O/UI/safety) are each working their own file in parallel from hour zero.
 
 **Goal:** Wire Gemma 4 E4B into the app via LiteRT-LM: add the SPM package, build `LLMInferenceManager` combining camera image + RAG context + transcript into a multimodal prompt, and — once Pablo's and Vaibhav's and Daniel's pieces land — wire the whole thing into `ContentView`'s real inference pipeline. You have the most cross-track dependencies; start on the parts you can build standalone first.
 
@@ -19,9 +19,9 @@
 ## Dependencies — this is the track most other people's work feeds into
 
 - **You need `google-ai-edge/LiteRT-LM` added to `project.yml` from hour zero** (Task D1) — don't wait for anyone.
-- **Pablo** delivers `gemma-4-E4B-it.litertlm` (his Task A3) — this is **Checkpoint 2**, target hour 5–6. Until then, build and test `LLMInferenceManager`'s fail-closed path against the missing asset.
-- **Vaibhav** delivers a functionally complete `VectorRAGManager.search(...)` (his Task B3) — this is **Checkpoint 3**, target hour 7–8. Message him if you haven't heard by then.
-- **Daniel** delivers `ContentView`'s `runInferencePipeline` closure signature (his Task C4) — this is **Checkpoint 4**, target hour 8–9. You need the exact signature `(String, UIImage?) async -> (citation: String?, checklistText: String)` before wiring in.
+- **Pablo** delivers `gemma-4-E4B-it.litertlm` (his Task A3) — this is **Checkpoint 2**, target hour 1–1.5. Until then, build and test `LLMInferenceManager`'s fail-closed path against the missing asset.
+- **Vaibhav** delivers a functionally complete `VectorRAGManager.search(...)` (his Task B3) — this is **Checkpoint 3**, target hour 1.5–2. Message him if you haven't heard by then.
+- **Daniel** delivers `ContentView`'s `runInferencePipeline` closure signature (his Task C4) — this is **Checkpoint 4**, target hour 2–2.5. You need the exact signature `(String, UIImage?) async -> (citation: String?, checklistText: String)` before wiring in.
 
 ---
 
@@ -331,4 +331,4 @@ git commit -m "Wire full RAG + LiteRT-LM pipeline into ContentView push-to-talk 
 
 ## Final Validation (all 4 team members)
 
-See `docs/superpowers/plans/2026-08-01-hackathon-sprint.md` Task E1 (Airplane Mode demo run-through, twice) and Task E2 (Kaggle Writeup submission — you'll want to write up the LiteRT-LM/Gemma integration section since you own that code, even though Pablo owns the doc file itself).
+See `plans/hackathon-sprint.md` Task E1 (Airplane Mode demo run-through, twice) and Task E2 (Kaggle Writeup submission — you'll want to write up the LiteRT-LM/Gemma integration section since you own that code, even though Pablo owns the doc file itself).

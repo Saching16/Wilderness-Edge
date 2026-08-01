@@ -4,7 +4,7 @@
 
 **Goal:** Ship a working, demoable Wilderness Edge for the Build with Gemma NYC hackathon: push-to-talk voice+vision query → on-device vector RAG over a licensed first-aid corpus → Gemma 4 E4B multimodal inference via LiteRT-LM → non-diagnostic safety filter → spoken response, running fully offline (Airplane Mode) on a sideloaded iPhone 16 Plus.
 
-**Architecture:** Four people work in parallel on the four pipeline stages defined in `docs/superpowers/specs/2026-08-01-hackathon-scope-design.md`. Stages that consume another stage's output start immediately against stub data/fixtures and swap in the real artifact at the integration checkpoints called out below, so nobody blocks on anybody else for more than a couple of hours.
+**Architecture:** Four people work in parallel on the four pipeline stages defined in `plans/scope-design.md`. Stages that consume another stage's output start immediately against stub data/fixtures and swap in the real artifact at the integration checkpoints called out below, so nobody blocks on anybody else for more than a couple of hours.
 
 **Tech Stack:** Swift 5.9 / SwiftUI (iOS 17+), LiteRT-LM Swift API, CoreML, raw SQLite3 C API, Accelerate (vDSP), Python 3.11–3.13 (offline tooling only, never ships).
 
@@ -39,10 +39,10 @@ Modified files:
 
 ## Integration Checkpoints
 
-- **Checkpoint 1 (target: hour 3–4):** Pablo delivers `protocols.db` + CoreML embedder assets into `WildernessEdge/Resources/`. Vaibhav swaps `WordPieceTokenizer`/`TextEmbeddingManager` from fixture vocab to the real `query-embedder-vocab.txt`/`query-embedder-tokenizer.json`, re-runs the parity test against `embedding_parity_fixtures.json`.
-- **Checkpoint 2 (target: hour 5–6):** Pablo delivers the `.litertlm` bundle. Sachin swaps `LLMInferenceManager`'s `EngineConfig` path from a not-yet-initialized stub to the real bundle and confirms model load succeeds on-device.
-- **Checkpoint 3 (target: hour 7–8):** Vaibhav's `VectorRAGManager` is functionally complete. Sachin replaces his stubbed RAG input with real `VectorRAGManager.search(...)` output in the prompt construction.
-- **Checkpoint 4 (target: hour 8–9):** Daniel's `ContentView` state machine and Sachin's `LLMInferenceManager` are both ready. Wire the full button-down → button-up pipeline together in `ContentView`.
+- **Checkpoint 1 (target: ~30-45 min):** Pablo delivers `protocols.db` + CoreML embedder assets into `WildernessEdge/Resources/`. Vaibhav swaps `WordPieceTokenizer`/`TextEmbeddingManager` from fixture vocab to the real `query-embedder-vocab.txt`/`query-embedder-tokenizer.json`, re-runs the parity test against `embedding_parity_fixtures.json`.
+- **Checkpoint 2 (target: ~1 hr):** Pablo delivers the `.litertlm` bundle. Sachin swaps `LLMInferenceManager`'s `EngineConfig` path from a not-yet-initialized stub to the real bundle and confirms model load succeeds on-device.
+- **Checkpoint 3 (target: ~1.5 hr):** Vaibhav's `VectorRAGManager` is functionally complete. Sachin replaces his stubbed RAG input with real `VectorRAGManager.search(...)` output in the prompt construction.
+- **Checkpoint 4 (target: ~2 hr):** Daniel's `ContentView` state machine and Sachin's `LLMInferenceManager` are both ready. Wire the full button-down → button-up pipeline together in `ContentView`.
 - **Checkpoint 5 (final hours):** Full pipeline dry run in Airplane Mode on the physical iPhone 16 Plus, twice consecutively, per the Testing Bar below.
 
 ## Testing Bar For This Sprint

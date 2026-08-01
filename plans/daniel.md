@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 >
-> This is your individual track from the full team plan at `docs/superpowers/plans/2026-08-01-hackathon-sprint.md`. Read that file if you want the other 3 tracks' context — Pablo (offline assets), Vaibhav (RAG engine), and Sachin (LiteRT-LM integration) are each working their own file in parallel from hour zero.
+> This is your individual track from the full team plan at `plans/hackathon-sprint.md`. Read that file if you want the other 3 tracks' context — Pablo (offline assets), Vaibhav (RAG engine), and Sachin (LiteRT-LM integration) are each working their own file in parallel from hour zero.
 
 **Goal:** Verify the existing native managers on the physical iPhone 16 Plus, build the push-to-talk button and citation card views, and wire the full state machine in `ContentView` — initially against a stubbed inference pipeline that Sachin will swap for the real thing at Checkpoint 4.
 
@@ -17,7 +17,7 @@
 
 ## Who's waiting on you / who you're waiting on
 
-- **Sachin** needs your `ContentView.runInferencePipeline` closure signature (`(String, UIImage?) async -> (citation: String?, checklistText: String)`) locked in before he can wire his `LLMInferenceManager` into it — this is **Checkpoint 4**, target hour 8–9. Message him the moment Task C4 is committed.
+- **Sachin** needs your `ContentView.runInferencePipeline` closure signature (`(String, UIImage?) async -> (citation: String?, checklistText: String)`) locked in before he can wire his `LLMInferenceManager` into it — this is **Checkpoint 4**, target hour 2–2.5. Message him the moment Task C4 is committed.
 - **You + Pablo** co-own the Kaggle writeup — draft incrementally, not at the end.
 
 ---
@@ -361,4 +361,4 @@ git commit -m "Add UI/safety sections to Kaggle writeup draft"
 
 ## Final Validation (all 4 team members)
 
-See `docs/superpowers/plans/2026-08-01-hackathon-sprint.md` Task E1 (Airplane Mode demo run-through, twice — you'll likely be the one holding the phone since you own the UI) and Task E2 (Kaggle Writeup submission).
+See `plans/hackathon-sprint.md` Task E1 (Airplane Mode demo run-through, twice — you'll likely be the one holding the phone since you own the UI) and Task E2 (Kaggle Writeup submission).

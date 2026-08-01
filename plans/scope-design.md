@@ -1,7 +1,7 @@
 # Wilderness Edge — Hackathon Scope Design
 
 **Event:** Build with Gemma NYC (On-Device AI for Healthcare)
-**Deadline:** ~18 hours from design time (2026-08-01)
+**Deadline:** ~4 hours from design time (2026-08-01)
 **Track:** On-Device Private Health (primary), Voice for Care (secondary framing)
 **Team:** Pablo Beaus Iranzo, Sachin Ganpule, Daniel David, Vaibhav Chaudhari
 
@@ -10,7 +10,7 @@
 PLAN.md describes a 5-phase, multi-day native iOS build for Wilderness Edge, a
 100% air-gapped, voice-first, vision-assisted emergency protocol assistant.
 That plan assumes a custom LoRA fine-tune, strict device memory
-verification, and extensive stress testing — none of which fit an 18-hour
+verification, and extensive stress testing — none of which fit a 4-hour
 sprint. This document trims PLAN.md to what the team can actually build,
 test, and demo before the deadline, and assigns the trimmed work across the
 4-person team by background fit.

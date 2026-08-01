@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 >
-> This is your individual track from the full team plan at `docs/superpowers/plans/2026-08-01-hackathon-sprint.md`. Read that file if you want the other 3 tracks' context — Vaibhav (RAG engine), Daniel (native I/O/UI/safety), and Sachin (LiteRT-LM integration) are each working their own file in parallel from hour zero.
+> This is your individual track from the full team plan at `plans/hackathon-sprint.md`. Read that file if you want the other 3 tracks' context — Vaibhav (RAG engine), Daniel (native I/O/UI/safety), and Sachin (LiteRT-LM integration) are each working their own file in parallel from hour zero.
 
 **Goal:** Produce the licensed corpus vector database, the CoreML query embedder, and the prebuilt Gemma 4 E4B model bundle — the three data assets everyone else's Swift code depends on — and get them into `WildernessEdge/Resources/` as early as possible so nobody else blocks.
 
@@ -18,8 +18,8 @@
 
 ## Who's waiting on you
 
-- **Vaibhav** needs `protocols.db` + `query-embedder.mlpackage` + tokenizer assets + `embedding_parity_fixtures.json` (Task A2) to swap his `WordPieceTokenizer`/`TextEmbeddingManager` off fixture data — this is **Checkpoint 1**, target hour 3–4.
-- **Sachin** needs `gemma-4-E4B-it.litertlm` (Task A3) to point his `LLMInferenceManager`'s `EngineConfig` at a real model — this is **Checkpoint 2**, target hour 5–6.
+- **Vaibhav** needs `protocols.db` + `query-embedder.mlpackage` + tokenizer assets + `embedding_parity_fixtures.json` (Task A2) to swap his `WordPieceTokenizer`/`TextEmbeddingManager` off fixture data — this is **Checkpoint 1**, target hour 0.5–1.
+- **Sachin** needs `gemma-4-E4B-it.litertlm` (Task A3) to point his `LLMInferenceManager`'s `EngineConfig` at a real model — this is **Checkpoint 2**, target hour 1–1.5.
 - **You + Daniel** co-own the Kaggle writeup (Task A4) — draft incrementally, not at the end.
 
 ---
@@ -174,4 +174,4 @@ git commit -m "Draft Kaggle writeup"
 
 ## Final Validation (all 4 team members, once your assets are integrated)
 
-See `docs/superpowers/plans/2026-08-01-hackathon-sprint.md` Task E1 (Airplane Mode demo run-through) and Task E2 (finalize + submit the Kaggle Writeup — you co-own this with Daniel).
+See `plans/hackathon-sprint.md` Task E1 (Airplane Mode demo run-through) and Task E2 (finalize + submit the Kaggle Writeup — you co-own this with Daniel).
