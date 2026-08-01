@@ -35,14 +35,15 @@ Venue clock: lunch 1:00 · mentor check-ins 3:00 · submit 3:45 · pitch 4:00
 
 ## 1:00 → 1:30 — Lunch + writeup draft
 
-- [ ] Writeup draft v1 with Pablo (Kaggle, ≤1,500 words, track: **On-Device Private Health**)
-  - [ ] Problem (off-grid responders, zero connectivity)
-  - [ ] Architecture (STT → embed → RAG → Gemma 4 → SafetyFilter → TTS)
-  - [ ] How Gemma 4 is used (core inference, multimodal if ready)
-  - [ ] Privacy (100% on-device / Airplane Mode; decision-support only)
-  - [ ] Sprint challenges + why we cut LoRA / used prebuilt bundle
-- [ ] Confirm public GitHub link for writeup attachments
+- [x] Writeup draft v1 scaffolded at `docs/kaggle-writeup-draft.md` (review/edit with Pablo)
+  - [x] Problem (off-grid responders, zero connectivity)
+  - [x] Architecture (STT → embed → RAG → Gemma 4 → SafetyFilter → TTS)
+  - [x] How Gemma 4 is used (core inference, multimodal if ready)
+  - [x] Privacy (100% on-device / Airplane Mode; decision-support only)
+  - [x] Sprint challenges + why we cut LoRA / used prebuilt bundle
+- [x] Confirm public GitHub link for writeup attachments (`Saching16/Wilderness-Edge`)
 - [ ] Draft 60–90s pitch spine (problem → offline Gemma → checklist → privacy)
+- [ ] Paste into Kaggle Writeup UI + attach demo recording before 3:45
 
 ---
 
