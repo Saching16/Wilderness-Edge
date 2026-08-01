@@ -20,5 +20,6 @@ __pycache__/
 # Large model bundles — keep out of git until intentionally vendored
 *.litertlm
 
-
-/cvs
+# Local-only (not for the shared branch)
+resumes/
+plan/

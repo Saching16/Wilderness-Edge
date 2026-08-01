@@ -1,63 +1,76 @@
 import SwiftUI
+import UIKit
 
-/// Phase 1 scaffold: wires Speech / TTS / Camera / SafetyFilter for infrastructure verification.
-/// Full push-to-talk orchestration arrives in Phase 4.
+/// Full push-to-talk pipeline: tap to listen (snapshot + STT) → tap to send
+/// (stub RAG/LLM → SafetyFilter → TTS). Real LiteRT-LM + VectorRAG swap in at Checkpoint 4
+/// via `runInferencePipeline` — keep that signature stable for Sachin.
 struct ContentView: View {
     @StateObject private var speechManager = SpeechManager()
     @StateObject private var ttsManager = TTSManager()
     @StateObject private var cameraManager = CameraManager()
 
-    @State private var lastSpokenPreview = ""
-    @State private var safetyNote = ""
+    @State private var appState: AppState = .idle
+    @State private var citation: String?
+    @State private var checklistText: String = ""
+
+    /// Spoken / displayed copy for the three hard-fail paths.
+    private enum SpokenError {
+        static let emptyTranscript = "I didn't catch that. Try again."
+        static let speechUnavailable = "On-device speech isn't available. I won't use the network."
+        static let modelFailure = "I couldn't run the local model. Try again."
+    }
+
+    /// Checkpoint 4 replaces this stub with LLMInferenceManager + VectorRAGManager.
+    /// Signature must not change without updating both call sites.
+    /// Return an empty `checklistText` to signal model/pipeline failure.
+    var runInferencePipeline: (String, UIImage?) async -> (citation: String?, checklistText: String) = { transcript, _ in
+        let lowered = transcript.lowercased()
+        if lowered.contains("force model failure") {
+            return (nil, "")
+        }
+        if lowered.contains("weather") || lowered.contains("score of the game") {
+            return (
+                nil,
+                "I don't have a protocol covering that in my offline library. I can't answer it from the field manuals I carry."
+            )
+        }
+        return (
+            "[Source: STUB — swap for retrieved protocol citation]",
+            """
+            Displaying retrieved protocol checklist for \"\(transcript)\".
+            1. Scene safety and standard precautions.
+            2. Primary assessment (airway, breathing, circulation).
+            3. Follow the cited field-manual steps within your training and scope.
+            """
+        )
+    }
 
     var body: some View {
         VStack(spacing: 24) {
             Text("Wilderness Edge")
                 .font(.largeTitle.bold())
 
-            statusBlock
+            SubtitleCardView(
+                citation: citation,
+                checklistText: displayText,
+                isError: isErrorState
+            )
 
-            ScrollView {
-                Text(speechManager.transcript.isEmpty ? "Transcript will appear here…" : speechManager.transcript)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding()
-                    .background(Color(.secondarySystemBackground))
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-            }
-            .frame(maxHeight: 160)
-
-            if !safetyNote.isEmpty {
-                Text(safetyNote)
+            if !speechManager.transcript.isEmpty, appState == .listening {
+                Text(speechManager.transcript)
                     .font(.footnote)
-                    .foregroundStyle(.orange)
+                    .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 4)
             }
 
-            HStack(spacing: 16) {
-                Button(speechManager.isListening ? "Stop Listening" : "Start Listening") {
-                    toggleListening()
-                }
-                .buttonStyle(.borderedProminent)
+            Spacer()
 
-                Button("Speak Filtered") {
-                    speakFilteredDemo()
-                }
-                .buttonStyle(.bordered)
-                .disabled(speechManager.transcript.isEmpty && lastSpokenPreview.isEmpty)
-
-                Button("Capture Snapshot") {
-                    Task { await cameraManager.captureSnapshot() }
-                }
-                .buttonStyle(.bordered)
-            }
-
-            if let image = cameraManager.latestSnapshot {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(maxHeight: 180)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-            }
+            EmergencyButtonView(
+                state: appState,
+                onPressDown: handleStartListening,
+                onPressUp: handleStopAndProcess
+            )
 
             Spacer()
         }
@@ -68,69 +81,113 @@ struct ContentView: View {
         .onDisappear {
             cameraManager.shutdown()
         }
-    }
-
-    @ViewBuilder
-    private var statusBlock: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            labeled("Speech", speechStatusText)
-            labeled("TTS", ttsManager.isSpeaking ? "Speaking…" : "Idle")
-            labeled("Camera", cameraStatusText)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding()
-        .background(Color(.tertiarySystemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-    }
-
-    private var speechStatusText: String {
-        if let error = speechManager.error {
-            return error.localizedDescription
-        }
-        if speechManager.isListening {
-            return "Listening (on-device)"
-        }
-        return "Ready"
-    }
-
-    private var cameraStatusText: String {
-        if let error = cameraManager.error {
-            return error.localizedDescription
-        }
-        if cameraManager.isSessionRunning {
-            return "Session warm"
-        }
-        return "Idle"
-    }
-
-    private func labeled(_ title: String, _ value: String) -> some View {
-        HStack {
-            Text(title).fontWeight(.semibold)
-            Spacer()
-            Text(value)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.trailing)
+        .onChange(of: speechManager.error) { _, newError in
+            guard appState == .listening, let newError else { return }
+            failSpeech(newError)
         }
     }
 
-    private func toggleListening() {
-        if speechManager.isListening {
-            speechManager.stopListening()
-        } else {
-            speechManager.startListening()
+    private var isErrorState: Bool {
+        if case .error = appState { return true }
+        return false
+    }
+
+    private var displayText: String {
+        if case .error(let message) = appState { return message }
+        if checklistText.isEmpty {
+            return "Tap the button, ask a wilderness first-aid question, then tap again to send."
+        }
+        return checklistText
+    }
+
+    private func handleStartListening() {
+        guard appState == .idle || isErrorState else { return }
+
+        ttsManager.stop()
+        citation = nil
+        checklistText = ""
+        appState = .listening
+
+        Task {
+            await cameraManager.captureSnapshot()
+        }
+        speechManager.startListening()
+    }
+
+    private func handleStopAndProcess() {
+        guard appState == .listening else { return }
+        speechManager.stopListening()
+
+        Task {
+            appState = .processing
+
+            // Brief pause so partial results can settle after stop.
+            try? await Task.sleep(nanoseconds: 300_000_000)
+
+            if let speechError = speechManager.error {
+                await presentError(spokenMessage(for: speechError))
+                return
+            }
+
+            let transcript = speechManager.transcript.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !transcript.isEmpty else {
+                await presentError(SpokenError.emptyTranscript)
+                return
+            }
+
+            let (resultCitation, resultText) = await runInferencePipeline(
+                transcript,
+                cameraManager.latestSnapshot
+            )
+
+            let trimmedResult = resultText.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !trimmedResult.isEmpty else {
+                await presentError(SpokenError.modelFailure)
+                return
+            }
+
+            let filtered = SafetyFilter.sanitize(trimmedResult)
+            citation = resultCitation
+            checklistText = filtered.text
+            appState = .speaking
+            ttsManager.speak(filtered.text)
+
+            while ttsManager.isSpeaking {
+                try? await Task.sleep(nanoseconds: 100_000_000)
+            }
+            if case .speaking = appState {
+                appState = .idle
+            }
         }
     }
 
-    private func speakFilteredDemo() {
-        let raw = speechManager.transcript.isEmpty
-            ? "The diagnosis is a fracture. Take 400mg ibuprofen."
-            : speechManager.transcript
-        let filtered = SafetyFilter.sanitize(raw)
-        safetyNote = filtered.wasModified
-            ? "SafetyFilter intercepted diagnostic/prescriptive language."
-            : "SafetyFilter passed checklist text unmodified."
-        lastSpokenPreview = filtered.text
+    private func failSpeech(_ error: SpeechManager.SpeechError) {
+        speechManager.stopListening()
+        Task {
+            await presentError(spokenMessage(for: error))
+        }
+    }
+
+    private func spokenMessage(for error: SpeechManager.SpeechError) -> String {
+        switch error {
+        case .onDeviceUnavailable, .permissionDenied, .recognizerUnavailable:
+            return SpokenError.speechUnavailable
+        case .audioEngineFailure, .recognitionFailure:
+            return SpokenError.emptyTranscript
+        }
+    }
+
+    @MainActor
+    private func presentError(_ message: String) async {
+        let filtered = SafetyFilter.sanitize(message)
+        citation = nil
+        checklistText = filtered.text
+        appState = .error(filtered.text)
         ttsManager.speak(filtered.text)
+
+        while ttsManager.isSpeaking {
+            try? await Task.sleep(nanoseconds: 100_000_000)
+        }
     }
 }
 
