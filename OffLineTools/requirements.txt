@@ -1,0 +1,15 @@
+# Offline pre-processing toolchain for Wilderness Edge.
+# These run on a laptop/Colab only. Nothing here ships inside the app.
+# Verified against Python 3.11-3.13.
+
+pypdf>=6.0,<7
+numpy>=2.0
+sentence-transformers>=5.0,<6
+torch>=2.4
+
+# Pinned below 5.0 deliberately: transformers 5.x rewrote attention masking and emits fx
+# nodes (new_ones) that coremltools cannot lower, breaking export_embedder_coreml.py.
+transformers>=4.44,<5
+
+# CoreML export (macOS only; not needed to build protocols.db)
+coremltools>=9.0,<10

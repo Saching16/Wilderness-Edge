@@ -1,0 +1,30 @@
+{
+  "_comment": "Provenance and license record for every PDF ingested into protocols.db. build_vector_db.py refuses to index a PDF that is not listed here, because every shipped chunk must carry a verified citation. See SOURCES.md for vetting notes and additional candidate sources.",
+  "sources": [
+    {
+      "filename": "atp4-02-11-casualty-response-tccc-first-aid.pdf",
+      "title": "ATP 4-02.11 Casualty Response, Tactical Combat Casualty Care, and First Aid",
+      "publisher": "Headquarters, Department of the Army",
+      "license": "Public domain (US federal government work); approved for public release, distribution unlimited",
+      "url": "https://armypubs.army.mil/epubs/DR_pubs/DR_a/ARN46159-ATP_4-02.11-000-WEB-1.pdf",
+      "citation_prefix": "US Army ATP 4-02.11 First Aid & TCCC"
+    },
+    {
+      "filename": "tccc-handbook-v5.pdf",
+      "title": "Tactical Combat Casualty Care Handbook, Version 5 (CALL Handbook 17-13)",
+      "publisher": "US Army Center for Army Lessons Learned",
+      "license": "Public domain (US federal government work); distribution A, approved for public release",
+      "url": "https://api.army.mil/e2/c/downloads/2023/01/19/31e03488/17-13-tactical-casualty-combat-care-handbook-v5-may-17-distro-a.pdf",
+      "citation_prefix": "US Army TCCC Handbook v5"
+    },
+    {
+      "filename": "nasemso-national-model-ems-clinical-guidelines-v3.pdf",
+      "title": "National Model EMS Clinical Guidelines, Version 3.0 (March 2022)",
+      "publisher": "National Association of State EMS Officials (NASEMSO)",
+      "license": "Publisher explicitly invites adoption and adaptation: leaders are 'invited to harvest content as will be useful' and may 'adopt it in whole or in part'",
+      "url": "https://nasemso.org/wp-content/uploads/National-Model-EMS-Clinical-Guidelines_2022.pdf",
+      "mirror_url": "https://ems.utah.gov/wp-content/uploads/sites/34/2024/05/National-Model-EMS-Clinical-Guidelines_2022.pdf",
+      "citation_prefix": "NASEMSO National Model EMS Clinical Guidelines v3.0"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+# Local toolchain and large generated artifacts. Built assets are bundled into Xcode
+# manually (see README.md), not committed here.
+.venv/
+build/
+sources/
+__pycache__/
+*.pyc

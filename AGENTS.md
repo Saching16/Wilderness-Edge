@@ -25,7 +25,7 @@ All coding agents working on this project must strictly respect and enforce thre
 ### 3. Base Device RAM Safety (6GB Unified Memory Target)
 
 - The app is designed to run on a physical base-model iPhone with 6GB of unified memory.
-- Language model footprint must be constrained to quantized Gemma 4 E2B (~1.6 GB).
+- Language model footprint must be constrained to quantized Gemma 4 E2B (~1.1–1.6 GB).
 - High-memory system entitlements must be enabled in the project build settings to prevent low-memory operating system terminations.
 
 ## Technical Stack Overview
@@ -33,13 +33,16 @@ All coding agents working on this project must strictly respect and enforce thre
 | Layer | Technology |
 | --- | --- |
 | **Target Platform** | Native iOS 17.0+ (Swift 5.9 / SwiftUI) |
-| **LLM Runtime Engine** | Google MediaPipe Tasks GenAI SDK (`MediaPipeTasksGenAI`) |
-| **Base Language Model** | Quantized Gemma 4 E2B (~1.6 GB download footprint) with a merged LoRA decision-tree adapter |
+| **LLM Runtime Engine** | Google AI Edge **LiteRT-LM Swift API** (native multimodal image + text inference, GPU/Metal accelerated) |
+| **Base Language Model** | Quantized Gemma 4 E2B (~1.1–1.6 GB, natively multimodal: text + image + audio) with a merged LoRA decision-tree adapter, packaged as a `.litertlm` bundle |
 | **Speech-to-Text (STT)** | Native Apple Framework (`SFSpeechRecognizer`) forced to on-device recognition |
 | **Text-to-Speech (TTS)** | Native Apple Framework (`AVSpeechSynthesizer`) |
 | **Camera Capture** | Native Apple Framework (`AVFoundation`) for single-frame snapshot capture |
-| **Vector Search Engine** | Local SQLite database (`protocols.db`) queried via SIMD-accelerated linear algebra using Apple's Accelerate framework |
+| **On-Device Query Embedding** | Bundled CoreML sentence-embedding model producing 384-dim vectors, matching the embedding space used to build `protocols.db` |
+| **Vector Search Engine** | Local SQLite database (`protocols.db`) accessed via the raw `SQLite3` C API (no third-party wrapper), queried via SIMD-accelerated linear algebra using Apple's Accelerate framework |
 | **Safety Verification** | Regular expression pattern matcher evaluating LLM text outputs prior to speech playback |
+
+> **Note on LLM runtime:** Google's MediaPipe LLM Inference API (`MediaPipeTasksGenAI`) is in maintenance-only mode and its from-source iOS build is currently broken upstream. LiteRT-LM is Google's actively developed, officially recommended successor and is required here for native Swift multimodal (image) input support.
 
 ## System Architecture & Data Flow
 
@@ -51,18 +54,23 @@ All coding agents working on this project must strictly respect and enforce thre
 [ AVFoundation Snapshot ]                             [ SFSpeechRecognizer ]
 (Single Camera Frame)                                 (On-Device Offline Audio)
           │                                                       │
-          ▼                                                       ▼
-Direct Visual Frame Context                              Transcribed Query Text
+          │                                                       ▼
+          │                                          Transcribed Query Text
+          │                                                       │
+          │                                                       ▼
+          │                                        [ On-Device Text Embedder ]
+          │                                       (Bundled CoreML sentence model)
+          │                                                       │
+          │                                                       ▼
+          │                                        [ Local Vector RAG Manager ]
+          │                               Accelerate SIMD Cosine Search over protocols.db
           │                                                       │
           └───────────────────────────┬───────────────────────────┘
                                       │
                                       ▼
-                      [ Local Vector RAG Manager ]
-             Accelerate SIMD Cosine Search over protocols.db
-                                      │
-                                      ▼
-                     [ MediaPipe GenAI LLM Engine ]
+                       [ LiteRT-LM Multimodal Engine ]
                  Gemma 4 E2B + Decision LoRA Adapter
+        (native image input + retrieved protocol text context)
                                       │
                                       ▼
                     [ Safety Guardrail Regex Layer ]
@@ -73,6 +81,8 @@ Direct Visual Frame Context                              Transcribed Query Text
             Streams spoken checklist items out loud to user
 ```
 
+Note: the camera snapshot is passed directly to the LiteRT-LM engine as native multimodal image input — it is never vectorized or run through the text-based RAG search, which only ever operates on the transcribed query text.
+
 ## Repository Map & Architecture Blueprint
 
 ```text
@@ -81,21 +91,32 @@ WildernessEdge/
 ├── AGENTS.md                           # This AI Agent Context & Rulebook
 ├── PLAN.md                             # Step-by-Step Implementation Plan & Checklists
 ├── OffLineTools/                       # Pre-processing scripts (Run on Laptop/Colab)
+│   ├── SOURCES.md                      # Vetted corpus & redistribution license record
+│   ├── sources.manifest.json           # Per-source provenance, license & citation prefix
+│   ├── fetch_sources.py                # Downloads the manifested source PDFs
 │   ├── build_vector_db.py              # Offline PDF parser & vector DB generator
-│   └── train_lora_colab.py             # Unsloth QLoRA fine-tuning script
+│   ├── export_embedder_coreml.py       # CoreML query-embedder export & parity check
+│   ├── query_protocols.py              # Offline retrieval harness for threshold calibration
+│   ├── build_training_data.py          # Grounded/refusal/deflection LoRA dataset generator
+│   └── train_lora_colab.py             # Unsloth LoRA fine-tune & .litertlm export (Colab GPU)
 └── WildernessEdge/
     ├── App/
     │   ├── WildernessEdgeApp.swift     # Application Entry Point & Audio Session setup
     │   └── Info.plist                  # Entitlements & Privacy Permission Strings
     ├── Resources/
     │   ├── protocols.db                # Pre-indexed SQLite database containing embeddings
-    │   └── gemma-4-e2b-wfr.task        # MediaPipe Gemma model file (~1.6 GB)
+    │   ├── query-embedder.mlpackage    # CoreML sentence-embedding model (matches protocols.db embedding space)
+    │   ├── query-embedder-vocab.txt    # WordPiece vocabulary for the Swift tokenizer
+    │   ├── query-embedder-tokenizer.json # Tokenizer settings (casing, special ids, seq length)
+    │   └── gemma-4-e2b-wfr.litertlm    # LiteRT-LM Gemma model bundle (~1.1-1.6 GB, multimodal)
     ├── Core/
     │   ├── SpeechManager.swift         # On-device SFSpeechRecognizer wrapper
     │   ├── TTSManager.swift            # Native AVSpeechSynthesizer wrapper
     │   ├── CameraManager.swift         # AVFoundation single-frame snapshot capture
-    │   ├── VectorRAGManager.swift      # SIMD-accelerated vector search engine
-    │   ├── LLMInferenceManager.swift   # Google MediaPipe Tasks GenAI wrapper
+    │   ├── WordPieceTokenizer.swift    # BERT WordPiece tokenizer feeding the CoreML embedder
+    │   ├── TextEmbeddingManager.swift  # CoreML wrapper generating query embeddings on-device
+    │   ├── VectorRAGManager.swift      # SIMD-accelerated vector search engine (raw SQLite3 C API)
+    │   ├── LLMInferenceManager.swift   # Google AI Edge LiteRT-LM Swift API wrapper
     │   └── SafetyFilter.swift          # Non-diagnostic regular expression filter
     └── Views/
         ├── ContentView.swift           # Primary container & state coordination view
@@ -107,8 +128,11 @@ WildernessEdge/
 
 When generating, modifying, or refactoring code in this project, adhere to the following principles:
 
-1. **Keep Managers Modular** — Each core capability (Speech, TTS, Camera, Vector Search, LLM Inference) must remain isolated in its dedicated Manager class inside the `Core/` directory.
+1. **Keep Managers Modular** — Each core capability (Speech, TTS, Camera, Text Embedding, Vector Search, LLM Inference) must remain isolated in its dedicated Manager class inside the `Core/` directory.
 2. **Prioritize Swift Concurrency** — Use modern `async`/`await`, `@MainActor`, and Combine publishers for UI updates and state management. Avoid blocking the main UI thread during vector searches or model initialization.
 3. **Handle Permissions Gracefully** — Ensure all iOS hardware access calls (Microphone, Speech Recognition, Camera) check authorization status before attempting capture.
 4. **Enforce Hardcoded Safety Rules** — Never strip out or bypass the `SafetyFilter` before passing text to `TTSManager`.
 5. **No Network Dependencies** — Do not introduce third-party Swift packages that rely on remote APIs or network requests.
+6. **Keep Embedding Spaces in Sync** — `TextEmbeddingManager`'s bundled CoreML model must always match the embedding model used by `OffLineTools/build_vector_db.py` to generate `protocols.db`. Cosine similarity is meaningless if these diverge; never swap one without regenerating/re-validating the other.
+7. **Fail Closed, Never Fall Back to Network** — If on-device speech recognition, embedding, or LLM inference is unavailable (e.g. `SFSpeechRecognizer.supportsOnDeviceRecognition == false`), surface a clear in-app error state. Never silently fall back to a server-based/networked alternative.
+8. **Only Cite What We Are Licensed to Ship** — Every chunk in `protocols.db` must come from a source with a verified redistribution license recorded in `OffLineTools/sources.manifest.json`. See `OffLineTools/SOURCES.md`; note that NOLS course materials are copyrighted and are **not** currently licensed for ingestion despite being named in the mission statement above.

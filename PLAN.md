@@ -18,14 +18,16 @@ Before AI agents begin writing application code inside Xcode, the human develope
 
 ### 2. Offline Asset Generation (Colab / Laptop)
 
-- [ ] **Generate Vector Database:** Run the offline Python pre-processing script (`OffLineTools/build_vector_db.py`) on your laptop using public domain field manuals (NOLS, EMS protocols) to generate `protocols.db`.
-- [ ] **Train & Export Gemma Model:** Run the Google Colab script (`OffLineTools/train_lora_colab.py`) to fine-tune the decision-tree LoRA adapter on Gemma 4 E2B using Unsloth, merge the weights, and export the `.task` or quantized model asset (`gemma-4-e2b-wfr.task`).
-- [ ] **Bundle Assets into Xcode:** Drag `protocols.db` and `gemma-4-e2b-wfr.task` directly into the `WildernessEdge/Resources/` directory inside the Xcode project navigator.
+- [ ] **Assemble the Source Corpus:** Review `OffLineTools/SOURCES.md`, confirm each source's redistribution license, and run `python fetch_sources.py` to download the vetted public-domain corpus. Note that NOLS materials are **not** licensed for ingestion — see Tier 4 in `SOURCES.md`.
+- [ ] **Generate Vector Database:** Run `python build_vector_db.py` to produce `protocols.db` plus `embedding_parity_fixtures.json`. Inspect output first with `--dry-run`.
+- [ ] **Export the On-Device Query Embedder:** Run `python export_embedder_coreml.py` to produce `query-embedder.mlpackage` and the WordPiece tokenizer assets. The script's parity check must pass — it verifies that on-device embeddings reproduce the database's embedding space (cosine similarity ≈ 1.0).
+- [ ] **Train & Export Gemma Model:** Run the Google Colab script (`OffLineTools/train_lora_colab.py`) to fine-tune the decision-tree LoRA adapter on Gemma 4 E2B using Unsloth, merge the weights, and export the quantized multimodal model asset in LiteRT-LM's `.litertlm` format (`gemma-4-e2b-wfr.litertlm`).
+- [ ] **Bundle Assets into Xcode:** Drag `protocols.db`, `query-embedder.mlpackage`, `query-embedder-vocab.txt`, `query-embedder-tokenizer.json`, and `gemma-4-e2b-wfr.litertlm` into `WildernessEdge/Resources/`, and `embedding_parity_fixtures.json` into the test target. Xcode compiles the `.mlpackage` into `.mlmodelc` at build time — do not commit a prebuilt `.mlmodelc`.
 
 ### 3. Xcode Project Creation & Entitlements
 
 - [ ] **Create App Target:** Create a new iOS App project named `WildernessEdge` using SwiftUI and Swift.
-- [ ] **Add Swift Package Dependencies:** Add `GoogleMediaPipeTasksGenAI` via Swift Package Manager (SPM).
+- [ ] **Add Swift Package Dependencies:** Add the **LiteRT-LM Swift API** package (`google-ai-edge/LiteRT-LM`) via Swift Package Manager (SPM). Do not add `MediaPipeTasksGenAI` — it is in maintenance-only mode and its from-source iOS build is currently broken upstream.
 - [ ] **Configure Entitlements:** Select the project target → Signing & Capabilities → Add capability: **Increased Memory Limit** (`com.apple.developer.kernel.increased-memory-limit`).
 - [ ] **Declare Privacy Keys in `Info.plist`:**
   - `NSMicrophoneUsageDescription` — Usage string for offline speech query recording.
@@ -34,22 +36,49 @@ Before AI agents begin writing application code inside Xcode, the human develope
 
 ## Part 2: Agent Execution Phases
 
+### Phase 0: Offline Asset Tooling (No Xcode Required)
+
+**Objective:** Build the Python pipeline that produces every data asset the app depends on. This phase gates Part 1 §2 — those human tasks cannot be performed until these scripts exist.
+
+#### Action Items
+
+1. ~~Create `OffLineTools/build_vector_db.py`~~ — PDF extraction, license-manifested chunking with section/page provenance, embedding, and SQLite output. **Done.**
+2. ~~Create `OffLineTools/export_embedder_coreml.py`~~ — traces the same embedding model (with mean pooling and L2 normalization folded into the graph) to a CoreML package, exports the WordPiece vocabulary for the Swift tokenizer, and fails the build on embedding-space mismatch. **Done.**
+3. ~~Create `OffLineTools/sources.manifest.json`, `fetch_sources.py`, and `SOURCES.md`~~ — vetted corpus with recorded licenses. **Done.**
+4. ~~Create `OffLineTools/query_protocols.py`~~ — offline retrieval harness mirroring `VectorRAGManager`, used to calibrate the similarity threshold. **Done.**
+5. ~~Create `OffLineTools/build_training_data.py`~~ — derives grounded / refusal / diagnosis-deflection training examples from `protocols.db`. **Done (seed quality; needs clinical review).**
+6. ~~Create `OffLineTools/train_lora_colab.py`~~ — Unsloth LoRA fine-tune on Gemma 4 E2B with the vision tower frozen, 16-bit merge, and int4 `.litertlm` export including the vision encoder. **Written; unrun — requires a Colab GPU and gated Gemma weights.**
+
+#### Verification Criteria (Phase 0)
+
+- [x] `python build_vector_db.py --dry-run` produces coherent, correctly-attributed chunks from the vetted corpus.
+- [x] `python build_vector_db.py` writes a single self-contained `protocols.db` with populated `meta`, `sources`, and `chunks` tables. *(2192 chunks / 8.6 MB from 3 sources.)*
+- [x] `python export_embedder_coreml.py` passes its parity check against the fixtures emitted by the database build. *(All 6 fixtures at cosine ≈ 1.000.)*
+- [x] Every source in the corpus has a recorded, verified redistribution license in `sources.manifest.json`.
+- [x] `python query_protocols.py` separates on-topic from off-topic queries by a clear margin. *(0.53–0.67 vs 0.17.)*
+- [ ] `python build_training_data.py` output has been audited by a WFR/EMS-qualified reviewer.
+- [ ] `train_lora_colab.py` completes on a Colab GPU and exports a `.litertlm` bundle that `litert-lm run` can load.
+- [ ] The exported bundle's on-device resident memory is measured and fits under the Phase 3 ceiling. If int4 export proves too large, fall back to the prebuilt `litert-community/gemma-4-E2B-it-litert-lm`.
+
 ### Phase 1: Native Audio, Speech & Safety Infrastructure
 
 **Objective:** Establish local speech recognition, text-to-speech synthesis, single-frame camera capture, and output safety sanitization.
 
 #### Action Items
 
-1. Create `Core/SpeechManager.swift` wrapping `SFSpeechRecognizer`. Configure audio buffer taps, enable `requiresOnDeviceRecognition = true`, and expose published transcription properties.
+1. Create `Core/SpeechManager.swift` wrapping `SFSpeechRecognizer`. Configure audio buffer taps, enable `requiresOnDeviceRecognition = true`, and expose published transcription properties. Before starting recognition, check `SFSpeechRecognizer.supportsOnDeviceRecognition`; if `false`, publish a distinct `.onDeviceUnavailable` error state instead of starting recognition — never fall back to server-based recognition.
 2. Create `Core/TTSManager.swift` wrapping `AVSpeechSynthesizer`. Configure `AVAudioSession` categories to ensure audio plays clearly over system channels.
-3. Create `Core/CameraManager.swift` using AVFoundation to handle single-frame snapshot capture when recording begins.
+3. Create `Core/CameraManager.swift` using AVFoundation to handle single-frame snapshot capture when recording begins. Pre-warm the `AVCaptureSession` at app launch (not on button-press) so the snapshot on button-down is near-instant.
 4. Create `Core/SafetyFilter.swift` implementing regular expression pattern matching to detect and replace diagnostic or prescriptive language before speech output.
+5. Create `WildernessEdgeTests/SafetyFilterTests.swift` (XCTest, runs on Simulator/CI, no physical device required) validating the regex sanitizer against a curated list of diagnostic/prescriptive bait phrases (e.g. "you have a fracture", "take 400mg ibuprofen") and confirming benign checklist text passes through unmodified.
 
 #### Verification Criteria (Phase 1)
 
 - [ ] Speaking into the microphone populates the transcription property in real time with Airplane Mode enabled.
 - [ ] The TTS engine successfully speaks test strings out loud.
 - [ ] Test phrases containing diagnostic terms (e.g., "The diagnosis is a fracture") are intercepted by `SafetyFilter` and replaced with standard protocol citation language.
+- [ ] `SafetyFilterTests` passes in CI/Simulator without requiring a physical device.
+- [ ] Forcing `supportsOnDeviceRecognition` to `false` (e.g. via simulator/locale without on-device model) results in a visible error state, not a hang or silent no-op.
 
 ### Phase 2: On-Device Vector RAG Search Engine
 
@@ -57,33 +86,42 @@ Before AI agents begin writing application code inside Xcode, the human develope
 
 #### Action Items
 
-1. Create `Core/VectorRAGManager.swift`.
-2. Implement SQLite connection handling to read pre-stored protocol text chunks and 384-dimensional floating-point embeddings from `protocols.db`.
-3. Implement cosine similarity vector distance calculation using Apple's Accelerate framework (vDSP/SIMD functions) for maximum performance.
-4. Expose a search function accepting query embeddings and returning the top-K matching protocol chunks with source citations.
+1. Create `Core/WordPieceTokenizer.swift` implementing BERT-style WordPiece tokenization against the bundled `query-embedder-vocab.txt`, honoring the lowercase/accent-stripping behavior, special token ids, and 128-token sequence length recorded in `query-embedder-tokenizer.json`. CoreML cannot accept strings, so this must exist before the embedder can be called.
+2. Create `Core/TextEmbeddingManager.swift` wrapping the bundled `query-embedder.mlpackage` CoreML model. Expose a function that takes transcribed query text and returns a 384-dimensional embedding vector, generated entirely on-device. The model already applies mean pooling and L2 normalization internally, so no post-processing is needed.
+3. Create `Core/VectorRAGManager.swift`.
+4. Implement SQLite connection handling using the raw `SQLite3` C API (no third-party wrapper), opened with `SQLITE_OPEN_READONLY` since the bundle is not writable, to read protocol text chunks and their embeddings from `protocols.db`. Embeddings are stored as little-endian `float32` BLOBs (384 floats, 1536 bytes) and can be copied straight into `[Float]`.
+5. Implement vector similarity using Apple's Accelerate framework. Because stored vectors and the embedder's output are both pre-normalized, a `vDSP_dotpr` dot product is equivalent to cosine similarity — do not recompute magnitudes.
+6. Expose a search function accepting query embeddings and returning the top-K matching protocol chunks with source citations. If the best match's similarity score falls below a defined confidence threshold, return a distinct "no confident match" result rather than a low-quality chunk.
+7. Create `WildernessEdgeTests/VectorRAGManagerTests.swift` (XCTest, runs on Simulator/CI) validating the cosine similarity math against hand-computed reference vectors, validating the "no confident match" path, and asserting embedding-space parity against the bundled `embedding_parity_fixtures.json`.
 
 #### Verification Criteria (Phase 2)
 
 - [ ] `VectorRAGManager` successfully connects to `protocols.db` bundled in the app package.
+- [ ] `TextEmbeddingManager` produces embeddings on-device whose cosine similarity to the offline-generated embedding of the same sentence is ≈ 1.0 (validating embedding-space parity with `build_vector_db.py`).
 - [ ] Executing a sample query vector against 1,000+ stored chunks returns top matching results in under 10 milliseconds.
 - [ ] Query results correctly include source manual titles and section numbers.
+- [ ] A query with no confident match returns the distinct "no confident match" result instead of a misleading low-quality chunk.
+- [ ] `VectorRAGManagerTests` passes in CI/Simulator without requiring a physical device.
 
-### Phase 3: MediaPipe LLM Integration & Orchestration
+### Phase 3: LiteRT-LM Multimodal Integration & Orchestration
 
-**Objective:** Integrate the local Gemma 4 E2B model via Google MediaPipe Tasks GenAI and construct the central orchestration pipeline.
+**Objective:** Integrate the local, natively multimodal Gemma 4 E2B model via the Google AI Edge **LiteRT-LM Swift API** and construct the central orchestration pipeline, including direct image input.
 
 #### Action Items
 
-1. Create `Core/LLMInferenceManager.swift` wrapping `LlmInference` from `MediaPipeTasksGenAI`.
-2. Configure model initialization pointing to `gemma-4-e2b-wfr.task` inside the app bundle.
-3. Construct prompt formatting logic that combines retrieved RAG context chunks, system instructions, and user transcripts.
-4. Implement async token generation streaming.
+1. Create `Core/LLMInferenceManager.swift` wrapping LiteRT-LM's `Engine`/`Conversation` Swift API.
+2. Configure `EngineConfig` pointing to `gemma-4-e2b-wfr.litertlm` inside the app bundle, enabling the GPU backend plus the vision backend (`visionBackend: .cpu()` or `.gpu()` as benchmarking dictates) so image input is supported.
+3. Construct a multimodal `Message` per query combining: `Content.imageFile(...)` (or in-memory image data) from the camera snapshot, `Content.text(...)` carrying retrieved RAG context chunks, system instructions, and the user transcript. If `VectorRAGManager` returned "no confident match," omit fabricated context and explicitly instruct the model to state that no matching protocol was found rather than improvising.
+4. Implement async token generation streaming via `conversation.sendMessage(...)`.
+5. Handle model initialization failure (e.g. asset missing/corrupt, insufficient memory) by surfacing a blocking startup error state rather than allowing the app to proceed into a broken push-to-talk loop.
 
 #### Verification Criteria (Phase 3)
 
 - [ ] `LLMInferenceManager` initializes the model without memory crashes or low-memory warnings.
-- [ ] Model processes a prompt with RAG context and generates structured protocol text locally in Airplane Mode.
+- [ ] Model processes a prompt combining a camera snapshot and RAG context and generates structured protocol text locally in Airplane Mode.
+- [ ] A query engineered to have no RAG match produces an honest "no matching protocol found" response rather than a fabricated one.
 - [ ] Total active memory usage during model inference stays safely below 2.8 GB on the target device.
+- [ ] Corrupting or removing the bundled model asset in a debug build surfaces the startup error state instead of crashing or hanging.
 
 ### Phase 4: SwiftUI User Interface & State Machine
 
@@ -91,18 +129,20 @@ Before AI agents begin writing application code inside Xcode, the human develope
 
 #### Action Items
 
-1. Create `Views/EmergencyButtonView.swift`: A large, high-contrast, circular push-to-talk button supporting press-and-hold gestures with visual state indicators (Idle, Listening, Processing, Speaking).
-2. Create `Views/SubtitleCardView.swift`: A high-contrast overlay card displaying the active source citation and spoken checklist text.
+1. Create `Views/EmergencyButtonView.swift`: A large, high-contrast, circular push-to-talk button supporting press-and-hold gestures with visual state indicators (Idle, Listening, Processing, Speaking, Error).
+2. Create `Views/SubtitleCardView.swift`: A high-contrast overlay card displaying the active source citation and spoken checklist text, plus a distinct visual treatment for the Error state.
 3. Build `Views/ContentView.swift`: The main container view instantiating all managers, binding published properties to UI states, and coordinating the full push-to-talk pipeline:
    - **Button Down:** Trigger Camera Snapshot + Start Audio Recording.
-   - **Button Release:** Stop Audio Recording → Run Vector RAG → Query Gemma via MediaPipe → Apply Safety Filter → Trigger TTS Audio Playback.
+   - **Button Release:** Stop Audio Recording → Embed Query Text → Run Vector RAG → Query Gemma via LiteRT-LM (image + context) → Apply Safety Filter → Trigger TTS Audio Playback.
+   - **Error Transitions:** Route to the Error state (with a spoken/displayed explanation, no crash) on: empty/failed transcription, on-device speech recognition unavailable, and LLM initialization failure. A "no confident RAG match" is *not* an error — it flows through normally and is spoken as an honest "no matching protocol found" response.
 
 #### Verification Criteria (Phase 4)
 
 - [ ] Pressing and holding the central button transitions UI state to "Listening" and captures audio/camera frame.
-- [ ] Releasing the button triggers the full local execution loop (STT → RAG → Gemma → Safety Filter → TTS).
+- [ ] Releasing the button triggers the full local execution loop (STT → Embed → RAG → Gemma via LiteRT-LM → Safety Filter → TTS).
 - [ ] Spoken audio playback begins within 200 milliseconds of text generation.
-- [ ] The subtitle card clearly displays the source citation (e.g., `[Source: NOLS WFR Section 4.2]`) alongside the checklist text.
+- [ ] The subtitle card clearly displays the source citation (e.g., `[Source: NASEMSO National Model EMS Clinical Guidelines v3.0, Extremity Trauma, p. 128]`) alongside the checklist text.
+- [ ] Triggering each defined error condition (empty transcription, on-device speech unavailable, LLM init failure) transitions to the Error state with a clear, spoken/displayed message rather than a silent failure or crash.
 
 ### Phase 5: Final Air-Gap Validation & Stress Testing
 
@@ -113,9 +153,13 @@ Before AI agents begin writing application code inside Xcode, the human develope
 1. Perform physical device testing in complete Airplane Mode (Wi-Fi OFF, Cellular OFF, Bluetooth OFF).
 2. Perform rapid repeated push-to-talk queries to test memory retention and verify that no memory leaks occur.
 3. Audit output responses against non-diagnostic safety rules using a suite of test prompts designed to bait diagnoses.
+4. Run the full `SafetyFilterTests` and `VectorRAGManagerTests` XCTest suites one final time and confirm both pass on the CI/Simulator target.
+5. Deliberately exercise all defined Error-state triggers (Airplane Mode + revoked speech permission, corrupted model asset, no-RAG-match queries) on the physical device to confirm graceful, non-crashing fallback behavior end-to-end.
 
 #### Verification Criteria (Phase 5)
 
 - [ ] Application operates seamlessly with zero active network interfaces.
 - [ ] App completes 20 consecutive query loops without crashing or exceeding memory caps.
 - [ ] All responses cite accredited field manuals and strictly present action checklists without issuing medical diagnoses.
+- [ ] `SafetyFilterTests` and `VectorRAGManagerTests` pass in CI/Simulator.
+- [ ] All Error-state triggers are confirmed to fail closed (never silently succeed or fall back to network) on the physical device.
