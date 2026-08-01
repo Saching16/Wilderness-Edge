@@ -4,17 +4,24 @@ import UIKit
 
 /// Primary container and state coordination view.
 ///
-/// Three ways in — voice, typed text, and an attached photo — all converging on one
-/// pipeline call so they cannot drift apart. In particular every path, including error
-/// copy, goes through `SafetyFilter.sanitize` before anything is displayed or spoken;
-/// there is deliberately no branch that reaches `TTSManager` without it.
+/// Full pipeline: voice or typed question (plus an optional photo) → Embed → RAG → Gemma
+/// via LiteRT-LM → SafetyFilter → TTS.
 ///
-/// `runInferencePipeline` keeps its exact signature from Checkpoint 4 — Sachin swaps the
-/// stub for `LLMInferenceManager` + `VectorRAGManager` there and nothing else moves.
+/// Three ways in, all converging on one `deliver(transcript:)` call so they cannot drift
+/// apart. Every path, including error copy, goes through `SafetyFilter.sanitize` before
+/// anything is displayed or spoken; there is deliberately no branch reaching `TTSManager`
+/// without it.
 struct ContentView: View {
     @StateObject private var speechManager = SpeechManager()
     @StateObject private var ttsManager = TTSManager()
     @StateObject private var cameraManager = CameraManager()
+    @StateObject private var llmManager = LLMInferenceManager()
+
+    private let embedder = try? TextEmbeddingManager()
+    private let ragManager: VectorRAGManager? = {
+        guard let path = Bundle.main.path(forResource: "protocols", ofType: "db") else { return nil }
+        return try? VectorRAGManager(databasePath: path)
+    }()
 
     @State private var appState: AppState = .idle
     @State private var citation: String?
@@ -35,29 +42,12 @@ struct ContentView: View {
         static let modelFailure = "I couldn't run the local model. Try again."
     }
 
-    /// Checkpoint 4 replaces this stub with LLMInferenceManager + VectorRAGManager.
-    /// Signature must not change without updating both call sites.
-    /// Return an empty `checklistText` to signal model/pipeline failure.
-    var runInferencePipeline: (String, UIImage?) async -> (citation: String?, checklistText: String) = { transcript, _ in
-        let lowered = transcript.lowercased()
-        if lowered.contains("force model failure") {
-            return (nil, "")
-        }
-        if lowered.contains("weather") || lowered.contains("score of the game") {
-            return (
-                nil,
-                "I don't have a protocol covering that in my offline library. I can't answer it from the field manuals I carry."
-            )
-        }
-        return (
-            "[Source: STUB — swap for retrieved protocol citation]",
-            """
-            Displaying retrieved protocol checklist for \"\(transcript)\".
-            1. Scene safety and standard precautions.
-            2. Primary assessment (airway, breathing, circulation).
-            3. Follow the cited field-manual steps within your training and scope.
-            """
-        )
+    /// Real RAG + LiteRT-LM pipeline, assembled in `startUp()` once the model has loaded.
+    /// Signature is the Checkpoint 4 contract: `(String, UIImage?) async -> (citation:,
+    /// checklistText:)`. An empty `checklistText` signals model/pipeline failure to the
+    /// state machine.
+    @State private var runInferencePipeline: (String, UIImage?) async -> (citation: String?, checklistText: String) = { _, _ in
+        (nil, "")
     }
 
     // MARK: - Body
@@ -77,7 +67,7 @@ struct ContentView: View {
         }
         // No forced colour scheme: the palette in Theme defines both appearances
         // deliberately, so the responder's own system setting wins.
-        .task { await cameraManager.prewarm() }
+        .task { await startUp() }
         .onDisappear { cameraManager.shutdown() }
         .onChange(of: speechManager.error) { _, newError in
             guard appState == .listening, let newError else { return }
@@ -233,6 +223,58 @@ struct ContentView: View {
         return checklistText
     }
 
+    // MARK: - Start-up
+
+    /// Warms the camera, loads the model, then assembles the real pipeline. A model that
+    /// fails to load surfaces a blocking error rather than letting the UI go on accepting
+    /// questions it cannot answer.
+    @MainActor
+    private func startUp() async {
+        await cameraManager.prewarm()
+        await llmManager.initialize()
+
+        if let initError = llmManager.initializationError {
+            await presentError(initError.localizedDescription)
+            return
+        }
+
+        // Captured locally so the escaping closure does not retain the view.
+        let embedder = self.embedder
+        let ragManager = self.ragManager
+        let llmManager = self.llmManager
+
+        runInferencePipeline = { transcript, image in
+            guard let embedder, let ragManager else {
+                return (nil, "Retrieval system unavailable.")
+            }
+            guard llmManager.isReady else {
+                return (nil, "")
+            }
+            do {
+                let queryEmbedding = try embedder.embed(transcript)
+                let ragResult = ragManager.search(
+                    embedding: queryEmbedding,
+                    topK: 3,
+                    threshold: 0.35
+                )
+                let responseText = try await llmManager.generate(
+                    transcript: transcript,
+                    ragResult: ragResult,
+                    image: image
+                )
+                let citation: String? = {
+                    if case .match(let chunks) = ragResult {
+                        return chunks.first?.citation
+                    }
+                    return nil
+                }()
+                return (citation, responseText)
+            } catch {
+                return (nil, "")
+            }
+        }
+    }
+
     // MARK: - Actions
 
     private func captureSnapshot() {
@@ -265,20 +307,19 @@ struct ContentView: View {
 
     private func handleStopAndProcess() {
         guard appState == .listening else { return }
-        speechManager.stopListening()
 
         Task { @MainActor in
             appState = .processing
 
-            // Brief pause so partial results can settle after stop.
-            try? await Task.sleep(nanoseconds: 300_000_000)
+            // End audio and wait for a final (or last partial) transcript — do not cancel.
+            let transcript = await speechManager.finishListening()
+                .trimmingCharacters(in: .whitespacesAndNewlines)
 
             if let speechError = speechManager.error {
                 await presentError(spokenMessage(for: speechError))
                 return
             }
 
-            let transcript = speechManager.transcript.trimmingCharacters(in: .whitespacesAndNewlines)
             guard !transcript.isEmpty else {
                 await presentError(SpokenError.emptyTranscript)
                 return
@@ -293,6 +334,7 @@ struct ContentView: View {
         guard !query.isEmpty, acceptsInput else { return }
 
         ttsManager.stop()
+        speechManager.stopListening()
         citation = nil
         checklistText = ""
         typedQuery = ""
