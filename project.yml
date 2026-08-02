@@ -62,8 +62,7 @@ targets:
         GENERATE_INFOPLIST_FILE: false
         ENABLE_PREVIEWS: YES
         CODE_SIGN_STYLE: Automatic
-        # Local Personal Team — required for device/simulator signing after xcodegen.
-        DEVELOPMENT_TEAM: ""
+        DEVELOPMENT_TEAM: "WP6KUJ9K8Y"
         ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: NO
         ENABLE_DEBUG_DYLIB: NO
       configs:
@@ -109,7 +108,7 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.wildernessedge.app.tests
         GENERATE_INFOPLIST_FILE: true
         CODE_SIGN_STYLE: Automatic
-        DEVELOPMENT_TEAM: ""
+        DEVELOPMENT_TEAM: "WP6KUJ9K8Y"
 
 schemes:
   WildernessEdge:

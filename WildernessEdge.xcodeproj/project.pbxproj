@@ -16,22 +16,7 @@
 		164184717B56532499BDB3FC /* SafetyFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26C10E58AC659E95D018EE7 /* SafetyFilter.swift */; };
 		166308D20F3FEACDB1DBBD1D /* TextEmbeddingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF539CC8EB05608434BB219E /* TextEmbeddingManager.swift */; };
 		18E773D9DECA57881F470839 /* SafetyFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26C10E58AC659E95D018EE7 /* SafetyFilter.swift */; };
-		197A6A60F44171AC7795A7A8 /* TextEmbeddingManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFE8976BF5675BD7C4B1304 /* TextEmbeddingManagerTests.swift */; };
-		20346E0A20AA825900C494E6 /* query-embedder.mlpackage in Resources */ = {isa = PBXBuildFile; fileRef = 45A43C93763F3EA5904F8829 /* query-embedder.mlpackage */; };
-		2047DBC7E0C0E788B5ED3C2B /* query-embedder-vocab.txt in Resources */ = {isa = PBXBuildFile; fileRef = 31466173D83276EE492F35DF /* query-embedder-vocab.txt */; };
-		2D99D5F2FECDFC6B8B4F2203 /* fixture-vocab.txt in Resources */ = {isa = PBXBuildFile; fileRef = B7512DC5FBE7A75C2FB86299 /* fixture-vocab.txt */; };
-		2E20464C01EE8323999E0299 /* WordPieceTokenizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5FBADBEC8EB82B6997C8B9 /* WordPieceTokenizerTests.swift */; };
-		31585F72AC42D6BAEB4B3A79 /* protocols.db in Resources */ = {isa = PBXBuildFile; fileRef = EB9C3144E44FF72E10DC79FE /* protocols.db */; };
-		50DBC218870889594E40B8F3 /* fixture-protocols.db in Resources */ = {isa = PBXBuildFile; fileRef = CDF197541ACA25451B662B7D /* fixture-protocols.db */; };
-		54F3E5BFE113712991CB67FF /* VectorRAGManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE1D90B29F1F474CA4004E8 /* VectorRAGManager.swift */; };
-		7F429F1865DE90599C42CB47 /* query-embedder-vocab.txt in Resources */ = {isa = PBXBuildFile; fileRef = 31466173D83276EE492F35DF /* query-embedder-vocab.txt */; };
-		83B8C20E24DBD8709E6CB255 /* SpeciesCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7E7C8E44A5F485297E9F34 /* SpeciesCardView.swift */; };
-		8CAFD01EB075C8A18B40DEDA /* query-embedder-tokenizer.json in Resources */ = {isa = PBXBuildFile; fileRef = 073FA8C51985BAF3A1D761CF /* query-embedder-tokenizer.json */; };
-		9545FC6BA9ACF0AA0C67002D /* fixture-unnormalized.db in Resources */ = {isa = PBXBuildFile; fileRef = 9FCFE60A383BAF8DAF1665EB /* fixture-unnormalized.db */; };
-		97D26AF9529B2BAD3AF12E66 /* LiteRTLM in Frameworks */ = {isa = PBXBuildFile; productRef = 5BFF960F428FB8F81F01DBED /* LiteRTLM */; };
-		996485B32174B4F0677414B9 /* query-embedder.mlpackage in Resources */ = {isa = PBXBuildFile; fileRef = 45A43C93763F3EA5904F8829 /* query-embedder.mlpackage */; };
 		A0D64210698E9502FEADFDE3 /* embedding_parity_fixtures.json in Resources */ = {isa = PBXBuildFile; fileRef = D5D48F91942911D274450891 /* embedding_parity_fixtures.json */; };
-		A641346C7336C28689133E7F /* LLMInferenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3B681E5ADC90158A61F376 /* LLMInferenceManager.swift */; };
 		B567893C712A34D599A44C7F /* SpeechManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CFA512E2F6489AF427BB27 /* SpeechManager.swift */; };
 		B60A4E7CF89C5A34F48D2F67 /* SafetyFilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4872CE5554CF3BAF79C707E /* SafetyFilterTests.swift */; };
 		C23BC272976B6B7D2DE28D6D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6305700F5E7A7BC840C61DC9 /* ContentView.swift */; };
@@ -49,9 +34,7 @@
 		073FA8C51985BAF3A1D761CF /* query-embedder-tokenizer.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "query-embedder-tokenizer.json"; sourceTree = "<group>"; };
 		168B2A26C3CD8CB4256DF161 /* .gitkeep */ = {isa = PBXFileReference; path = .gitkeep; sourceTree = "<group>"; };
 		16ED0F35B444E863DCF8F97A /* EmergencyButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyButtonView.swift; sourceTree = "<group>"; };
-		1F3B681E5ADC90158A61F376 /* LLMInferenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMInferenceManager.swift; sourceTree = "<group>"; };
-		1F5FBADBEC8EB82B6997C8B9 /* WordPieceTokenizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordPieceTokenizerTests.swift; sourceTree = "<group>"; };
-		1FEB8D517299E83323CB8AC3 /* WildernessEdge.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = WildernessEdge.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1FEB8D517299E83323CB8AC3 /* WildernessEdge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WildernessEdge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		295F808866EC7D267E537094 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		31466173D83276EE492F35DF /* query-embedder-vocab.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "query-embedder-vocab.txt"; sourceTree = "<group>"; };
 		3D238DBC8AAFC85B94C19DDD /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
@@ -68,11 +51,10 @@
 		A26C10E58AC659E95D018EE7 /* SafetyFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafetyFilter.swift; sourceTree = "<group>"; };
 		AF539CC8EB05608434BB219E /* TextEmbeddingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEmbeddingManager.swift; sourceTree = "<group>"; };
 		B0D19E2B6B3EA139F6318C50 /* TTSManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTSManager.swift; sourceTree = "<group>"; };
-		B18781C3EF3E3FF93ED9342B /* WildernessEdgeTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = WildernessEdgeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B7512DC5FBE7A75C2FB86299 /* fixture-vocab.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "fixture-vocab.txt"; sourceTree = "<group>"; };
+		B18781C3EF3E3FF93ED9342B /* WildernessEdgeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WildernessEdgeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDC9E4BD84BD94A60724C9B7 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		C4872CE5554CF3BAF79C707E /* SafetyFilterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafetyFilterTests.swift; sourceTree = "<group>"; };
-		CDF197541ACA25451B662B7D /* fixture-protocols.db */ = {isa = PBXFileReference; path = "fixture-protocols.db"; sourceTree = "<group>"; };
+		C92B1D036E104A46578684A0 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Resources; path = WildernessEdge/Resources; sourceTree = SOURCE_ROOT; };
 		D5D48F91942911D274450891 /* embedding_parity_fixtures.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = embedding_parity_fixtures.json; sourceTree = "<group>"; };
 		DA694C321CBD5CCD13A57F19 /* WildernessEdgeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WildernessEdgeApp.swift; sourceTree = "<group>"; };
 		E836C4B111EE33C2C06E5956 /* WildernessEdge.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WildernessEdge.entitlements; sourceTree = "<group>"; };
@@ -184,7 +166,6 @@
 		E12E015356BBFEC23D1113F3 /* WildernessEdgeTests */ = {
 			isa = PBXGroup;
 			children = (
-				7E6E746CE999EBD06D31F3AF /* Fixtures */,
 				D5D48F91942911D274450891 /* embedding_parity_fixtures.json */,
 				C4872CE5554CF3BAF79C707E /* SafetyFilterTests.swift */,
 				3EFE8976BF5675BD7C4B1304 /* TextEmbeddingManagerTests.swift */,
@@ -255,11 +236,9 @@
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					2BD7C50C3828B812B6C0C424 = {
-						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 					397CFD856BEBB1C3224BD941 = {
-						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -293,13 +272,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A0D64210698E9502FEADFDE3 /* embedding_parity_fixtures.json in Resources */,
-				50DBC218870889594E40B8F3 /* fixture-protocols.db in Resources */,
-				F6951F0FA46131D7AAC89078 /* fixture-species.db in Resources */,
-				9545FC6BA9ACF0AA0C67002D /* fixture-unnormalized.db in Resources */,
-				2D99D5F2FECDFC6B8B4F2203 /* fixture-vocab.txt in Resources */,
-				D395175AB3AB9E01080DCBDC /* query-embedder-tokenizer.json in Resources */,
-				7F429F1865DE90599C42CB47 /* query-embedder-vocab.txt in Resources */,
-				996485B32174B4F0677414B9 /* query-embedder.mlpackage in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,7 +334,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 8D726792SM;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -380,7 +352,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 8D726792SM;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -401,7 +373,7 @@
 				CODE_SIGN_ENTITLEMENTS = WildernessEdge/App/WildernessEdge.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 8D726792SM;
 				ENABLE_DEBUG_DYLIB = NO;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -547,7 +519,7 @@
 				CODE_SIGN_ENTITLEMENTS = WildernessEdge/App/WildernessEdge.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 8D726792SM;
 				ENABLE_DEBUG_DYLIB = NO;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
