@@ -25,6 +25,7 @@ All coding agents working on this project must strictly respect and enforce thre
 - The application must **NEVER** issue an independent medical diagnosis (e.g., "The patient has a grade-2 fracture") or prescribe drug treatments.
 - All outputs must be explicitly framed as retrieved protocol checklists (e.g., "Displaying NOLS WFR Section 4.2: Musculoskeletal Evaluation Checklist").
 - Output text must pass through a client-side safety verification layer before being spoken or displayed.
+- **Species identification is treated as diagnosis.** The app must never assert what a plant or animal *is* ("this is a copperhead"), never declare one harmless ("that's non-venomous"), and never give foraging or edibility advice. A small multimodal model asked to identify an organism from one camera frame will answer confidently and will sometimes be wrong, and a false "harmless" injures someone. Gemma describes visible field marks, `VectorRAGManager` retrieves the matching hazard card, `SpeciesCardView` shows licensed reference photographs, and the **responder** decides. `SafetyFilter`'s `species_id`, `harmless_reassurance`, and `edibility_advice` patterns enforce this; conditional framing ("if this is a copperhead, the protocol says…") is deliberately still allowed. See `OffLineTools/SOURCES.md`.
 
 ### 2. Strict Air-Gap (100% Offline) Operation
 
@@ -103,8 +104,11 @@ WildernessEdge/
 ├── OffLineTools/                       # Pre-processing scripts (Run on Laptop/Colab)
 │   ├── SOURCES.md                      # Vetted corpus & redistribution license record
 │   ├── sources.manifest.json           # Per-source provenance, license & citation prefix
+│   ├── species.manifest.json           # Flora & fauna hazard cards (text + Commons categories)
+│   ├── species.images.lock.json        # Pinned reference images with per-file license & author
 │   ├── fetch_sources.py                # Downloads the manifested source PDFs
 │   ├── build_vector_db.py              # Offline PDF parser & vector DB generator
+│   ├── build_species_pack.py           # Hazard cards + license-filtered imagery into protocols.db
 │   ├── export_embedder_coreml.py       # CoreML query-embedder export & parity check
 │   ├── query_protocols.py              # Offline retrieval harness for threshold calibration
 │   ├── build_training_data.py          # Grounded/refusal/deflection LoRA dataset generator (not used this sprint)
@@ -131,7 +135,8 @@ WildernessEdge/
     └── Views/
         ├── ContentView.swift           # Primary container & state coordination view
         ├── EmergencyButtonView.swift   # Single circular push-to-talk button
-        └── SubtitleCardView.swift      # High-contrast action checklist card
+        ├── SubtitleCardView.swift      # High-contrast action checklist card
+        └── SpeciesCardView.swift       # Licensed reference imagery for human ID confirmation
 ```
 
 ## Guidelines for AI Coding Agents

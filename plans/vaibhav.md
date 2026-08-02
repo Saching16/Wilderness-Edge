@@ -55,7 +55,9 @@ thigh
 ##ing
 ##s
 ```
-(Index 0 = `[PAD]`, 1 = `[UNK]`, 2 = `[CLS]`, 3 = `[SEP]`, matching BERT convention — this must match whatever `query-embedder-tokenizer.json` records at Checkpoint 1, i.e. `pad_token_id: 0, cls_token_id: 2, sep_token_id: 3, unk_token_id: 1`.)
+(Index 0 = `[PAD]`, 1 = `[UNK]`, 2 = `[CLS]`, 3 = `[SEP]`. These are the *fixture's* ids, chosen to keep the file short — they are deliberately **not** the real model's.
+
+> **Correction (verified 2026-08-01).** An earlier version of this note claimed these are "BERT convention" and that `query-embedder-tokenizer.json` would record `cls_token_id: 2, sep_token_id: 3, unk_token_id: 1`. That is wrong. Real BERT vocabularies — including `all-MiniLM-L6-v2` — lay out `[PAD]=0`, `[unused0…98]=1…99`, `[UNK]=100`, `[CLS]=101`, `[SEP]=102`, `[MASK]=103`, confirmed against the published tokenizer. `export_embedder_coreml.py` writes the tokenizer's actual ids into the JSON, so the real values will be `pad_token_id: 0, unk_token_id: 100, cls_token_id: 101, sep_token_id: 102`. **Do not hardcode 2/3/1 anywhere.** `WordPieceTokenizer` takes all four ids as init parameters and `TextEmbeddingManager` passes whatever the JSON records, so the fixture and the real vocabulary can disagree safely — that is the point of injecting them.)
 
 - [ ] **Step 2: Write the failing test**
 

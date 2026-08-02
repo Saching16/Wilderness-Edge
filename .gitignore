@@ -23,3 +23,20 @@ __pycache__/
 # Local-only (not for the shared branch)
 resumes/
 plan/
+
+# Flutter mockup platform scaffolding / build artifacts
+mockups/flutter/**/.dart_tool/
+mockups/flutter/**/.flutter-plugins
+mockups/flutter/**/.flutter-plugins-dependencies
+mockups/flutter/**/.packages
+mockups/flutter/**/build/
+mockups/flutter/**/.pub-cache/
+mockups/flutter/**/.pub/
+mockups/flutter/**/ios/
+mockups/flutter/**/android/
+mockups/flutter/**/macos/
+mockups/flutter/**/linux/
+mockups/flutter/**/windows/
+mockups/flutter/**/web/
+mockups/flutter/**/.idea/
+mockups/flutter/**/*.iml

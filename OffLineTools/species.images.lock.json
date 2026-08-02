@@ -1,0 +1,635 @@
+{
+  "_comment": "Pinned Wikimedia Commons files per species, with the license read from the Commons API at resolution time. Regenerate with --refresh-images. Review license changes in this diff before shipping; build_species_pack.py re-checks every license against ALLOWED_LICENSE_PATTERNS on each build.",
+  "species": {
+    "poison-ivy": [
+      {
+        "title": "File:\"Leaves of Three - Let It Be\" (15421756455).jpg",
+        "license": "Public domain",
+        "attribution": "USFWS Mountain Prairie",
+        "credit": "\"Leaves of Three - Let It Be\"",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:%22Leaves_of_Three_-_Let_It_Be%22_(15421756455).jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/%22Leaves_of_Three_-_Let_It_Be%22_%2815421756455%29.jpg/960px-%22Leaves_of_Three_-_Let_It_Be%22_%2815421756455%29.jpg",
+        "width": 900,
+        "height": 1350
+      },
+      {
+        "title": "File:2011-05-23 No Tresspassing.jpg",
+        "license": "CC BY-SA 4.0",
+        "attribution": "Ildar Sagdejev (Specious)",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:2011-05-23_No_Tresspassing.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/2011-05-23_No_Tresspassing.jpg/960px-2011-05-23_No_Tresspassing.jpg",
+        "width": 900,
+        "height": 600
+      },
+      {
+        "title": "File:2022-05-15 12 31 17 Poison ivy vine on a tree trunk along Wexford Run Road in Marshall Township, Allegheny County, Pennsylvania.jpg",
+        "license": "CC BY-SA 4.0",
+        "attribution": "Famartin",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:2022-05-15_12_31_17_Poison_ivy_vine_on_a_tree_trunk_along_Wexford_Run_Road_in_Marshall_Township,_Allegheny_County,_Pennsylvania.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/2022-05-15_12_31_17_Poison_ivy_vine_on_a_tree_trunk_along_Wexford_Run_Road_in_Marshall_Township%2C_Allegheny_County%2C_Pennsylvania.jpg/960px-2022-05-15_12_31_17_Poison_ivy_vine_on_a_tree_trunk_along_Wexford_Run_Road_in_Marshall_Township%2C_Allegheny_County%2C_Pennsylvania.jpg",
+        "width": 900,
+        "height": 1200
+      }
+    ],
+    "poison-oak": [
+      {
+        "title": "File:\"Leaves of three, let it be\" - Poison Oak - Flickr - S. Rae.jpg",
+        "license": "CC BY 2.0",
+        "attribution": "S. Rae from Scotland, UK",
+        "credit": "\"Leaves of three, let it be\" - Poison Oak",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:%22Leaves_of_three,_let_it_be%22_-_Poison_Oak_-_Flickr_-_S._Rae.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/%22Leaves_of_three%2C_let_it_be%22_-_Poison_Oak_-_Flickr_-_S._Rae.jpg/960px-%22Leaves_of_three%2C_let_it_be%22_-_Poison_Oak_-_Flickr_-_S._Rae.jpg",
+        "width": 900,
+        "height": 828
+      },
+      {
+        "title": "File:20160503--IMG 1756 (26747240031).jpg",
+        "license": "CC BY 2.0",
+        "attribution": "Ryan McMinds",
+        "credit": "20160503--IMG_1756.jpg",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:20160503--IMG_1756_(26747240031).jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/20160503--IMG_1756_%2826747240031%29.jpg/960px-20160503--IMG_1756_%2826747240031%29.jpg",
+        "width": 900,
+        "height": 1200
+      },
+      {
+        "title": "File:20160503--IMG 1757 (26747244781).jpg",
+        "license": "CC BY 2.0",
+        "attribution": "Ryan McMinds",
+        "credit": "20160503--IMG_1757.jpg",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:20160503--IMG_1757_(26747244781).jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/20160503--IMG_1757_%2826747244781%29.jpg/960px-20160503--IMG_1757_%2826747244781%29.jpg",
+        "width": 900,
+        "height": 675
+      }
+    ],
+    "poison-sumac": [
+      {
+        "title": "File:2025-07-16 10 52 09 Poison sumac leaves within Tannersville Cranberry Bog in Pocono Township, Monroe County, Pennsylvania.jpg",
+        "license": "CC BY-SA 4.0",
+        "attribution": "Famartin",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:2025-07-16_10_52_09_Poison_sumac_leaves_within_Tannersville_Cranberry_Bog_in_Pocono_Township,_Monroe_County,_Pennsylvania.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/2025-07-16_10_52_09_Poison_sumac_leaves_within_Tannersville_Cranberry_Bog_in_Pocono_Township%2C_Monroe_County%2C_Pennsylvania.jpg/960px-2025-07-16_10_52_09_Poison_sumac_leaves_within_Tannersville_Cranberry_Bog_in_Pocono_Township%2C_Monroe_County%2C_Pennsylvania.jpg",
+        "width": 900,
+        "height": 675
+      },
+      {
+        "title": "File:2025-07-16 10 52 14 Poison sumac leaves within Tannersville Cranberry Bog in Pocono Township, Monroe County, Pennsylvania.jpg",
+        "license": "CC BY-SA 4.0",
+        "attribution": "Famartin",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:2025-07-16_10_52_14_Poison_sumac_leaves_within_Tannersville_Cranberry_Bog_in_Pocono_Township,_Monroe_County,_Pennsylvania.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/2025-07-16_10_52_14_Poison_sumac_leaves_within_Tannersville_Cranberry_Bog_in_Pocono_Township%2C_Monroe_County%2C_Pennsylvania.jpg/960px-2025-07-16_10_52_14_Poison_sumac_leaves_within_Tannersville_Cranberry_Bog_in_Pocono_Township%2C_Monroe_County%2C_Pennsylvania.jpg",
+        "width": 900,
+        "height": 675
+      },
+      {
+        "title": "File:2025-07-16 11 17 11 Poison sumac leaves within Tannersville Cranberry Bog in Pocono Township, Monroe County, Pennsylvania.jpg",
+        "license": "CC BY-SA 4.0",
+        "attribution": "Famartin",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:2025-07-16_11_17_11_Poison_sumac_leaves_within_Tannersville_Cranberry_Bog_in_Pocono_Township,_Monroe_County,_Pennsylvania.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/2025-07-16_11_17_11_Poison_sumac_leaves_within_Tannersville_Cranberry_Bog_in_Pocono_Township%2C_Monroe_County%2C_Pennsylvania.jpg/960px-2025-07-16_11_17_11_Poison_sumac_leaves_within_Tannersville_Cranberry_Bog_in_Pocono_Township%2C_Monroe_County%2C_Pennsylvania.jpg",
+        "width": 900,
+        "height": 675
+      }
+    ],
+    "giant-hogweed": [
+      {
+        "title": "File:0 Heracleum mantegazzianum, native, Chegemsky District, Kabardino-Balkarian Republic, Caucasus Mts, Russia 1.jpg",
+        "license": "CC BY 4.0",
+        "attribution": "anastasiiamerkulova",
+        "credit": "https://www.inaturalist.org/photos/133533253",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:0_Heracleum_mantegazzianum,_native,_Chegemsky_District,_Kabardino-Balkarian_Republic,_Caucasus_Mts,_Russia_1.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/0_Heracleum_mantegazzianum%2C_native%2C_Chegemsky_District%2C_Kabardino-Balkarian_Republic%2C_Caucasus_Mts%2C_Russia_1.jpg/960px-0_Heracleum_mantegazzianum%2C_native%2C_Chegemsky_District%2C_Kabardino-Balkarian_Republic%2C_Caucasus_Mts%2C_Russia_1.jpg",
+        "width": 900,
+        "height": 1200
+      },
+      {
+        "title": "File:0 Heracleum mantegazzianum, native, Chegemsky District, Kabardino-Balkarian Republic, Caucasus Mts, Russia 2.jpg",
+        "license": "CC BY 4.0",
+        "attribution": "anastasiiamerkulova",
+        "credit": "https://www.inaturalist.org/photos/133533276",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:0_Heracleum_mantegazzianum,_native,_Chegemsky_District,_Kabardino-Balkarian_Republic,_Caucasus_Mts,_Russia_2.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/0_Heracleum_mantegazzianum%2C_native%2C_Chegemsky_District%2C_Kabardino-Balkarian_Republic%2C_Caucasus_Mts%2C_Russia_2.jpg/960px-0_Heracleum_mantegazzianum%2C_native%2C_Chegemsky_District%2C_Kabardino-Balkarian_Republic%2C_Caucasus_Mts%2C_Russia_2.jpg",
+        "width": 900,
+        "height": 1200
+      },
+      {
+        "title": "File:0 Heracleum mantegazzianum, native, Chegemsky District, Kabardino-Balkarian Republic, Caucasus Mts, Russia 3.jpg",
+        "license": "CC BY 4.0",
+        "attribution": "anastasiiamerkulova",
+        "credit": "https://www.inaturalist.org/photos/133533320",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:0_Heracleum_mantegazzianum,_native,_Chegemsky_District,_Kabardino-Balkarian_Republic,_Caucasus_Mts,_Russia_3.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/0_Heracleum_mantegazzianum%2C_native%2C_Chegemsky_District%2C_Kabardino-Balkarian_Republic%2C_Caucasus_Mts%2C_Russia_3.jpg/960px-0_Heracleum_mantegazzianum%2C_native%2C_Chegemsky_District%2C_Kabardino-Balkarian_Republic%2C_Caucasus_Mts%2C_Russia_3.jpg",
+        "width": 900,
+        "height": 1200
+      }
+    ],
+    "stinging-nettle": [
+      {
+        "title": "File:'Nitrophilous fringe' of Galio-Urticetea.jpg",
+        "license": "CC0",
+        "attribution": "Industrees",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:%27Nitrophilous_fringe%27_of_Galio-Urticetea.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/%27Nitrophilous_fringe%27_of_Galio-Urticetea.jpg/960px-%27Nitrophilous_fringe%27_of_Galio-Urticetea.jpg",
+        "width": 900,
+        "height": 675
+      },
+      {
+        "title": "File:14 jegtores nitrofil.jpg",
+        "license": "CC BY-SA 4.0",
+        "attribution": "Zoltán László – Zolaci0",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:14_jegtores_nitrofil.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/14_jegtores_nitrofil.jpg/960px-14_jegtores_nitrofil.jpg",
+        "width": 900,
+        "height": 675
+      }
+    ],
+    "water-hemlock": [
+      {
+        "title": "File:Cicuta maculata - Flickr - aspidoscelis (1).jpg",
+        "license": "CC0",
+        "attribution": "Patrick Alexander from Las Cruces, NM",
+        "credit": "Cicuta maculata",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Cicuta_maculata_-_Flickr_-_aspidoscelis_(1).jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Cicuta_maculata_-_Flickr_-_aspidoscelis_%281%29.jpg/960px-Cicuta_maculata_-_Flickr_-_aspidoscelis_%281%29.jpg",
+        "width": 900,
+        "height": 600
+      },
+      {
+        "title": "File:Cicuta maculata - Flickr - aspidoscelis (2).jpg",
+        "license": "CC0",
+        "attribution": "Patrick Alexander from Las Cruces, NM",
+        "credit": "Cicuta maculata",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Cicuta_maculata_-_Flickr_-_aspidoscelis_(2).jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Cicuta_maculata_-_Flickr_-_aspidoscelis_%282%29.jpg/960px-Cicuta_maculata_-_Flickr_-_aspidoscelis_%282%29.jpg",
+        "width": 900,
+        "height": 600
+      },
+      {
+        "title": "File:Cicuta maculata - Flickr - aspidoscelis.jpg",
+        "license": "CC0",
+        "attribution": "Patrick Alexander from Las Cruces, NM",
+        "credit": "Cicuta maculata",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Cicuta_maculata_-_Flickr_-_aspidoscelis.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Cicuta_maculata_-_Flickr_-_aspidoscelis.jpg/960px-Cicuta_maculata_-_Flickr_-_aspidoscelis.jpg",
+        "width": 900,
+        "height": 600
+      }
+    ],
+    "poison-hemlock": [
+      {
+        "title": "File:2023-05-31 18 54 28 Poison Hemlock growing on the banks of the Delaware and Raritan Feeder Canal in the Mountainview section of Ewing Township, Mercer County, New Jersey.jpg",
+        "license": "CC BY-SA 4.0",
+        "attribution": "Famartin",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:2023-05-31_18_54_28_Poison_Hemlock_growing_on_the_banks_of_the_Delaware_and_Raritan_Feeder_Canal_in_the_Mountainview_section_of_Ewing_Township,_Mercer_County,_New_Jersey.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/2023-05-31_18_54_28_Poison_Hemlock_growing_on_the_banks_of_the_Delaware_and_Raritan_Feeder_Canal_in_the_Mountainview_section_of_Ewing_Township%2C_Mercer_County%2C_New_Jersey.jpg/960px-thumbnail.jpg",
+        "width": 900,
+        "height": 675
+      },
+      {
+        "title": "File:2023-05-31 18 54 51 Poison Hemlock flowers on the banks of the Delaware and Raritan Feeder Canal in the Mountainview section of Ewing Township, Mercer County, New Jersey.jpg",
+        "license": "CC BY-SA 4.0",
+        "attribution": "Famartin",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:2023-05-31_18_54_51_Poison_Hemlock_flowers_on_the_banks_of_the_Delaware_and_Raritan_Feeder_Canal_in_the_Mountainview_section_of_Ewing_Township,_Mercer_County,_New_Jersey.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/2023-05-31_18_54_51_Poison_Hemlock_flowers_on_the_banks_of_the_Delaware_and_Raritan_Feeder_Canal_in_the_Mountainview_section_of_Ewing_Township%2C_Mercer_County%2C_New_Jersey.jpg/960px-thumbnail.jpg",
+        "width": 900,
+        "height": 675
+      },
+      {
+        "title": "File:2023-05-31 18 54 57 Poison Hemlock leaves and stems on the banks of the Delaware and Raritan Feeder Canal in the Mountainview section of Ewing Township, Mercer County, New Jersey.jpg",
+        "license": "CC BY-SA 4.0",
+        "attribution": "Famartin",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:2023-05-31_18_54_57_Poison_Hemlock_leaves_and_stems_on_the_banks_of_the_Delaware_and_Raritan_Feeder_Canal_in_the_Mountainview_section_of_Ewing_Township,_Mercer_County,_New_Jersey.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/2023-05-31_18_54_57_Poison_Hemlock_leaves_and_stems_on_the_banks_of_the_Delaware_and_Raritan_Feeder_Canal_in_the_Mountainview_section_of_Ewing_Township%2C_Mercer_County%2C_New_Jersey.jpg/960px-thumbnail.jpg",
+        "width": 900,
+        "height": 675
+      }
+    ],
+    "death-cap": [
+      {
+        "title": "File:01 Amanita phalloides in Zalas, Poland.jpg",
+        "license": "CC BY 3.0",
+        "attribution": "Krzysztof Ślusarczyk (upload by Marek Ślusarczyk)",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:01_Amanita_phalloides_in_Zalas,_Poland.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/01_Amanita_phalloides_in_Zalas%2C_Poland.jpg/960px-01_Amanita_phalloides_in_Zalas%2C_Poland.jpg",
+        "width": 900,
+        "height": 673
+      },
+      {
+        "title": "File:02 Amanita phalloides in Zalas, Poland.jpg",
+        "license": "CC BY 3.0",
+        "attribution": "Krzysztof Ślusarczyk (upload by Marek Ślusarczyk)",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:02_Amanita_phalloides_in_Zalas,_Poland.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/02_Amanita_phalloides_in_Zalas%2C_Poland.jpg/960px-02_Amanita_phalloides_in_Zalas%2C_Poland.jpg",
+        "width": 900,
+        "height": 673
+      },
+      {
+        "title": "File:03 Amanita phalloides in Zalas, Poland.jpg",
+        "license": "CC BY 3.0",
+        "attribution": "Krzysztof Ślusarczyk (upload by Marek Ślusarczyk)",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:03_Amanita_phalloides_in_Zalas,_Poland.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/03_Amanita_phalloides_in_Zalas%2C_Poland.jpg/960px-03_Amanita_phalloides_in_Zalas%2C_Poland.jpg",
+        "width": 900,
+        "height": 673
+      }
+    ],
+    "western-diamondback-rattlesnake": [
+      {
+        "title": "File:(Westliche Diamantklapperschlange) Crotalus atrox.jpg",
+        "license": "CC BY 3.0",
+        "attribution": "Holger Krisp",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:(Westliche_Diamantklapperschlange)_Crotalus_atrox.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/%28Westliche_Diamantklapperschlange%29_Crotalus_atrox.jpg/960px-%28Westliche_Diamantklapperschlange%29_Crotalus_atrox.jpg",
+        "width": 900,
+        "height": 600
+      },
+      {
+        "title": "File:Albino Western diamondback rattlesnake.jpg",
+        "license": "CC BY-SA 4.0",
+        "attribution": "Lewis Hulbert",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Albino_Western_diamondback_rattlesnake.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Albino_Western_diamondback_rattlesnake.jpg/960px-Albino_Western_diamondback_rattlesnake.jpg",
+        "width": 900,
+        "height": 599
+      },
+      {
+        "title": "File:Amelanistic-crotalus-atrox.jpg",
+        "license": "CC BY-SA 3.0",
+        "attribution": "Anthonymckay",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Amelanistic-crotalus-atrox.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Amelanistic-crotalus-atrox.jpg/960px-Amelanistic-crotalus-atrox.jpg",
+        "width": 900,
+        "height": 600
+      }
+    ],
+    "timber-rattlesnake": [
+      {
+        "title": "File:\"Less dangerous than careless talk\" - NARA - 513556.jpg",
+        "license": "Public domain",
+        "attribution": "Albert Dorne",
+        "credit": "U.S. National Archives and Records Administration",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:%22Less_dangerous_than_careless_talk%22_-_NARA_-_513556.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/%22Less_dangerous_than_careless_talk%22_-_NARA_-_513556.jpg/960px-%22Less_dangerous_than_careless_talk%22_-_NARA_-_513556.jpg",
+        "width": 900,
+        "height": 1297
+      },
+      {
+        "title": "File:Adult Crotalus horridus.jpg",
+        "license": "CC BY-SA 4.0",
+        "attribution": "Glenn Bartolotti",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Adult_Crotalus_horridus.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Adult_Crotalus_horridus.jpg",
+        "width": 900,
+        "height": 583
+      },
+      {
+        "title": "File:Canebrake Rattlesnake (8740691427).jpg",
+        "license": "CC BY 2.0",
+        "attribution": "Congaree National Park from Hopkins, SC, USA",
+        "credit": "Canebrake Rattlesnake",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Canebrake_Rattlesnake_(8740691427).jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Canebrake_Rattlesnake_%288740691427%29.jpg/960px-Canebrake_Rattlesnake_%288740691427%29.jpg",
+        "width": 900,
+        "height": 1200
+      }
+    ],
+    "copperhead": [
+      {
+        "title": "File:Agkistrodon contortrix (Stanton 10).jpg",
+        "license": "CC BY-SA 4.0",
+        "attribution": "User:Rstanton13",
+        "credit": "{own}",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Agkistrodon_contortrix_(Stanton_10).jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Agkistrodon_contortrix_%28Stanton_10%29.jpg/960px-Agkistrodon_contortrix_%28Stanton_10%29.jpg",
+        "width": 900,
+        "height": 600
+      },
+      {
+        "title": "File:Agkistrodon contortrix (Stanton 11).jpg",
+        "license": "CC BY-SA 4.0",
+        "attribution": "User:Rstanton13",
+        "credit": "{own}",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Agkistrodon_contortrix_(Stanton_11).jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Agkistrodon_contortrix_%28Stanton_11%29.jpg/960px-Agkistrodon_contortrix_%28Stanton_11%29.jpg",
+        "width": 900,
+        "height": 600
+      },
+      {
+        "title": "File:Agkistrodon contortrix (Stanton 12).jpg",
+        "license": "CC BY-SA 4.0",
+        "attribution": "User:Rstanton13",
+        "credit": "{own}",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Agkistrodon_contortrix_(Stanton_12).jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Agkistrodon_contortrix_%28Stanton_12%29.jpg/960px-Agkistrodon_contortrix_%28Stanton_12%29.jpg",
+        "width": 900,
+        "height": 600
+      }
+    ],
+    "cottonmouth": [
+      {
+        "title": "File:Agkistrodon piscivorus (3).jpg",
+        "license": "Public domain",
+        "attribution": "TimVickers",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Agkistrodon_piscivorus_(3).jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Agkistrodon_piscivorus_%283%29.jpg/960px-Agkistrodon_piscivorus_%283%29.jpg",
+        "width": 900,
+        "height": 766
+      },
+      {
+        "title": "File:Agkistrodon piscivorus 5.jpg",
+        "license": "CC BY 2.0",
+        "attribution": "Geoff Gallice from Gainesville",
+        "credit": "Cottonmouth",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Agkistrodon_piscivorus_5.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Agkistrodon_piscivorus_5.jpg/960px-Agkistrodon_piscivorus_5.jpg",
+        "width": 900,
+        "height": 1125
+      },
+      {
+        "title": "File:Agkistrodon piscivorus 7.jpg",
+        "license": "CC BY 2.0",
+        "attribution": "Geoff Gallice from Gainesville",
+        "credit": "Cottonmouth",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Agkistrodon_piscivorus_7.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Agkistrodon_piscivorus_7.jpg/960px-Agkistrodon_piscivorus_7.jpg",
+        "width": 900,
+        "height": 643
+      }
+    ],
+    "eastern-coral-snake": [
+      {
+        "title": "File:Animaux venimeux et venins- la fonction venimeuse chez tous les animaux (Pl. VII) (7461656272).jpg",
+        "license": "Public domain",
+        "attribution": "Phisalix, Marie",
+        "credit": "https://www.flickr.com/photos/biodivlibrary/7461656272",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Animaux_venimeux_et_venins-_la_fonction_venimeuse_chez_tous_les_animaux_(Pl._VII)_(7461656272).jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Animaux_venimeux_et_venins-_la_fonction_venimeuse_chez_tous_les_animaux_%28Pl._VII%29_%287461656272%29.jpg/960px-Animaux_venimeux_et_venins-_la_fonction_venimeuse_chez_tous_les_animaux_%28Pl._VII%29_%287461656272%29.jpg",
+        "width": 900,
+        "height": 1501
+      },
+      {
+        "title": "File:Coral 009.jpg",
+        "license": "CC BY-SA 3.0",
+        "attribution": "Norman.benton",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Coral_009.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Coral_009.jpg/960px-Coral_009.jpg",
+        "width": 900,
+        "height": 801
+      },
+      {
+        "title": "File:Coral Snake, NPSPhoto (9257805708).jpg",
+        "license": "Public domain",
+        "attribution": "Everglades NPS from Homestead, Florida, United States",
+        "credit": "Coral Snake, NPSPhoto",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Coral_Snake,_NPSPhoto_(9257805708).jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Coral_Snake%2C_NPSPhoto_%289257805708%29.jpg/960px-Coral_Snake%2C_NPSPhoto_%289257805708%29.jpg",
+        "width": 900,
+        "height": 675
+      }
+    ],
+    "black-widow": [
+      {
+        "title": "File:A female lactrodectus mactans wrapping her prey in webbing.jpg",
+        "license": "CC BY-SA 4.0",
+        "attribution": "Stardustsoull",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:A_female_lactrodectus_mactans_wrapping_her_prey_in_webbing.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/A_female_lactrodectus_mactans_wrapping_her_prey_in_webbing.jpg/960px-A_female_lactrodectus_mactans_wrapping_her_prey_in_webbing.jpg",
+        "width": 900,
+        "height": 591
+      },
+      {
+        "title": "File:Adult Female Black Widow.jpg",
+        "license": "CC BY-SA 3.0",
+        "attribution": "Shenrich91",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Adult_Female_Black_Widow.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Adult_Female_Black_Widow.jpg/960px-Adult_Female_Black_Widow.jpg",
+        "width": 900,
+        "height": 675
+      },
+      {
+        "title": "File:Araña Capulina.jpg",
+        "license": "CC BY-SA 3.0",
+        "attribution": "Moisés Álvarez Domínguez",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Ara%C3%B1a_Capulina.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Ara%C3%B1a_Capulina.jpg/960px-Ara%C3%B1a_Capulina.jpg",
+        "width": 900,
+        "height": 675
+      }
+    ],
+    "brown-recluse": [
+      {
+        "title": "File:Anterior view of Loxosceles reclusa (Brown Recluse Spider) (22830337766) (2).jpg",
+        "license": "CC0",
+        "attribution": "Insects Unlocked",
+        "credit": "Anterior view of Loxosceles reclusa (Brown Recluse Spider)",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Anterior_view_of_Loxosceles_reclusa_(Brown_Recluse_Spider)_(22830337766)_(2).jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Anterior_view_of_Loxosceles_reclusa_%28Brown_Recluse_Spider%29_%2822830337766%29_%282%29.jpg/960px-Anterior_view_of_Loxosceles_reclusa_%28Brown_Recluse_Spider%29_%2822830337766%29_%282%29.jpg",
+        "width": 900,
+        "height": 668
+      },
+      {
+        "title": "File:Anterior view of Loxosceles reclusa (Brown Recluse Spider) (22830337766).jpg",
+        "license": "CC0",
+        "attribution": "Insects Unlocked",
+        "credit": "Anterior view of Loxosceles reclusa (Brown Recluse Spider)",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Anterior_view_of_Loxosceles_reclusa_(Brown_Recluse_Spider)_(22830337766).jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Anterior_view_of_Loxosceles_reclusa_%28Brown_Recluse_Spider%29_%2822830337766%29.jpg/960px-Anterior_view_of_Loxosceles_reclusa_%28Brown_Recluse_Spider%29_%2822830337766%29.jpg",
+        "width": 900,
+        "height": 600
+      },
+      {
+        "title": "File:Brown Recluse.jpg",
+        "license": "CC BY-SA 3.0",
+        "attribution": "Rosa Pineda",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Brown_Recluse.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Brown_Recluse.jpg/960px-Brown_Recluse.jpg",
+        "width": 900,
+        "height": 598
+      }
+    ],
+    "blacklegged-tick": [
+      {
+        "title": "File:400x legs blacklegged tick.jpg",
+        "license": "CC BY-SA 4.0",
+        "attribution": "Dwstultz",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:400x_legs_blacklegged_tick.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/400x_legs_blacklegged_tick.jpg/960px-400x_legs_blacklegged_tick.jpg",
+        "width": 900,
+        "height": 690
+      },
+      {
+        "title": "File:40x head blacklegged tick.jpg",
+        "license": "CC BY-SA 4.0",
+        "attribution": "Dwstultz",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:40x_head_blacklegged_tick.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/40x_head_blacklegged_tick.jpg/960px-40x_head_blacklegged_tick.jpg",
+        "width": 900,
+        "height": 690
+      },
+      {
+        "title": "File:40x stubby little leg blacklegged tick.jpg",
+        "license": "CC BY-SA 4.0",
+        "attribution": "Dwstultz",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:40x_stubby_little_leg_blacklegged_tick.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/40x_stubby_little_leg_blacklegged_tick.jpg/960px-40x_stubby_little_leg_blacklegged_tick.jpg",
+        "width": 900,
+        "height": 690
+      }
+    ],
+    "black-bear": [
+      {
+        "title": "File:16 Black bears (26665762470).jpg",
+        "license": "Public domain",
+        "attribution": "USFWS/Southeast",
+        "credit": "16 Black bears",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:16_Black_bears_(26665762470).jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/16_Black_bears_%2826665762470%29.jpg/960px-16_Black_bears_%2826665762470%29.jpg",
+        "width": 900,
+        "height": 600
+      },
+      {
+        "title": "File:187561 Bear Cub at Sportsman's Show in Baker City, OR (21852490099).jpg",
+        "license": "Public domain",
+        "attribution": "U.S. Forest Service- Pacific Northwest Region",
+        "credit": "187561 Bear Cub at Sportsman's Show in Baker City, OR",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:187561_Bear_Cub_at_Sportsman%27s_Show_in_Baker_City,_OR_(21852490099).jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/187561_Bear_Cub_at_Sportsman%27s_Show_in_Baker_City%2C_OR_%2821852490099%29.jpg/960px-187561_Bear_Cub_at_Sportsman%27s_Show_in_Baker_City%2C_OR_%2821852490099%29.jpg",
+        "width": 900,
+        "height": 594
+      },
+      {
+        "title": "File:2023 Garden 4 - Flickr - anoldent.jpg",
+        "license": "CC BY-SA 2.0",
+        "attribution": "anoldent",
+        "credit": "2023 Garden 4",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:2023_Garden_4_-_Flickr_-_anoldent.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/2023_Garden_4_-_Flickr_-_anoldent.jpg/960px-2023_Garden_4_-_Flickr_-_anoldent.jpg",
+        "width": 900,
+        "height": 676
+      }
+    ],
+    "grizzly-bear": [
+      {
+        "title": "File:0812 - grizzly.jpg",
+        "license": "CC BY 2.5",
+        "attribution": "Dubhe",
+        "credit": "Self-photographed",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:0812_-_grizzly.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/0812_-_grizzly.jpg/960px-0812_-_grizzly.jpg",
+        "width": 900,
+        "height": 675
+      },
+      {
+        "title": "File:0813 - grizzly.jpg",
+        "license": "CC BY 2.5",
+        "attribution": "Dubhe",
+        "credit": "Self-photographed",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:0813_-_grizzly.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/0813_-_grizzly.jpg/960px-0813_-_grizzly.jpg",
+        "width": 900,
+        "height": 675
+      },
+      {
+        "title": "File:200 series bears seen in 2022 and first identified in 2021 (52456727386).jpg",
+        "license": "Public domain",
+        "attribution": "KatmaiNPS",
+        "credit": "224",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:200_series_bears_seen_in_2022_and_first_identified_in_2021_(52456727386).jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/200_series_bears_seen_in_2022_and_first_identified_in_2021_%2852456727386%29.jpg/960px-200_series_bears_seen_in_2022_and_first_identified_in_2021_%2852456727386%29.jpg",
+        "width": 900,
+        "height": 675
+      }
+    ],
+    "mountain-lion": [
+      {
+        "title": "File:Craneo de Puma-Vista dorsal.jpg",
+        "license": "CC BY 4.0",
+        "attribution": "TonyredgraaveMPCNGR3.5",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Craneo_de_Puma-Vista_dorsal.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Craneo_de_Puma-Vista_dorsal.jpg/960px-Craneo_de_Puma-Vista_dorsal.jpg",
+        "width": 900,
+        "height": 635
+      },
+      {
+        "title": "File:Craneo de Puma-Vista frontal.jpg",
+        "license": "CC BY 4.0",
+        "attribution": "TonyredgraaveMPCNGR3.5",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Craneo_de_Puma-Vista_frontal.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Craneo_de_Puma-Vista_frontal.jpg/960px-Craneo_de_Puma-Vista_frontal.jpg",
+        "width": 900,
+        "height": 1084
+      },
+      {
+        "title": "File:Craneo de Puma-Vista lateral Izquierda.jpg",
+        "license": "CC BY 4.0",
+        "attribution": "TonyredgraaveMPCNGR3.5",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Craneo_de_Puma-Vista_lateral_Izquierda.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Craneo_de_Puma-Vista_lateral_Izquierda.jpg/960px-Craneo_de_Puma-Vista_lateral_Izquierda.jpg",
+        "width": 900,
+        "height": 560
+      }
+    ],
+    "moose": [
+      {
+        "title": "File:Alaska moose diorama at American Museum of Natural History.jpg",
+        "license": "CC BY 4.0",
+        "attribution": "Vicpeters",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Alaska_moose_diorama_at_American_Museum_of_Natural_History.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Alaska_moose_diorama_at_American_Museum_of_Natural_History.jpg/960px-Alaska_moose_diorama_at_American_Museum_of_Natural_History.jpg",
+        "width": 900,
+        "height": 675
+      },
+      {
+        "title": "File:Alces alces, female, Fokstumyra naturreservat, Norway 4.jpg",
+        "license": "CC BY 4.0",
+        "attribution": "Bouke ten Cate",
+        "credit": "Own work",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Alces_alces,_female,_Fokstumyra_naturreservat,_Norway_4.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Alces_alces%2C_female%2C_Fokstumyra_naturreservat%2C_Norway_4.jpg/960px-Alces_alces%2C_female%2C_Fokstumyra_naturreservat%2C_Norway_4.jpg",
+        "width": 900,
+        "height": 642
+      },
+      {
+        "title": "File:Chornobyl, Renaissance, Alces alces, blister 1.jpg",
+        "license": "Public domain",
+        "attribution": "Національний банк України",
+        "credit": "https://bank.gov.ua/ua/uah/investment-coins/souvenier-coins",
+        "descriptor_url": "https://commons.wikimedia.org/wiki/File:Chornobyl,_Renaissance,_Alces_alces,_blister_1.jpg",
+        "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Chornobyl%2C_Renaissance%2C_Alces_alces%2C_blister_1.jpg/960px-Chornobyl%2C_Renaissance%2C_Alces_alces%2C_blister_1.jpg",
+        "width": 900,
+        "height": 675
+      }
+    ]
+  }
+}

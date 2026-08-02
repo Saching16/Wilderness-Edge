@@ -1,0 +1,17 @@
+[PAD]
+[UNK]
+[CLS]
+[SEP]
+patient
+has
+severe
+bleeding
+from
+the
+left
+thigh
+##ing
+##s
+,
+.
+cafe

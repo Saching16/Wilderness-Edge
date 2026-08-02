@@ -1,0 +1,481 @@
+{
+  "_comment": "Flora & fauna hazard cards for Wilderness Edge. Each entry becomes (a) one retrievable chunk in protocols.db, embedded with the SAME model as every other chunk, and (b) a set of licensed reference images shown to the responder for HUMAN confirmation. The app never asserts a species identification -- see `identification` framing and SafetyFilter's species_id patterns. Card text is original prose written from public-domain federal sources named in `source_citation`; it is not copied from any third-party field guide. Images are resolved from Wikimedia Commons categories at build time and hard-filtered against ALLOWED_LICENSES in build_species_pack.py, then pinned in species.images.lock.json.",
+  "citation_prefix": "Wilderness Edge Field Hazard Card",
+  "license": "Card text: original prose derived from US federal public-domain sources (CDC/NIOSH, US Army FM 3-05.70, NPS). Images: per-file license recorded in species.images.lock.json; only PD/CC0/CC BY/CC BY-SA are admitted.",
+  "species": [
+    {
+      "slug": "poison-ivy",
+      "common_name": "Poison Ivy",
+      "scientific_name": "Toxicodendron radicans",
+      "hazard_class": "Contact dermatitis (urushiol)",
+      "region": "Most of the continental United States except the far West",
+      "identification": "Three pointed leaflets on each stalk; the middle leaflet has a longer stem than the two side leaflets. Grows as a vine, trailing plant, or low shrub. Leaf edges may be smooth or toothed; leaves are glossy in spring and turn red in autumn. May produce clusters of greenish-white berries. Vines on tree trunks look hairy with aerial rootlets.",
+      "lookalikes": "Box elder seedlings, Virginia creeper (five leaflets, not three), and young raspberry canes are commonly mistaken for poison ivy.",
+      "field_response": [
+        "Rinse the exposed skin with plenty of soap and water as soon as possible after contact.",
+        "Wash any clothing, boots, tools, packs, and pet fur that contacted the plant; urushiol persists on surfaces and causes repeat exposure.",
+        "Cool compresses and keeping the area clean and dry are the standard comfort measures cited for the resulting rash.",
+        "Monitor for widespread rash, facial or genital involvement, or difficulty breathing, and evacuate for those findings."
+      ],
+      "do_not": [
+        "Do not burn the plant or brush containing it. Inhaled urushiol smoke can cause severe respiratory injury and is a documented medical emergency.",
+        "Do not assume the rash is contagious between people. Blister fluid does not spread the rash; unwashed urushiol on skin, clothing, or gear does."
+      ],
+      "source_citation": "CDC/NIOSH Fast Facts: Protecting Yourself from Poisonous Plants (public domain); US Army FM 3-05.70 Appendix C, Poisonous Plants",
+      "commons_categories": ["Toxicodendron radicans"],
+      "max_images": 3
+    },
+    {
+      "slug": "poison-oak",
+      "common_name": "Poison Oak (Western and Atlantic)",
+      "scientific_name": "Toxicodendron diversilobum",
+      "hazard_class": "Contact dermatitis (urushiol)",
+      "region": "Pacific coast states (western); southeastern United States (Atlantic species, T. pubescens)",
+      "identification": "Leaves in groups of three, with lobed or scalloped edges that resemble oak leaves. Surfaces are often fuzzy or dull rather than glossy. Grows as a low shrub or, in shaded areas, a climbing vine. May carry clusters of yellowish-white berries.",
+      "lookalikes": "True oak seedlings, which bear leaves singly rather than in groups of three.",
+      "field_response": [
+        "Rinse the exposed skin with plenty of soap and water as soon as possible after contact.",
+        "Decontaminate clothing, gear, and pet fur, which carry urushiol and cause repeat exposure.",
+        "Apply cool compresses and keep the area clean and dry.",
+        "Monitor for widespread rash, facial involvement, or respiratory difficulty and evacuate for those findings."
+      ],
+      "do_not": [
+        "Do not burn the plant. Inhaled urushiol smoke can cause severe respiratory injury."
+      ],
+      "source_citation": "CDC/NIOSH Fast Facts: Protecting Yourself from Poisonous Plants (public domain); US Army FM 3-05.70 Appendix C, Poisonous Plants",
+      "commons_categories": ["Toxicodendron diversilobum"],
+      "max_images": 3
+    },
+    {
+      "slug": "poison-sumac",
+      "common_name": "Poison Sumac",
+      "scientific_name": "Toxicodendron vernix",
+      "hazard_class": "Contact dermatitis (urushiol)",
+      "region": "Wet, swampy ground in the eastern and southeastern United States",
+      "identification": "A woody shrub or small tree, not a vine. Each stem carries seven to thirteen smooth-edged leaflets arranged in pairs with one leaflet at the tip. Stems are often reddish. Grows in standing water, bogs, and swamp margins. The 'leaves of three' rule does NOT apply to this plant.",
+      "lookalikes": "Harmless staghorn sumac, which has toothed leaflet edges and upright red berry clusters; poison sumac berries are white or grey and droop.",
+      "field_response": [
+        "Rinse the exposed skin with plenty of soap and water as soon as possible after contact.",
+        "Decontaminate clothing, boots, and gear.",
+        "Apply cool compresses and keep the area clean and dry.",
+        "Monitor for widespread rash or respiratory difficulty and evacuate for those findings."
+      ],
+      "do_not": [
+        "Do not burn this plant. It is considered the most reactive of the urushiol-bearing species and its smoke is a documented respiratory emergency."
+      ],
+      "source_citation": "CDC/NIOSH Fast Facts: Protecting Yourself from Poisonous Plants (public domain); US Army FM 3-05.70 Appendix C, Poisonous Plants",
+      "commons_categories": ["Toxicodendron vernix"],
+      "max_images": 3
+    },
+    {
+      "slug": "giant-hogweed",
+      "common_name": "Giant Hogweed",
+      "scientific_name": "Heracleum mantegazzianum",
+      "hazard_class": "Phytophotodermatitis (sap plus sunlight causes chemical burns)",
+      "region": "Northeastern and northwestern United States; an invasive species under active eradication",
+      "identification": "Very large plant, commonly reaching three to five metres tall. Thick hollow green stem with coarse white hairs and distinctive purple blotches. Enormous deeply incised compound leaves up to 1.5 metres across. Broad umbrella-shaped clusters of small white flowers up to 75 centimetres wide.",
+      "lookalikes": "Cow parsnip and Queen Anne's lace are far smaller and lack the purple-blotched, bristly stem.",
+      "field_response": [
+        "Immediately wash the contacted skin with soap and cold water.",
+        "Keep the exposed area completely out of sunlight for at least 48 hours; sunlight is what activates the burn.",
+        "If sap enters the eye, rinse the eye with water and shield it from light; evacuate for evaluation.",
+        "Protect any resulting blistered area from sunlight for an extended period, as the skin remains light-sensitive."
+      ],
+      "do_not": [
+        "Do not use a string trimmer or mower on this plant. That aerosolises the sap across exposed skin and eyes."
+      ],
+      "source_citation": "CDC/NIOSH Fast Facts: Protecting Yourself from Poisonous Plants (public domain)",
+      "commons_categories": ["Heracleum mantegazzianum"],
+      "max_images": 3
+    },
+    {
+      "slug": "stinging-nettle",
+      "common_name": "Stinging Nettle",
+      "scientific_name": "Urtica dioica",
+      "hazard_class": "Mechanical and chemical skin irritation",
+      "region": "Throughout the United States, typically in moist, disturbed, nitrogen-rich soil",
+      "identification": "Upright plant, typically one to two metres, with opposite heart-shaped to lance-shaped toothed leaves. Stems and leaf undersides are covered in fine hollow stinging hairs. Small greenish flowers hang in clusters from the leaf joints.",
+      "lookalikes": "Wood nettle and false nettle; false nettle does not sting.",
+      "field_response": [
+        "Avoid rubbing or scratching the area, which drives the embedded hair tips deeper.",
+        "Rinse with water and, if available, lift remaining hair fragments off the skin with adhesive tape.",
+        "Wash gently with soap and water once the hairs have been removed, then apply a cool compress.",
+        "Stinging and tingling usually resolve within a day; monitor for spreading hives or breathing difficulty, which indicate a systemic allergic reaction and warrant evacuation."
+      ],
+      "do_not": [
+        "Do not rub the area immediately after contact."
+      ],
+      "source_citation": "US Army FM 3-05.70 Appendix C, Poisonous Plants (public domain)",
+      "commons_categories": ["Urtica dioica"],
+      "max_images": 2
+    },
+    {
+      "slug": "water-hemlock",
+      "common_name": "Water Hemlock",
+      "scientific_name": "Cicuta maculata",
+      "hazard_class": "Severe ingestion toxicity (cicutoxin) - life-threatening",
+      "region": "Wet ground, ditches, stream banks, and marshes throughout North America",
+      "identification": "Grows one to two metres tall with a smooth, hollow, often purple-streaked or mottled stem. Compound leaves with toothed leaflets whose veins characteristically end at the notches between teeth rather than at the tips. Small white flowers in loose umbrella-shaped clusters. Roots are thick and chambered, and the cut root exudes a yellowish oily liquid.",
+      "lookalikes": "Extremely dangerous to confuse with edible wild parsnip, wild carrot, or water parsnip. This is one of the most frequently fatal misidentifications in North America.",
+      "field_response": [
+        "Treat any suspected ingestion as an immediate life-threatening emergency and begin evacuation to definitive care without waiting for symptoms.",
+        "Protect the airway and be prepared to manage seizures, which can begin within 15 to 60 minutes of ingestion.",
+        "Position the patient to prevent aspiration and protect the head during any seizure activity.",
+        "Bring a sample or photograph of the plant with the patient if it can be obtained safely."
+      ],
+      "do_not": [
+        "Do not induce vomiting.",
+        "Do not give anything by mouth to a patient who is seizing or has a reduced level of consciousness.",
+        "Do not delay evacuation waiting to see whether symptoms develop."
+      ],
+      "source_citation": "US Army FM 3-05.70 Appendix C, Poisonous Plants (public domain); NASEMSO National Model EMS Clinical Guidelines v3.0, Toxins and Environmental",
+      "commons_categories": ["Cicuta maculata"],
+      "max_images": 3
+    },
+    {
+      "slug": "poison-hemlock",
+      "common_name": "Poison Hemlock",
+      "scientific_name": "Conium maculatum",
+      "hazard_class": "Severe ingestion toxicity (coniine) - life-threatening",
+      "region": "Roadsides, field margins, and waste ground throughout the United States",
+      "identification": "Tall biennial reaching two to three metres, with a smooth hairless stem marked by distinctive purple or reddish blotches. Finely divided fern-like leaves. Small white flowers in umbrella-shaped clusters. Crushed leaves emit an unpleasant musty odour often described as mouse-like.",
+      "lookalikes": "Wild carrot and Queen Anne's lace, which have hairy stems without purple blotching and lack the musty smell.",
+      "field_response": [
+        "Treat any suspected ingestion as an immediate life-threatening emergency and begin evacuation to definitive care.",
+        "Monitor breathing continuously; the documented pattern of toxicity is progressive muscle weakness ascending toward the respiratory muscles.",
+        "Be prepared to assist ventilation, and keep the patient still, as exertion worsens the course.",
+        "Bring a sample or photograph of the plant with the patient if it can be obtained safely."
+      ],
+      "do_not": [
+        "Do not induce vomiting.",
+        "Do not allow the patient to walk out under their own power if weakness is developing."
+      ],
+      "source_citation": "US Army FM 3-05.70 Appendix C, Poisonous Plants (public domain); NASEMSO National Model EMS Clinical Guidelines v3.0, Toxins and Environmental",
+      "commons_categories": ["Conium maculatum"],
+      "max_images": 3
+    },
+    {
+      "slug": "death-cap",
+      "common_name": "Death Cap Mushroom",
+      "scientific_name": "Amanita phalloides",
+      "hazard_class": "Severe ingestion toxicity (amatoxin) - life-threatening, delayed onset",
+      "region": "Increasingly widespread in the United States, especially under introduced oaks on the Pacific coast and in the Northeast",
+      "identification": "Smooth greenish, yellowish, or bronze cap typically 5 to 15 centimetres across. White gills that remain white and are free of the stem. A white ring hanging on the upper stem, and a distinct cup-like sac (volva) at the base which is often buried and must be excavated to see. Spore print is white.",
+      "lookalikes": "Frequently mistaken for edible paddy straw mushrooms and young puffballs. Slicing a puffball reveals uniform white flesh; a young Amanita button reveals the outline of a developing cap and gills.",
+      "field_response": [
+        "Treat any suspected ingestion as an immediate emergency and evacuate to definitive care even if the patient feels completely well.",
+        "Record the time of ingestion and pass it to receiving care; the documented pattern is a delay of 6 to 12 hours before any symptoms appear.",
+        "Be aware of the documented deceptive phase, in which a patient appears to improve after initial gastrointestinal symptoms while organ injury continues.",
+        "Preserve any uneaten mushroom material, including the base of the stem, and transport it with the patient."
+      ],
+      "do_not": [
+        "Do not accept an absence of symptoms as evidence that no poisoning occurred.",
+        "Do not discard the mushroom base; the volva at the base is a key identifying feature for receiving clinicians."
+      ],
+      "source_citation": "FDA Bad Bug Book, 2nd Edition, Mushroom Toxins (public domain); NASEMSO National Model EMS Clinical Guidelines v3.0, Toxins and Environmental",
+      "commons_categories": ["Amanita phalloides"],
+      "max_images": 3
+    },
+    {
+      "slug": "western-diamondback-rattlesnake",
+      "common_name": "Western Diamondback Rattlesnake",
+      "scientific_name": "Crotalus atrox",
+      "hazard_class": "Venomous snakebite (pit viper)",
+      "region": "Southwestern United States",
+      "identification": "Heavy-bodied snake with a broad triangular head distinctly wider than the neck. Dark diamond-shaped blotches with pale borders along the back. Tail marked with alternating black and white bands immediately before the rattle. Vertical elliptical pupils and a heat-sensing pit between the eye and nostril.",
+      "lookalikes": "Non-venomous gopher and bull snakes mimic rattlesnakes by flattening the head and vibrating the tail, and are frequently killed in error.",
+      "field_response": [
+        "Move the patient and yourself beyond the snake's striking range; do not attempt to capture or kill the snake.",
+        "Keep the patient calm and as still as possible, and begin arranging evacuation immediately, since definitive care is antivenom at a hospital.",
+        "Remove rings, watches, and anything constricting from the bitten limb before swelling develops.",
+        "Immobilise the bitten limb and keep it roughly at the level of the heart.",
+        "Mark the leading edge of swelling on the skin with the time, and re-mark at intervals so receiving clinicians can see the rate of progression.",
+        "Photograph the snake only from a safe distance if this can be done without delaying evacuation."
+      ],
+      "do_not": [
+        "Do not cut the wound or attempt to suck out venom.",
+        "Do not apply a tourniquet or a tight constricting band.",
+        "Do not apply ice or immerse the limb in cold water.",
+        "Do not apply electric shock.",
+        "Do not give alcohol or caffeine.",
+        "Do not delay evacuation in order to identify the species."
+      ],
+      "source_citation": "NASEMSO National Model EMS Clinical Guidelines v3.0, Bites and Envenomations; US Army FM 3-05.70 Appendix E, Venomous Snakes",
+      "commons_categories": ["Crotalus atrox"],
+      "max_images": 3
+    },
+    {
+      "slug": "timber-rattlesnake",
+      "common_name": "Timber Rattlesnake",
+      "scientific_name": "Crotalus horridus",
+      "hazard_class": "Venomous snakebite (pit viper)",
+      "region": "Eastern United States",
+      "identification": "Heavy-bodied snake with a broad triangular head wider than the neck. Dark V-shaped or chevron crossbands over a yellowish, brownish, or grey ground colour, often with a rust-coloured stripe down the spine. Tail is uniformly black before the rattle. Vertical elliptical pupils and a heat-sensing pit between eye and nostril.",
+      "lookalikes": "Eastern hognose and juvenile rat snakes are commonly mistaken for it; neither has a rattle or a heat pit.",
+      "field_response": [
+        "Move the patient beyond striking range; do not attempt to capture or kill the snake.",
+        "Keep the patient calm and still, and begin arranging evacuation immediately, since definitive care is antivenom at a hospital.",
+        "Remove rings, watches, and constricting items from the bitten limb before swelling develops.",
+        "Immobilise the bitten limb and keep it roughly at the level of the heart.",
+        "Mark the leading edge of swelling with the time and re-mark at intervals.",
+        "Treat every bite as potentially envenomating even if the patient reports minimal pain."
+      ],
+      "do_not": [
+        "Do not cut the wound or attempt to suck out venom.",
+        "Do not apply a tourniquet or constricting band.",
+        "Do not apply ice.",
+        "Do not delay evacuation in order to identify the species."
+      ],
+      "source_citation": "NASEMSO National Model EMS Clinical Guidelines v3.0, Bites and Envenomations; US Army FM 3-05.70 Appendix E, Venomous Snakes",
+      "commons_categories": ["Crotalus horridus"],
+      "max_images": 3
+    },
+    {
+      "slug": "copperhead",
+      "common_name": "Copperhead",
+      "scientific_name": "Agkistrodon contortrix",
+      "hazard_class": "Venomous snakebite (pit viper)",
+      "region": "Eastern and central United States",
+      "identification": "Coppery to pinkish-tan snake with dark crossbands that are narrow across the spine and widen toward the belly, often described as hourglass or saddlebag shaped when viewed from the side. Broad triangular head, vertical elliptical pupils, and a heat-sensing pit between eye and nostril. No rattle. Juveniles have a bright yellow-green tail tip.",
+      "lookalikes": "Harmless northern water snakes, corn snakes, and juvenile rat snakes are very frequently mistaken for copperheads; their banding does not narrow across the spine.",
+      "field_response": [
+        "Move the patient beyond striking range; do not attempt to capture or kill the snake.",
+        "Keep the patient calm and still, and begin arranging evacuation to definitive care.",
+        "Remove rings, watches, and constricting items from the bitten limb before swelling develops.",
+        "Immobilise the bitten limb and keep it roughly at the level of the heart.",
+        "Mark the leading edge of swelling with the time and re-mark at intervals.",
+        "Treat every bite as potentially envenomating."
+      ],
+      "do_not": [
+        "Do not cut the wound or attempt to suck out venom.",
+        "Do not apply a tourniquet or constricting band.",
+        "Do not apply ice.",
+        "Do not delay evacuation in order to identify the species."
+      ],
+      "source_citation": "NASEMSO National Model EMS Clinical Guidelines v3.0, Bites and Envenomations; US Army FM 3-05.70 Appendix E, Venomous Snakes",
+      "commons_categories": ["Agkistrodon contortrix"],
+      "max_images": 3
+    },
+    {
+      "slug": "cottonmouth",
+      "common_name": "Cottonmouth (Water Moccasin)",
+      "scientific_name": "Agkistrodon piscivorus",
+      "hazard_class": "Venomous snakebite (pit viper)",
+      "region": "Southeastern United States, in and around water",
+      "identification": "Thick-bodied dark olive, brown, or nearly black snake, often with faint darker crossbands. Broad blocky head clearly wider than the neck, with a dark cheek stripe. Vertical elliptical pupils and a heat-sensing pit. When threatened it characteristically gapes to display a bright white mouth lining. Swims with its body riding high on the surface.",
+      "lookalikes": "Harmless water snakes share the same habitat, swim with the body mostly submerged, and have round pupils and narrow heads.",
+      "field_response": [
+        "Move the patient beyond striking range and away from the water's edge; do not attempt to capture or kill the snake.",
+        "Keep the patient calm and still, and begin arranging evacuation to definitive care.",
+        "Remove rings, watches, and constricting items from the bitten limb before swelling develops.",
+        "Immobilise the bitten limb and keep it roughly at the level of the heart.",
+        "Mark the leading edge of swelling with the time and re-mark at intervals."
+      ],
+      "do_not": [
+        "Do not cut the wound or attempt to suck out venom.",
+        "Do not apply a tourniquet or constricting band.",
+        "Do not apply ice.",
+        "Do not delay evacuation in order to identify the species."
+      ],
+      "source_citation": "NASEMSO National Model EMS Clinical Guidelines v3.0, Bites and Envenomations; US Army FM 3-05.70 Appendix E, Venomous Snakes",
+      "commons_categories": ["Agkistrodon piscivorus"],
+      "max_images": 3
+    },
+    {
+      "slug": "eastern-coral-snake",
+      "common_name": "Eastern Coral Snake",
+      "scientific_name": "Micrurus fulvius",
+      "hazard_class": "Venomous snakebite (elapid, neurotoxic, delayed onset)",
+      "region": "Southeastern United States",
+      "identification": "Slender snake with a blunt black snout and smooth glossy scales. Broad red and black rings separated by narrow yellow rings, with the red and yellow rings touching. Small head not distinct from the neck, and round pupils. It has no heat-sensing pit.",
+      "lookalikes": "Harmless scarlet kingsnake and scarlet snake have red and black touching. The common rhyme about red touching yellow applies only to North American species and is unreliable elsewhere, so it should never be the sole basis for a decision.",
+      "field_response": [
+        "Move the patient away from the snake; do not attempt to capture or kill it.",
+        "Begin evacuation immediately and do not wait for symptoms. Onset of neurological effects can be delayed by many hours after an elapid bite.",
+        "Keep the patient calm and still, and remove constricting items from the bitten limb.",
+        "Immobilise the limb and monitor breathing and swallowing continuously throughout evacuation.",
+        "Be prepared to assist ventilation if respiratory muscle weakness develops.",
+        "Follow your local EMS protocol regarding pressure immobilisation bandaging, which is handled differently for elapid bites than for pit viper bites and varies between jurisdictions."
+      ],
+      "do_not": [
+        "Do not cut the wound or attempt to suck out venom.",
+        "Do not assume an absence of pain or swelling means no envenomation occurred; coral snake bites frequently produce little local reaction.",
+        "Do not delay evacuation waiting for symptoms to appear."
+      ],
+      "source_citation": "NASEMSO National Model EMS Clinical Guidelines v3.0, Bites and Envenomations; US Army FM 3-05.70 Appendix E, Venomous Snakes",
+      "commons_categories": ["Micrurus fulvius"],
+      "max_images": 3
+    },
+    {
+      "slug": "black-widow",
+      "common_name": "Black Widow Spider",
+      "scientific_name": "Latrodectus mactans",
+      "hazard_class": "Venomous spider bite (neurotoxic)",
+      "region": "Throughout much of the United States, in woodpiles, sheds, outbuildings, and under stored equipment",
+      "identification": "Adult female is glossy black with a globular abdomen roughly 1.3 centimetres across and a red hourglass or a pair of red marks on the underside of the abdomen. Builds an irregular, tangled, strong-feeling web close to the ground rather than a neat orb.",
+      "lookalikes": "False widow and harmless cellar spiders; neither carries the red ventral hourglass.",
+      "field_response": [
+        "Wash the bite area with soap and water.",
+        "Apply a cool compress to the bite site.",
+        "Elevate and keep the affected limb still.",
+        "Monitor for the documented pattern of severe muscle cramping, abdominal rigidity, and sweating, and evacuate if these develop.",
+        "Evacuate promptly for any bite in a small child, an older adult, or a patient with cardiac disease."
+      ],
+      "do_not": [
+        "Do not apply heat to the bite.",
+        "Do not cut the wound or attempt suction.",
+        "Do not apply a tourniquet."
+      ],
+      "source_citation": "CDC/NIOSH Fast Facts: Venomous Spiders (public domain); US Army FM 3-05.70 Appendix D, Dangerous Insects and Arachnids",
+      "commons_categories": ["Latrodectus mactans"],
+      "max_images": 3
+    },
+    {
+      "slug": "brown-recluse",
+      "common_name": "Brown Recluse Spider",
+      "scientific_name": "Loxosceles reclusa",
+      "hazard_class": "Venomous spider bite (cytotoxic)",
+      "region": "Central and southern United States, indoors and in undisturbed storage",
+      "identification": "Small light to medium brown spider with a body roughly 1 centimetre long and long thin legs. A darker violin-shaped mark sits on the back of the front body section with the neck of the violin pointing rearward. Has six eyes arranged in three pairs, rather than the eight eyes of most spiders. Legs are uniformly coloured without bands or spines.",
+      "lookalikes": "Many harmless brown spiders are misidentified as recluses well outside the species' actual range; the six-eye arrangement is the reliable feature, not the violin marking alone.",
+      "field_response": [
+        "Wash the bite area with soap and water.",
+        "Apply a cool compress to the bite site.",
+        "Elevate and keep the affected limb still.",
+        "Mark the edge of any developing skin change with the time so progression can be tracked.",
+        "Evacuate for evaluation if the area darkens, ulcerates, or the patient develops fever or a widespread rash."
+      ],
+      "do_not": [
+        "Do not apply heat to the bite.",
+        "Do not cut or excise the lesion in the field.",
+        "Do not apply a tourniquet."
+      ],
+      "source_citation": "CDC/NIOSH Fast Facts: Venomous Spiders (public domain); US Army FM 3-05.70 Appendix D, Dangerous Insects and Arachnids",
+      "commons_categories": ["Loxosceles reclusa"],
+      "max_images": 3
+    },
+    {
+      "slug": "blacklegged-tick",
+      "common_name": "Blacklegged Tick (Deer Tick)",
+      "scientific_name": "Ixodes scapularis",
+      "hazard_class": "Disease vector (tick-borne illness)",
+      "region": "Northeastern, mid-Atlantic, and upper midwestern United States",
+      "identification": "Very small tick; the adult female has a reddish-orange body with a dark shield behind the mouthparts and dark legs. Nymphs are roughly the size of a poppy seed and account for most transmission because they are so easily missed. No white markings on the back.",
+      "lookalikes": "American dog tick and lone star tick are larger and carry distinct white or silvery markings.",
+      "field_response": [
+        "Grasp the tick with fine-tipped tweezers as close to the skin surface as possible.",
+        "Pull upward with steady, even pressure.",
+        "If mouthparts remain in the skin and cannot be removed easily, leave them and let the skin heal.",
+        "Clean the bite area and your hands with soap and water or alcohol.",
+        "Record the date of removal and monitor the patient for rash or fever over the following 30 days, and seek evaluation if either develops."
+      ],
+      "do_not": [
+        "Do not twist or jerk the tick, which can break off the mouthparts.",
+        "Do not apply petroleum jelly, nail polish, or a hot match to make the tick detach; these delay removal and are not effective.",
+        "Do not crush an engorged tick with bare fingers."
+      ],
+      "source_citation": "CDC Tick Removal guidance (public domain); US Army FM 3-05.70 Appendix D, Dangerous Insects and Arachnids",
+      "commons_categories": ["Ixodes scapularis"],
+      "max_images": 3
+    },
+    {
+      "slug": "black-bear",
+      "common_name": "American Black Bear",
+      "scientific_name": "Ursus americanus",
+      "hazard_class": "Large mammal encounter",
+      "region": "Forested regions across much of the United States",
+      "identification": "No prominent shoulder hump. Tall, upright, pointed ears. A straight facial profile from forehead to nose. Claws are short and strongly curved, under about 5 centimetres. Colour is unreliable for identification, ranging from black to cinnamon to blonde.",
+      "lookalikes": "Grizzly and brown bears, which do have a pronounced shoulder hump, a dished facial profile, small rounded ears, and long straight claws. The distinction matters because the recommended response to an attack differs between the two.",
+      "field_response": [
+        "Identify yourself by speaking calmly and firmly so the bear recognises you as human.",
+        "Make yourself look as large as possible and stay with your group.",
+        "Back away slowly and sideways while watching the bear; do not run.",
+        "If a black bear attacks, the guidance is to fight back, concentrating on the face and muzzle.",
+        "Report the encounter to land management authorities when communications allow."
+      ],
+      "do_not": [
+        "Do not run, which can trigger a pursuit response.",
+        "Do not climb a tree; black bears climb well.",
+        "Do not play dead during a black bear attack.",
+        "Do not approach the bear for a photograph or to retrieve gear."
+      ],
+      "source_citation": "National Park Service bear safety guidance (public domain); US Army FM 3-05.70, Dangerous Animals",
+      "commons_categories": ["Ursus americanus"],
+      "max_images": 3
+    },
+    {
+      "slug": "grizzly-bear",
+      "common_name": "Grizzly / Brown Bear",
+      "scientific_name": "Ursus arctos horribilis",
+      "hazard_class": "Large mammal encounter",
+      "region": "Alaska, and parts of Montana, Wyoming, Idaho, and Washington",
+      "identification": "Pronounced muscular hump over the shoulders. Small, rounded ears. A dished or concave facial profile. Long, straight, light-coloured front claws, often 5 to 10 centimetres. Colour ranges from blonde through dark brown and is not a reliable identifier.",
+      "lookalikes": "Black bears, which lack the shoulder hump and have taller pointed ears, a straight facial profile, and short curved claws. The distinction matters because the recommended response to an attack differs between the two.",
+      "field_response": [
+        "Identify yourself by speaking calmly and firmly, and make yourself look large.",
+        "Back away slowly and sideways; do not run.",
+        "If a grizzly makes contact during a defensive encounter, the guidance is to leave your pack on, lie flat on your stomach, cover the back of your neck with your hands, and spread your legs to resist being rolled over.",
+        "Remain still until the bear has left the area, then move away.",
+        "If the attack is persistent or predatory rather than defensive, the guidance changes to fighting back.",
+        "Report the encounter to land management authorities when communications allow."
+      ],
+      "do_not": [
+        "Do not run or climb a tree.",
+        "Do not fight back during a defensive grizzly encounter, which tends to prolong the attack.",
+        "Do not get between a female and her cubs, or approach any carcass a bear may be guarding."
+      ],
+      "source_citation": "National Park Service bear safety guidance (public domain); US Army FM 3-05.70, Dangerous Animals",
+      "commons_categories": ["Ursus arctos horribilis"],
+      "max_images": 3
+    },
+    {
+      "slug": "mountain-lion",
+      "common_name": "Mountain Lion (Cougar, Puma)",
+      "scientific_name": "Puma concolor",
+      "hazard_class": "Large mammal encounter",
+      "region": "Western United States, with an established population in Florida",
+      "identification": "Large tawny cat with a small rounded head, black-tipped ears, and a very long heavy tail roughly a third of total body length. Adults are uniformly coloured without spots. Tracks show four toes with no claw marks and a distinctive three-lobed rear pad.",
+      "lookalikes": "Bobcats are much smaller with a short bobbed tail and prominent ear tufts.",
+      "field_response": [
+        "Stop and stand your ground; do not run or turn your back.",
+        "Make yourself appear as large as possible by raising your arms and opening your jacket.",
+        "Pick up small children immediately without bending down or turning away.",
+        "Speak loudly and firmly and maintain eye contact.",
+        "Back away slowly while continuing to face the animal.",
+        "If attacked, fight back aggressively and remain standing, protecting the head and neck."
+      ],
+      "do_not": [
+        "Do not run, crouch, or bend over; both make you resemble prey.",
+        "Do not play dead.",
+        "Do not approach the animal, particularly one that is feeding or with kittens."
+      ],
+      "source_citation": "National Park Service wildlife safety guidance (public domain)",
+      "commons_categories": ["Puma concolor"],
+      "max_images": 3
+    },
+    {
+      "slug": "moose",
+      "common_name": "Moose",
+      "scientific_name": "Alces alces",
+      "hazard_class": "Large mammal encounter",
+      "region": "Alaska, northern New England, the northern Rockies, and the upper Midwest",
+      "identification": "Very large dark brown deer standing up to two metres at the shoulder, with a long overhanging snout, a pronounced dewlap hanging from the throat, and humped shoulders. Bulls carry broad flattened palmate antlers in season.",
+      "lookalikes": "Elk are smaller, lighter in colour with a pale rump patch, and carry branched rather than palmate antlers.",
+      "field_response": [
+        "Watch for warning signs including raised hackles, pinned-back ears, and licking of the snout, which indicate an imminent charge.",
+        "Retreat immediately and put a large tree, boulder, or vehicle between yourself and the animal.",
+        "Unlike a bear encounter, running away from a moose is the correct response; a moose is not a predator and generally will not pursue.",
+        "If knocked down, curl into a ball, protect your head, and remain still until the animal moves away.",
+        "Be particularly cautious around cows with calves in spring and bulls during the autumn rut."
+      ],
+      "do_not": [
+        "Do not stand your ground or try to make yourself large as you would with a bear.",
+        "Do not approach for photographs, and never come between a cow and her calf.",
+        "Do not get up until the moose has clearly left the area."
+      ],
+      "source_citation": "National Park Service wildlife safety guidance (public domain)",
+      "commons_categories": ["Alces alces"],
+      "max_images": 3
+    }
+  ]
+}

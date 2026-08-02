@@ -11,13 +11,20 @@ settings:
     SWIFT_VERSION: "5.9"
     TARGETED_DEVICE_FAMILY: "1"
     IPHONEOS_DEPLOYMENT_TARGET: "17.0"
-# LiteRT-LM SPM is added in Phase 3 (LLMInferenceManager). Declaring it here would
-# force native LLM linkage during Phase 1 audio/safety verification builds.
-# Package URL when wiring Phase 3: https://github.com/google-ai-edge/LiteRT-LM (product: LiteRTLM, from: 0.12.0)
+packages:
+  # Local vendor of LiteRT-LM Swift wrappers from tag v0.14.0, with Package.swift
+  # checksums patched to match the live GitHub release XCFrameworks. Upstream tag
+  # checksums are stale, and main's Swift API already requires C symbols not in
+  # the published v0.14.0 binary — see Vendor/LiteRTLM/README.md.
+  LiteRTLM:
+    path: Vendor/LiteRTLM
 targets:
   WildernessEdge:
     type: application
     platform: iOS
+    dependencies:
+      - package: LiteRTLM
+        product: LiteRTLM
     sources:
       - path: WildernessEdge
         excludes:
@@ -26,10 +33,26 @@ targets:
           # com.apple.provenance on actool outputs, and codesign then treats
           # Assets.car / AppIcon PNGs as nested unsigned code objects.
           - Assets.xcassets/**
-      - path: WildernessEdge/Resources
-        type: folder
-        buildPhase: resources
+      # Copy assets flat into the .app root (not as a nested Resources/ folder
+      # reference). A literal Resources/ directory inside an iOS .app confuses
+      # codesign ("Info.plist=not bound") and simctl install then fails with
+      # "Missing bundle ID". Individual entries also let Xcode compile
+      # .mlpackage → .mlmodelc via the CoreML build rule.
+      - path: WildernessEdge/Resources/protocols.db
         optional: true
+        buildPhase: resources
+      - path: WildernessEdge/Resources/query-embedder.mlpackage
+        optional: true
+        buildPhase: resources
+      - path: WildernessEdge/Resources/query-embedder-vocab.txt
+        optional: true
+        buildPhase: resources
+      - path: WildernessEdge/Resources/query-embedder-tokenizer.json
+        optional: true
+        buildPhase: resources
+      # gemma-4-E4B-it.litertlm is optional until Pablo's Checkpoint 2 lands.
+      # Add it back (same shape as protocols.db above) once the file exists under
+      # WildernessEdge/Resources/; LLMInferenceManager already fail-closes if absent.
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.wildernessedge.app
@@ -54,10 +77,32 @@ targets:
   WildernessEdgeTests:
     type: bundle.unit-test
     platform: iOS
+    # The test target compiles individual Core sources rather than importing the app
+    # module (the app target is not a test host), so every type under test must be
+    # listed here explicitly. Fixtures under WildernessEdgeTests/ are picked up by the
+    # directory source above and copied flat into the test bundle's resources, which is
+    # what Bundle(for:).url(forResource:withExtension:) expects.
     sources:
       - path: WildernessEdgeTests
       - path: WildernessEdge/Core/SafetyFilter.swift
       - path: WildernessEdge/Core/SpeechManager.swift
+      - path: WildernessEdge/Core/WordPieceTokenizer.swift
+      - path: WildernessEdge/Core/TextEmbeddingManager.swift
+      - path: WildernessEdge/Core/VectorRAGManager.swift
+      # Embedder assets arrive with Pablo's Checkpoint 1 delivery. They are optional so the
+      # project generates before they exist; once they land, re-running `xcodegen generate`
+      # is all TextEmbeddingManagerTests needs to stop skipping. Listed individually rather
+      # than as a folder so they land flat in the test bundle and the .mlpackage gets
+      # compiled to .mlmodelc by Xcode's CoreML build rule.
+      - path: WildernessEdge/Resources/query-embedder.mlpackage
+        optional: true
+        buildPhase: resources
+      - path: WildernessEdge/Resources/query-embedder-vocab.txt
+        optional: true
+        buildPhase: resources
+      - path: WildernessEdge/Resources/query-embedder-tokenizer.json
+        optional: true
+        buildPhase: resources
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.wildernessedge.app.tests

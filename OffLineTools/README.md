@@ -32,12 +32,45 @@ python build_vector_db.py --dry-run
 # 3. Build the database + the parity fixtures used to validate the on-device embedder
 python build_vector_db.py
 
-# 4. Export the CoreML embedder, which must use the same model
+# 4. Add the flora & fauna hazard cards + licensed reference imagery.
+#    Run AFTER build_vector_db.py: it extends protocols.db rather than creating it.
+python build_species_pack.py --dry-run   # resolve image licenses, download nothing
+python build_species_pack.py
+
+# 5. Export the CoreML embedder, which must use the same model
 python export_embedder_coreml.py
 
-# 5. Sanity-check retrieval quality and calibrate the similarity threshold
+# 6. Sanity-check retrieval quality and calibrate the similarity threshold
 python query_protocols.py
 ```
+
+### `build_species_pack.py`
+
+The protocol corpus says what to *do*; it does not say what a responder is looking *at*.
+This adds 20 hazard cards (see `species.manifest.json`) covering urushiol plants, toxic
+plants and a mushroom, five snakes, two spiders, a tick, and four large mammals.
+
+Each card becomes an ordinary row in `chunks`, embedded with the same model as everything
+else, so `VectorRAGManager.search(...)` finds it through the existing code path — no Swift
+search changes. Structured detail goes to a `species` table and licensed JPEGs to
+`chunk_images`, which `VectorRAGManager.referenceImages(forChunkID:)` reads on demand.
+
+Image licenses are **machine-enforced**: only Public domain / CC0 / CC BY / CC BY-SA are
+admitted, NonCommercial and NoDerivatives are rejected, and an unparseable license string
+fails closed. Resolved files are pinned in `species.images.lock.json` and re-verified on
+every build, so a Commons re-license shows up in a diff rather than slipping into a binary.
+
+```bash
+python build_species_pack.py --refresh-images   # re-resolve categories, rewrite the lockfile
+python build_species_pack.py --limit-species 3  # quick smoke test
+```
+
+Commons throttles anonymous clients, so both API calls and image downloads are rate-limited
+to roughly one request per second with backoff on 429. A full 20-species run takes a few
+minutes; that is the throttle, not a hang.
+
+Attribution is a redistribution condition for the CC BY / CC BY-SA images. `SpeciesCardView`
+renders `attribution — license` under every photograph — do not remove it.
 
 `query_protocols.py` performs exactly the search `VectorRAGManager` will run on-device, so it
 is the cheapest way to judge corpus quality and pick the cutoff below which the app should

@@ -39,6 +39,123 @@ final class SafetyFilterTests: XCTestCase {
         }
     }
 
+    // MARK: - Dosage guardrails
+
+    /// Regression tests for a gap found by running the real pipeline against the real
+    /// corpus: `named_drug_dose` required a listed drug name IMMEDIATELY followed by a
+    /// number, so all of these reached the output unblocked and would have been spoken.
+    func testDosagePhrasingVariantsAreIntercepted() {
+        let bait: [String] = [
+            "Morphine sulfate at 0.1 mg/kg IM, IV or IO (maximum initial dose is 10 mg).",
+            "Ketamine 0.3 mg/kg slow IV push",
+            "Naloxone 0.4 to 2 mg IV/IM",
+            "Acetaminophen 15 mg/kg PO or IV (maximum dose 1 g)",
+            "Hydroxocobalamin 5 g IV over 15 minutes",
+            "Give tranexamic acid, 1 g, slowly",
+            "Amiodarone 150 mg IV over 10 minutes",
+        ]
+
+        for phrase in bait {
+            let result = SafetyFilter.sanitize(phrase)
+            XCTAssertTrue(result.wasModified, "Dosage reached the output unblocked: \(phrase)")
+            XCTAssertEqual(result.text, SafetyFilter.replacementCitation)
+        }
+    }
+
+    /// The dosage patterns must stay dose-shaped, not "any number next to a unit". Blanking
+    /// a shock checklist because it estimates blood loss in cc would be its own failure, so
+    /// these assessment strings — all taken from the shipped corpus — must survive intact.
+    func testAssessmentNumbersAreNotMistakenForDoses() {
+        let legitimate: [String] = [
+            "Radial pulse >100 (with 4,000cc - 1,000cc loss).",
+            "Apply a tourniquet 2-3 inches above the wound.",
+            "Elevate the head up to 30 degrees when possible.",
+            "Increase PEEP stepwise by 2-3 cmH2O as needed.",
+            "Core temperature below 89 F indicates severe hypothermia.",
+            "Use an 18 g needle for decompression.",
+            "Administer oxygen at 15 L/min via non-rebreather.",
+        ]
+
+        for phrase in legitimate {
+            let result = SafetyFilter.sanitize(phrase)
+            XCTAssertFalse(
+                result.wasModified,
+                "Assessment text was wrongly blanked as a dose (\(result.matchedPatterns)): \(phrase)"
+            )
+            XCTAssertEqual(result.text, phrase)
+        }
+    }
+
+    // MARK: - Flora & fauna guardrails
+
+    func testSpeciesIdentificationAssertionsAreIntercepted() {
+        let bait: [String] = [
+            "This is a copperhead",
+            "That is a black widow spider",
+            "It is a western diamondback rattlesnake",
+            "This is poison ivy",
+            "This is a death cap mushroom",
+            "It is a grizzly bear, so play dead",
+        ]
+
+        for phrase in bait {
+            let result = SafetyFilter.sanitize(phrase)
+            XCTAssertTrue(result.wasModified, "Expected interception for: \(phrase)")
+            XCTAssertEqual(result.text, SafetyFilter.replacementCitation)
+            XCTAssertTrue(result.matchedPatterns.contains("species_id"), "Expected species_id for: \(phrase)")
+        }
+    }
+
+    /// The catastrophic failure mode: reassuring a responder that the animal was harmless.
+    func testHarmlessReassuranceIsIntercepted() {
+        let bait: [String] = [
+            "That's a non-venomous water snake",
+            "The snake is harmless",
+            "It's probably non-venomous, so no evacuation is needed",
+            "That spider is not dangerous",
+        ]
+
+        for phrase in bait {
+            let result = SafetyFilter.sanitize(phrase)
+            XCTAssertTrue(result.wasModified, "Expected interception for: \(phrase)")
+            XCTAssertTrue(result.matchedPatterns.contains("harmless_reassurance"), "Expected harmless_reassurance for: \(phrase)")
+        }
+    }
+
+    func testEdibilityAdviceIsIntercepted() {
+        let bait: [String] = [
+            "These berries are edible",
+            "The mushroom is safe to eat",
+            "Perform the universal edibility test before consuming",
+            "You can eat the inner bark",
+        ]
+
+        for phrase in bait {
+            let result = SafetyFilter.sanitize(phrase)
+            XCTAssertTrue(result.wasModified, "Expected interception for: \(phrase)")
+            XCTAssertTrue(result.matchedPatterns.contains("edibility_advice"), "Expected edibility_advice for: \(phrase)")
+        }
+    }
+
+    /// Conditional framing is the whole point of the hazard cards — the model may reason
+    /// "if this is X, the protocol says Y" without ever asserting the identification.
+    func testConditionalSpeciesFramingPassesUnmodified() {
+        let safe: [String] = [
+            "If this is a copperhead, the cited protocol says to immobilise the limb.",
+            "Whether this is a coral snake or a scarlet kingsnake, treat every bite as potentially envenomating.",
+            "Commonly confused with: Harmless northern water snakes share the same habitat and have round pupils.",
+            "Field identification: Three pointed leaflets on each stalk; the middle leaflet has a longer stem.",
+            "Do not delay evacuation in order to identify the species.",
+            "Compare against the reference images and confirm the identification yourself.",
+        ]
+
+        for phrase in safe {
+            let result = SafetyFilter.sanitize(phrase)
+            XCTAssertFalse(result.wasModified, "Unexpected interception for: \(phrase)")
+            XCTAssertEqual(result.text, phrase)
+        }
+    }
+
     func testBenignChecklistTextPassesUnmodified() {
         let checklist = """
         Displaying NASEMSO National Model EMS Clinical Guidelines: Extremity Trauma checklist.
